@@ -1,4 +1,4 @@
-package com.hits.bankemployee.ui.theme
+package com.hits.bankemployee.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
