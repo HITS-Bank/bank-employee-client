@@ -14,3 +14,10 @@ interface PaginationStateHolder<T> {
 
     fun resetPagination(): PaginationStateHolder<T>
 }
+
+val PaginationStateHolder<*>.reloadState: PaginationReloadState
+    get() = when {
+        paginationState == PaginationState.Loading && data.isEmpty() -> PaginationReloadState.Reloading
+        paginationState == PaginationState.Error && data.isEmpty() -> PaginationReloadState.Error
+        else -> PaginationReloadState.Idle
+    }

@@ -11,3 +11,13 @@ sealed interface PaginationState {
     object EndReached : PaginationState
 
 }
+
+sealed interface PaginationReloadState {
+
+    object Idle : PaginationReloadState
+
+    object Reloading : PaginationReloadState
+
+    object Error : PaginationReloadState
+
+}
