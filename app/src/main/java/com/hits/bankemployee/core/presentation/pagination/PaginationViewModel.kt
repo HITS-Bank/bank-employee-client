@@ -1,8 +1,8 @@
-package com.hits.bankemployee.presentation.pagination
+package com.hits.bankemployee.core.presentation.pagination
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hits.bankemployee.common.runSuspendCatching
+import com.hits.bankemployee.core.common.runSuspendCatching
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

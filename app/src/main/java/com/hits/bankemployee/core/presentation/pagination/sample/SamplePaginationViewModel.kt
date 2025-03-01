@@ -1,6 +1,6 @@
-package com.hits.bankemployee.presentation.pagination.sample
+package com.hits.bankemployee.core.presentation.pagination.sample
 
-import com.hits.bankemployee.presentation.pagination.PaginationViewModel
+import com.hits.bankemployee.core.presentation.pagination.PaginationViewModel
 import kotlinx.coroutines.delay
 
 class SamplePaginationViewModel : PaginationViewModel<String>(SamplePaginationState()) {

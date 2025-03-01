@@ -1,4 +1,4 @@
-package com.hits.bankemployee.presentation.navigation.destination
+package com.hits.bankemployee.core.presentation.navigation.base
 
 import androidx.annotation.DrawableRes
 

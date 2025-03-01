@@ -1,4 +1,4 @@
-package com.hits.bankemployee.presentation.pagination
+package com.hits.bankemployee.core.presentation.pagination
 
 sealed interface PaginationEvent {
 

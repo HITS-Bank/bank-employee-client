@@ -1,4 +1,4 @@
-package com.hits.bankemployee.presentation.navigation
+package com.hits.bankemployee.core.presentation.navigation
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -16,9 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.hits.bankemployee.presentation.navigation.destination.Tariffs
-import com.hits.bankemployee.presentation.navigation.destination.Users
-import com.hits.bankemployee.presentation.pagination.sample.SamplePaginationScreen
+import com.hits.bankemployee.core.presentation.pagination.sample.SamplePaginationScreen
 
 @Composable
 fun BottomBarNavHost() {

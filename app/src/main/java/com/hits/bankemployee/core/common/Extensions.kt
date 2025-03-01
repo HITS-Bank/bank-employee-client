@@ -1,4 +1,4 @@
-package com.hits.bankemployee.common
+package com.hits.bankemployee.core.common
 
 import kotlinx.coroutines.CancellationException
 

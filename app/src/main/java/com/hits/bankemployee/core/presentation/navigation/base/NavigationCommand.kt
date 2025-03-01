@@ -1,6 +1,8 @@
-package com.hits.bankemployee.presentation.navigation.command
+package com.hits.bankemployee.core.presentation.navigation.base
 
 import androidx.activity.ComponentActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.NavController
 import androidx.navigation.NavOptionsBuilder
 
@@ -39,6 +41,25 @@ sealed interface NavigationCommand {
 
         override fun execute(navController: NavController, activity: ComponentActivity) {
             navController.navigate(destination)
+        }
+    }
+
+    /* Не тестировалось */
+    class ForwardWithCallback(
+        private val destination: String,
+        private val callback: () -> Unit,
+    ) : NavigationCommand {
+
+        override fun execute(navController: NavController, activity: ComponentActivity) {
+            navController.navigate(destination)
+            val backstackEntry = navController.getBackStackEntry(destination)
+
+            val observer = LifecycleEventObserver { _, event ->
+                if (event == Lifecycle.Event.ON_DESTROY) {
+                    callback()
+                }
+            }
+            backstackEntry.lifecycle.addObserver(observer)
         }
     }
 

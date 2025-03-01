@@ -1,4 +1,4 @@
-package com.hits.bankemployee.presentation.pagination.sample
+package com.hits.bankemployee.core.presentation.pagination.sample
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Arrangement
@@ -18,12 +18,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hits.bankemployee.presentation.pagination.PaginationEvent
-import com.hits.bankemployee.presentation.pagination.PaginationReloadState
-import com.hits.bankemployee.presentation.pagination.PaginationState
-import com.hits.bankemployee.presentation.pagination.reloadState
-import com.hits.bankemployee.presentation.pagination.rememberPaginationListState
-import com.hits.bankemployee.presentation.ui.common.FullScreenProgressIndicator
+import com.hits.bankemployee.core.presentation.pagination.PaginationEvent
+import com.hits.bankemployee.core.presentation.pagination.PaginationReloadState
+import com.hits.bankemployee.core.presentation.pagination.PaginationState
+import com.hits.bankemployee.core.presentation.pagination.reloadState
+import com.hits.bankemployee.core.presentation.pagination.rememberPaginationListState
+import com.hits.bankemployee.core.presentation.compose.component.FullScreenProgressIndicator
 
 @Composable
 fun SamplePaginationScreen(viewModel: SamplePaginationViewModel) {

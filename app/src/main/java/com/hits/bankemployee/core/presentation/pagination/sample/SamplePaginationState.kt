@@ -1,7 +1,7 @@
-package com.hits.bankemployee.presentation.pagination.sample
+package com.hits.bankemployee.core.presentation.pagination.sample
 
-import com.hits.bankemployee.presentation.pagination.PaginationState
-import com.hits.bankemployee.presentation.pagination.PaginationStateHolder
+import com.hits.bankemployee.core.presentation.pagination.PaginationState
+import com.hits.bankemployee.core.presentation.pagination.PaginationStateHolder
 
 data class SamplePaginationState(
     override val paginationState: PaginationState = PaginationState.Idle,

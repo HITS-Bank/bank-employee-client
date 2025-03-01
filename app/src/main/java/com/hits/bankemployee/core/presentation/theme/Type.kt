@@ -1,4 +1,4 @@
-package com.hits.bankemployee.presentation.ui.theme
+package com.hits.bankemployee.core.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

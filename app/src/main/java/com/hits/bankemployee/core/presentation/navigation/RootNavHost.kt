@@ -1,4 +1,4 @@
-package com.hits.bankemployee.presentation.navigation
+package com.hits.bankemployee.core.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -7,11 +7,6 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.hits.bankemployee.presentation.navigation.destination.Auth
-import com.hits.bankemployee.presentation.navigation.destination.BankAccountDetails
-import com.hits.bankemployee.presentation.navigation.destination.BottomBarRoot
-import com.hits.bankemployee.presentation.navigation.destination.LoanDetails
-import com.hits.bankemployee.presentation.navigation.destination.UserDetails
 
 @Composable
 fun RootNavHost(

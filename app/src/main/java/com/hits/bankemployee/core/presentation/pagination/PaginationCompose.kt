@@ -1,4 +1,4 @@
-package com.hits.bankemployee.presentation.pagination
+package com.hits.bankemployee.core.presentation.pagination
 
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
