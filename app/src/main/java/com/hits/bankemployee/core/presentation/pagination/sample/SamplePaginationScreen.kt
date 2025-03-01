@@ -23,29 +23,32 @@ import com.hits.bankemployee.core.presentation.pagination.PaginationReloadState
 import com.hits.bankemployee.core.presentation.pagination.PaginationState
 import com.hits.bankemployee.core.presentation.pagination.reloadState
 import com.hits.bankemployee.core.presentation.pagination.rememberPaginationListState
-import com.hits.bankemployee.core.presentation.compose.component.FullScreenProgressIndicator
+import com.hits.bankemployee.core.presentation.common.component.FullScreenProgressIndicator
+import com.hits.bankemployee.core.presentation.common.getIfSuccess
 
 @Composable
 fun SamplePaginationScreen(viewModel: SamplePaginationViewModel) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val listState = rememberPaginationListState(viewModel)
 
-    Crossfade(targetState = state.reloadState) { reloadState ->
+    Crossfade(targetState = state.getIfSuccess()?.reloadState) { reloadState ->
         when (reloadState) {
             PaginationReloadState.Idle -> {
                 LazyColumn(state = listState) {
-                    items(state.data) { item ->
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            Text(text = item)
+                    state.getIfSuccess()?.data?.let { data ->
+                        items(data) { item ->
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                Text(text = item)
+                            }
                         }
                     }
 
-                    when (state.paginationState) {
+                    when (state.getIfSuccess()?.paginationState) {
                         PaginationState.Loading -> item {
                             FullScreenProgressIndicator()
                         }
@@ -63,7 +66,7 @@ fun SamplePaginationScreen(viewModel: SamplePaginationViewModel) {
                             }
                         }
 
-                        PaginationState.Idle, PaginationState.EndReached -> Unit
+                        else -> Unit
                     }
                 }
             }
@@ -85,6 +88,7 @@ fun SamplePaginationScreen(viewModel: SamplePaginationViewModel) {
                     }
                 }
             }
+            else -> Unit
         }
     }
 }

@@ -8,6 +8,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.hits.bankemployee.core.presentation.common.getIfSuccess
 
 @Composable
 fun rememberPaginationListState(
@@ -24,7 +25,7 @@ fun rememberPaginationListState(
             val offsetThresholdReached =
                 lastVisibleItemIndex != null && lastVisibleItemIndex >= totalItemsCount - loadThreshold
 
-            offsetThresholdReached && state.paginationState == PaginationState.Idle
+            offsetThresholdReached && state.getIfSuccess()?.paginationState == PaginationState.Idle
         }
     }
 

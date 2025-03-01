@@ -1,4 +1,4 @@
-package com.hits.bankemployee.core.presentation.compose.component
+package com.hits.bankemployee.core.presentation.common.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
