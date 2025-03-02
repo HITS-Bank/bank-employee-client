@@ -17,6 +17,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.hits.bankemployee.core.presentation.pagination.sample.SamplePaginationScreen
+import com.hits.bankemployee.users.compose.UsersScreen
 
 @Composable
 fun BottomBarNavHost() {
@@ -57,7 +58,7 @@ fun BottomBarNavHost() {
             startDestination = Users.route,
         ) {
             composable(route = Users.route) {
-                Text(Users.title)
+                UsersScreen()
             }
             composable(route = Tariffs.route) {
                 SamplePaginationScreen(viewModel = viewModel())
