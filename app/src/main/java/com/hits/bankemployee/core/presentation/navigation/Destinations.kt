@@ -9,12 +9,12 @@ object Auth : Destination()
 object BottomBarRoot : Destination()
 
 object Users : BottomBarDestination() {
-    override val icon = R.drawable.users
+    override val icon = R.drawable.ic_users
     override val title = "Пользователи"
 }
 
 object Tariffs : BottomBarDestination() {
-    override val icon = R.drawable.loan
+    override val icon = R.drawable.ic_loan
     override val title = "Кредиты"
 }
 

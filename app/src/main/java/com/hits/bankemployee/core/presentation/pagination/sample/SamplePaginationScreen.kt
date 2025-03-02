@@ -1,30 +1,23 @@
 package com.hits.bankemployee.core.presentation.pagination.sample
 
 import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.hits.bankemployee.core.presentation.common.component.ErrorContent
+import com.hits.bankemployee.core.presentation.common.component.ListItem
+import com.hits.bankemployee.core.presentation.common.component.ListItemIcon
+import com.hits.bankemployee.core.presentation.common.component.LoadingContent
+import com.hits.bankemployee.core.presentation.common.component.PaginationErrorContent
+import com.hits.bankemployee.core.presentation.common.component.PaginationLoadingContent
+import com.hits.bankemployee.core.presentation.common.getIfSuccess
 import com.hits.bankemployee.core.presentation.pagination.PaginationEvent
 import com.hits.bankemployee.core.presentation.pagination.PaginationReloadState
 import com.hits.bankemployee.core.presentation.pagination.PaginationState
 import com.hits.bankemployee.core.presentation.pagination.reloadState
 import com.hits.bankemployee.core.presentation.pagination.rememberPaginationListState
-import com.hits.bankemployee.core.presentation.common.component.FullScreenProgressIndicator
-import com.hits.bankemployee.core.presentation.common.getIfSuccess
 
 @Composable
 fun SamplePaginationScreen(viewModel: SamplePaginationViewModel) {
@@ -37,32 +30,22 @@ fun SamplePaginationScreen(viewModel: SamplePaginationViewModel) {
                 LazyColumn(state = listState) {
                     state.getIfSuccess()?.data?.let { data ->
                         items(data) { item ->
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                Text(text = item)
-                            }
+                            ListItem(
+                                icon = ListItemIcon.SingleChar('Я'),
+                                title = "Item $item",
+                                subtitle = "Page ${(item - 1) / (state.getIfSuccess()?.pageSize ?: 1)}",
+                            )
                         }
                     }
 
                     when (state.getIfSuccess()?.paginationState) {
                         PaginationState.Loading -> item {
-                            FullScreenProgressIndicator()
+                            PaginationLoadingContent()
                         }
 
                         PaginationState.Error -> item {
-                            Row(modifier = Modifier.fillMaxWidth()) {
-                                Text(text = "Error", modifier = Modifier.weight(1f))
-                                Button(
-                                    onClick = {
-                                        viewModel.onPaginationEvent(PaginationEvent.LoadNextPage)
-                                    },
-                                ) {
-                                    Text(text = "Retry")
-                                }
+                            PaginationErrorContent {
+                                viewModel.onPaginationEvent(PaginationEvent.LoadNextPage)
                             }
                         }
 
@@ -71,23 +54,13 @@ fun SamplePaginationScreen(viewModel: SamplePaginationViewModel) {
                 }
             }
 
-            PaginationReloadState.Reloading -> FullScreenProgressIndicator()
-            PaginationReloadState.Error -> {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Text(text = "Error")
-                    Button(
-                        onClick = {
-                            viewModel.onPaginationEvent(PaginationEvent.Reload)
-                        },
-                    ) {
-                        Text(text = "Retry")
-                    }
-                }
-            }
+            PaginationReloadState.Reloading -> LoadingContent()
+            PaginationReloadState.Error -> ErrorContent(
+                onReload = {
+                    viewModel.onPaginationEvent(PaginationEvent.Reload)
+                },
+                onBack = { },
+            )
             else -> Unit
         }
     }

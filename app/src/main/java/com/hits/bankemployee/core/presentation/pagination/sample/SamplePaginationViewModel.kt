@@ -8,15 +8,30 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class SamplePaginationViewModel : PaginationViewModel<String>(BankUiState.Ready(SamplePaginationState())) {
+class SamplePaginationViewModel : PaginationViewModel<Int>(BankUiState.Ready(SamplePaginationState())) {
+
+    private var nextPageCallCount = -1
 
     init {
         onPaginationEvent(PaginationEvent.Reload)
     }
 
-    override suspend fun getNextPageContents(pageNumber: Int): Flow<State<List<String>>> = flow {
+    override suspend fun getNextPageContents(pageNumber: Int): Flow<State<List<Int>>> = flow {
         emit(State.Loading)
         delay(1000)
-        emit(State.Success(listOf("Item ${3*(pageNumber) + 1}", "Item ${3*(pageNumber) + 2}", "Item ${3*(pageNumber) + 3}")))
+        nextPageCallCount++
+        if (nextPageCallCount % 4 == 0) {
+            emit(State.Error())
+            return@flow
+        }
+        emit(
+            State.Success(
+                listOf(
+                    3 * (pageNumber) + 1,
+                    3 * (pageNumber) + 2,
+                    3 * (pageNumber) + 3,
+                )
+            )
+        )
     }
 }
