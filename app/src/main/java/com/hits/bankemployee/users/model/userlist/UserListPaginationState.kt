@@ -8,6 +8,10 @@ data class UserListPaginationState(
     override val data: List<UserModel>,
     override val pageNumber: Int,
     override val pageSize: Int,
+    val blockUserId: String?,
+    val unblockUserId: String?,
+    val isPerformingAction: Boolean,
+    val query: String,
 ) : PaginationStateHolder<UserModel> {
 
     override fun copyWith(
@@ -28,6 +32,10 @@ data class UserListPaginationState(
             data = emptyList(),
             pageNumber = 0,
             pageSize = 5,
+            blockUserId = null,
+            unblockUserId = null,
+            isPerformingAction = false,
+            query = "",
         )
     }
 }

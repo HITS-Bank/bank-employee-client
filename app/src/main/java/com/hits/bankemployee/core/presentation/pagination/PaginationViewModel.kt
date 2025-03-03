@@ -13,7 +13,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-abstract class PaginationViewModel<T>(initState: BankUiState<PaginationStateHolder<T>>) : ViewModel() {
+@Suppress("UNCHECKED_CAST")
+abstract class PaginationViewModel<T, R: PaginationStateHolder<T>>(initState: BankUiState<R>) : ViewModel() {
 
     protected val _state = MutableStateFlow(initState)
     val state = _state.asStateFlow()
@@ -42,13 +43,13 @@ abstract class PaginationViewModel<T>(initState: BankUiState<PaginationStateHold
         when (event) {
             is PaginationEvent.LoadNextPage -> {
                 _state.updateIfSuccess(onUpdated = { loadPage(true) }) { state ->
-                    state.copyWith(paginationState = PaginationState.Loading)
+                    state.copyWith(paginationState = PaginationState.Loading) as R
                 }
             }
 
             is PaginationEvent.Reload -> {
                 _state.updateIfSuccess(onUpdated = { loadPage(false) }) { state ->
-                    state.resetPagination().copyWith(paginationState = PaginationState.Loading)
+                    state.resetPagination().copyWith(paginationState = PaginationState.Loading) as R
                 }
             }
         }
@@ -60,7 +61,7 @@ abstract class PaginationViewModel<T>(initState: BankUiState<PaginationStateHold
         getNextPageContents(nextPageNumber).collect { state ->
             when (state) {
                 is State.Error -> _state.updateIfSuccess { oldState ->
-                    oldState.copyWith(paginationState = PaginationState.Error)
+                    oldState.copyWith(paginationState = PaginationState.Error) as R
                 }
                 State.Loading -> Unit
                 is State.Success<List<T>> -> _state.updateIfSuccess { oldState ->
@@ -70,7 +71,7 @@ abstract class PaginationViewModel<T>(initState: BankUiState<PaginationStateHold
                             else PaginationState.Idle,
                         data = oldState.data + state.data,
                         pageNumber = nextPageNumber,
-                    )
+                    ) as R
                 }
             }
         }

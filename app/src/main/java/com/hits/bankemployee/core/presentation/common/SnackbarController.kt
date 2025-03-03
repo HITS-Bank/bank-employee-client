@@ -5,7 +5,6 @@ import androidx.compose.runtime.compositionLocalOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-
 val LocalSnackbarController = compositionLocalOf<SnackbarController> { error("SnackbarController not provided") }
 
 class SnackbarController(

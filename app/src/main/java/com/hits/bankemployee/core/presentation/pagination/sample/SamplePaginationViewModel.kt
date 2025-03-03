@@ -8,7 +8,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class SamplePaginationViewModel : PaginationViewModel<Int>(BankUiState.Ready(SamplePaginationState())) {
+class SamplePaginationViewModel : PaginationViewModel<Int, SamplePaginationState>(BankUiState.Ready(SamplePaginationState())) {
 
     private var nextPageCallCount = -1
 

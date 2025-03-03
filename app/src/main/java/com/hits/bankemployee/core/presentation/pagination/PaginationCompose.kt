@@ -12,7 +12,7 @@ import com.hits.bankemployee.core.presentation.common.getIfSuccess
 
 @Composable
 fun rememberPaginationListState(
-    viewModel: PaginationViewModel<*>,
+    viewModel: PaginationViewModel<*, *>,
     loadThreshold: Int = 2,
 ): LazyListState {
     val listState = rememberLazyListState()

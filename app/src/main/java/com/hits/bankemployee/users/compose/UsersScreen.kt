@@ -25,6 +25,7 @@ import com.hits.bankemployee.core.presentation.common.component.SearchTextField
 import com.hits.bankemployee.users.compose.component.CreateUserDialog
 import com.hits.bankemployee.users.compose.component.UsersScreenPager
 import com.hits.bankemployee.users.effect.UsersScreenEffect
+import com.hits.bankemployee.users.event.UserListEvent
 import com.hits.bankemployee.users.event.UsersScreenEvent
 import com.hits.bankemployee.users.model.CreateUserDialogState
 import com.hits.bankemployee.users.model.UsersTab
@@ -51,7 +52,8 @@ fun UsersScreen(viewModel: UsersScreenViewModel = viewModel()) {
         viewModel.effects.collect { effect ->
             when (effect) {
                 is UsersScreenEffect.ReloadUsers -> {
-                    //Notify inner viewmodels to reload users
+                    clientViewModel.onEvent(UserListEvent.Reload(effect.query))
+                    employeeViewModel.onEvent(UserListEvent.Reload(effect.query))
                 }
                 UsersScreenEffect.ShowUserCreationError -> snackbarController.show("Ошибка создания пользователя")
             }
