@@ -2,9 +2,9 @@ package com.hits.bankemployee.users.model
 
 sealed interface CreateUserDialogState {
 
-    object Hidden : CreateUserDialogState
+    data object Hidden : CreateUserDialogState
 
-    class Shown(val model: CreateUserDialogModel) : CreateUserDialogState
+    data class Shown(val model: CreateUserDialogModel) : CreateUserDialogState
 }
 
 fun CreateUserDialogState.updateIfShown(block: (CreateUserDialogModel) -> CreateUserDialogModel): CreateUserDialogState {
