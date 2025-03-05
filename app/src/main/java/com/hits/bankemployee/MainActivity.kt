@@ -20,11 +20,11 @@ import com.hits.bankemployee.core.presentation.common.SnackbarController
 import com.hits.bankemployee.core.presentation.navigation.RootNavHost
 import com.hits.bankemployee.core.presentation.navigation.base.NavigationManager
 import com.hits.bankemployee.core.presentation.theme.BankEmployeeTheme
+import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
 
-    /* TODO DI */
-    private val navigationManager = NavigationManager()
+    private val navigationManager by inject<NavigationManager>()
 
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {

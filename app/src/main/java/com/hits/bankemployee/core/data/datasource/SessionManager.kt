@@ -5,7 +5,9 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.hits.bankemployee.core.data.model.TokenResponse
 import com.hits.bankemployee.core.data.model.TokenType
+import java.time.Instant
 import java.time.LocalDateTime
+import java.time.ZoneOffset
 import java.time.format.DateTimeParseException
 
 class SessionManager(context: Context) {
@@ -16,6 +18,7 @@ class SessionManager(context: Context) {
         const val ACCESS_TOKEN_EXPIRES_AT = "access_token_expires_at"
         const val REFRESH_TOKEN = "refresh_token"
         const val REFRESH_TOKEN_EXPIRES_AT = "refresh_token_expires_at"
+        const val IS_USER_BLOCKED = "is_user_blocked"
     }
 
     private val masterKeyAlias = MasterKey.Builder(context)
@@ -60,11 +63,17 @@ class SessionManager(context: Context) {
         }
     }
 
+    fun saveIsUserBlocked(isBlocked: Boolean) {
+        sharedPreferences.edit().putBoolean(IS_USER_BLOCKED, isBlocked).apply()
+    }
+
+    fun isUserBlocked(): Boolean = sharedPreferences.getBoolean(IS_USER_BLOCKED, false)
+
     fun hasToken(): Boolean = sharedPreferences.getString(ACCESS_TOKEN, null) != null
 
     private fun String?.parseUtcDateTime(): LocalDateTime? {
         return try {
-            LocalDateTime.parse(this)
+            Instant.parse(this).atZone(ZoneOffset.UTC).toLocalDateTime()
         } catch (e: DateTimeParseException) {
             null
         }

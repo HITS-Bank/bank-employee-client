@@ -7,6 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.hits.bankemployee.login.compose.LoginScreenWrapper
 
 @Composable
 fun RootNavHost(
@@ -19,7 +20,7 @@ fun RootNavHost(
         modifier = modifier,
     ) {
         composable(route = Auth.route) {
-
+            LoginScreenWrapper()
         }
         composable(route = BottomBarRoot.route) {
             BottomBarNavHost()

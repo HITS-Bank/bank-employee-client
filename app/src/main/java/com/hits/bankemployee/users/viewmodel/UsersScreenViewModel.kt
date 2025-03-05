@@ -1,11 +1,10 @@
 package com.hits.bankemployee.users.viewmodel
 
-import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hits.bankemployee.core.common.dropFirstBlank
 import com.hits.bankemployee.core.domain.interactor.ValidationInteractor
-import com.hits.bankemployee.users.effect.UsersScreenEffect
+import com.hits.bankemployee.users.event.UsersScreenEffect
 import com.hits.bankemployee.users.event.UsersScreenEvent
 import com.hits.bankemployee.users.model.CreateUserDialogModel
 import com.hits.bankemployee.users.model.CreateUserDialogState
@@ -24,10 +23,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class UsersScreenViewModel(
-    //TODO DI
-    private val validationInteractor: ValidationInteractor = ValidationInteractor(
-        emailPattern = Patterns.EMAIL_ADDRESS
-    )
+    private val validationInteractor: ValidationInteractor
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(UsersScreenModel.EMPTY)

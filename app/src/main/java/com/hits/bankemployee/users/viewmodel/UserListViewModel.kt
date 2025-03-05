@@ -5,9 +5,12 @@ import com.hits.bankemployee.core.domain.common.State
 import com.hits.bankemployee.core.presentation.common.BankUiState
 import com.hits.bankemployee.core.presentation.common.getIfSuccess
 import com.hits.bankemployee.core.presentation.common.updateIfSuccess
+import com.hits.bankemployee.core.presentation.navigation.UserDetails
+import com.hits.bankemployee.core.presentation.navigation.base.NavigationManager
+import com.hits.bankemployee.core.presentation.navigation.base.forward
 import com.hits.bankemployee.core.presentation.pagination.PaginationEvent
 import com.hits.bankemployee.core.presentation.pagination.PaginationViewModel
-import com.hits.bankemployee.users.effect.UserListEffect
+import com.hits.bankemployee.users.event.UserListEffect
 import com.hits.bankemployee.users.event.UserListEvent
 import com.hits.bankemployee.users.model.UserRole
 import com.hits.bankemployee.users.model.userlist.UserListPaginationState
@@ -22,6 +25,7 @@ import java.util.UUID
 
 class UserListViewModel(
     private val role: UserRole = UserRole.CLIENT,
+    private val navigationManager: NavigationManager,
 ) : PaginationViewModel<UserModel, UserListPaginationState>(BankUiState.Ready(UserListPaginationState.EMPTY)) {
 
     private val _effects = MutableSharedFlow<UserListEffect>()
@@ -40,7 +44,8 @@ class UserListViewModel(
                 state.copy(unblockUserId = event.userId)
             }
             is UserListEvent.OpenClientDetails -> {
-                //TODO navigate
+                if (role != UserRole.CLIENT) return
+                navigationManager.forward(UserDetails.destinationWithArgs(event.userId))
             }
             is UserListEvent.Reload -> {
                 _state.updateIfSuccess { state -> state.copy(query = event.query) }

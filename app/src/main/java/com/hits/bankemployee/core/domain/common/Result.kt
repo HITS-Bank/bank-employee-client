@@ -17,3 +17,8 @@ fun <T : Any> Result<T>.toState() = when (this) {
     is Result.Error -> State.Error(throwable)
     is Result.Success -> State.Success(data)
 }
+
+fun <T, R : Any> Result<T>.map(mapper: (T) -> R): Result<R> = when (this) {
+    is Result.Error -> this
+    is Result.Success -> Result.Success(mapper(this.data))
+}

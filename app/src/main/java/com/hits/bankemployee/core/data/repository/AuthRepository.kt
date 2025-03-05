@@ -15,7 +15,7 @@ import com.hits.bankemployee.core.domain.common.Result
 import kotlinx.coroutines.Dispatchers
 
 class AuthRepository(
-    private val api: AuthApi,
+    private val authApi: AuthApi,
     private val mapper: AuthMapper,
     private val sessionManager: SessionManager,
 ) : IAuthRepository {
@@ -25,7 +25,7 @@ class AuthRepository(
         request: LoginRequestEntity,
     ): Result<Completable> {
         return apiCall(Dispatchers.IO) {
-            api.login(channel, mapper.map(request))
+            authApi.login(channel, mapper.map(request))
                 .toResult()
                 .also { result ->
                     if (result is Result.Success) {
@@ -44,7 +44,7 @@ class AuthRepository(
         }
 
         return apiCall(Dispatchers.IO) {
-            api.refresh(
+            authApi.refresh(
                 expiredToken = "Bearer $accessToken",
                 request = RefreshRequest(refreshToken),
             )
@@ -56,5 +56,13 @@ class AuthRepository(
                 }
                 .toCompletableResult()
         }
+    }
+
+    override fun saveIsUserBlocked(isUserBlocked: Boolean) {
+        sessionManager.saveIsUserBlocked(isUserBlocked)
+    }
+
+    override fun getIsUserBlocked(): Result<Boolean> {
+        return Result.Success(sessionManager.isUserBlocked())
     }
 }

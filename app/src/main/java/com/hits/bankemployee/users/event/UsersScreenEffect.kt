@@ -1,4 +1,4 @@
-package com.hits.bankemployee.users.effect
+package com.hits.bankemployee.users.event
 
 sealed interface UsersScreenEffect {
 

@@ -12,4 +12,8 @@ interface IAuthRepository {
     ): Result<Completable>
 
     suspend fun refresh(): Result<Completable>
+
+    fun saveIsUserBlocked(isUserBlocked: Boolean)
+
+    fun getIsUserBlocked(): Result<Boolean>
 }

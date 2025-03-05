@@ -1,0 +1,25 @@
+package com.hits.bankemployee.di
+
+import com.hits.bankemployee.login.mapper.LoginScreenModelMapper
+import com.hits.bankemployee.login.viewmodel.LoginViewModel
+import com.hits.bankemployee.users.model.UserRole
+import com.hits.bankemployee.users.viewmodel.UserListViewModel
+import com.hits.bankemployee.users.viewmodel.UsersScreenViewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModelOf
+import org.koin.core.module.dsl.singleOf
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
+
+fun presentationModule() = module {
+    singleOf(::LoginScreenModelMapper)
+
+    viewModelOf(::LoginViewModel)
+    viewModelOf(::UsersScreenViewModel)
+    viewModel(named(UserRole.CLIENT.name)) {
+        UserListViewModel(UserRole.CLIENT, get())
+    }
+    viewModel(named(UserRole.EMPLOYEE.name)) {
+        UserListViewModel(UserRole.EMPLOYEE, get())
+    }
+}
