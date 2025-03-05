@@ -3,15 +3,18 @@ package com.hits.bankemployee.users.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hits.bankemployee.core.common.dropFirstBlank
+import com.hits.bankemployee.core.domain.common.State
+import com.hits.bankemployee.core.domain.interactor.ProfileInteractor
 import com.hits.bankemployee.core.domain.interactor.ValidationInteractor
 import com.hits.bankemployee.users.event.UsersScreenEffect
 import com.hits.bankemployee.users.event.UsersScreenEvent
+import com.hits.bankemployee.users.mapper.UsersScreenModelMapper
 import com.hits.bankemployee.users.model.CreateUserDialogModel
 import com.hits.bankemployee.users.model.CreateUserDialogState
 import com.hits.bankemployee.users.model.UsersScreenModel
+import com.hits.bankemployee.users.model.getIfShown
 import com.hits.bankemployee.users.model.updateIfShown
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -23,7 +26,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class UsersScreenViewModel(
-    private val validationInteractor: ValidationInteractor
+    private val validationInteractor: ValidationInteractor,
+    private val profileInteractor: ProfileInteractor,
+    private val mapper: UsersScreenModelMapper,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(UsersScreenModel.EMPTY)
@@ -50,25 +55,37 @@ class UsersScreenViewModel(
             UsersScreenEvent.CreateUser -> {
                 if (state.value.isCreatingUser) return
 
-                _state.update { state -> state.copy(isCreatingUser = true) }
                 viewModelScope.launch {
-                    //TODO change to actual logic
-                    delay(2000)
-
-                    //Success
-//                    _state.update { state ->
-//                        state.copy(
-//                            createUserDialogState = CreateUserDialogState.Hidden,
-//                            isCreatingUser = false,
-//                        )
-//                    }
-//                    _effects.emit(UsersScreenEffect.ReloadUsers(queryFlow.value))
-
-                    //Failure
-                    _state.update { state ->
-                        state.copy(isCreatingUser = false)
+                    val userModel = state.value.createUserDialogState.getIfShown()
+                    if (userModel == null) {
+                        _effects.emit(UsersScreenEffect.ShowUserCreationError)
+                        return@launch
                     }
-                    _effects.emit(UsersScreenEffect.ShowUserCreationError)
+                    val request = mapper.map(userModel, state.value.selectedTab.role)
+                    profileInteractor.registerUser(request).collectLatest { state ->
+                        when (state) {
+                            State.Loading -> {
+                                _state.update { oldState ->
+                                    oldState.copy(isCreatingUser = true)
+                                }
+                            }
+                            is State.Error -> {
+                                _state.update { oldState ->
+                                    oldState.copy(isCreatingUser = false)
+                                }
+                                _effects.emit(UsersScreenEffect.ShowUserCreationError)
+                            }
+                            is State.Success -> {
+                                _state.update { oldState ->
+                                    oldState.copy(
+                                        createUserDialogState = CreateUserDialogState.Hidden,
+                                        isCreatingUser = false,
+                                    )
+                                }
+                                _effects.emit(UsersScreenEffect.ReloadUsers(queryFlow.value))
+                            }
+                        }
+                    }
                 }
             }
             UsersScreenEvent.CreateUserDialogClose -> {

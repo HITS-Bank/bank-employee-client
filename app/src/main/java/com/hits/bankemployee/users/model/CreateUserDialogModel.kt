@@ -14,6 +14,10 @@ fun CreateUserDialogState.updateIfShown(block: (CreateUserDialogModel) -> Create
     }
 }
 
+fun CreateUserDialogState.getIfShown(): CreateUserDialogModel? {
+    return (this as? CreateUserDialogState.Shown)?.model
+}
+
 data class CreateUserDialogModel(
     val firstName: String,
     val isFirstNameValid: Boolean,

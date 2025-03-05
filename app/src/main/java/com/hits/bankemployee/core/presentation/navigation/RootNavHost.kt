@@ -16,7 +16,7 @@ fun RootNavHost(
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = BottomBarRoot.route,
+        startDestination = Auth.route,
         modifier = modifier,
     ) {
         composable(route = Auth.route) {

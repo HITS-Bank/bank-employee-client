@@ -30,6 +30,8 @@ class AuthInterceptor(
                     val refreshResult = authRepository.refresh()
                     if (refreshResult !is Result.Error) {
                         sessionManager.fetchToken(TokenType.ACCESS)
+                    } else {
+                        null
                     }
                 }
             }

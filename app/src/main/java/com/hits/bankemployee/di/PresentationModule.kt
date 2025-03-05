@@ -2,6 +2,7 @@ package com.hits.bankemployee.di
 
 import com.hits.bankemployee.login.mapper.LoginScreenModelMapper
 import com.hits.bankemployee.login.viewmodel.LoginViewModel
+import com.hits.bankemployee.users.mapper.UsersScreenModelMapper
 import com.hits.bankemployee.users.model.UserRole
 import com.hits.bankemployee.users.viewmodel.UserListViewModel
 import com.hits.bankemployee.users.viewmodel.UsersScreenViewModel
@@ -13,13 +14,14 @@ import org.koin.dsl.module
 
 fun presentationModule() = module {
     singleOf(::LoginScreenModelMapper)
+    singleOf(::UsersScreenModelMapper)
 
     viewModelOf(::LoginViewModel)
     viewModelOf(::UsersScreenViewModel)
     viewModel(named(UserRole.CLIENT.name)) {
-        UserListViewModel(UserRole.CLIENT, get())
+        UserListViewModel(UserRole.CLIENT, get(), get(), get())
     }
     viewModel(named(UserRole.EMPLOYEE.name)) {
-        UserListViewModel(UserRole.EMPLOYEE, get())
+        UserListViewModel(UserRole.EMPLOYEE, get(), get(), get())
     }
 }
