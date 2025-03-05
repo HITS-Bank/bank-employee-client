@@ -42,23 +42,22 @@ abstract class PaginationViewModel<T, R: PaginationStateHolder<T>>(initState: Ba
     private suspend fun processPaginationEvent(event: PaginationEvent) {
         when (event) {
             is PaginationEvent.LoadNextPage -> {
-                _state.updateIfSuccess(onUpdated = { loadPage(true) }) { state ->
+                _state.updateIfSuccess(onUpdated = { loadPage() }) { state ->
                     state.copyWith(paginationState = PaginationState.Loading) as R
                 }
             }
 
             is PaginationEvent.Reload -> {
-                _state.updateIfSuccess(onUpdated = { loadPage(false) }) { state ->
+                _state.updateIfSuccess(onUpdated = { loadPage() }) { state ->
                     state.resetPagination().copyWith(paginationState = PaginationState.Loading) as R
                 }
             }
         }
     }
 
-    private suspend fun loadPage(incrementPageNumber: Boolean) {
+    private suspend fun loadPage() {
         val stateValue = state.getIfSuccess() ?: return
-        val nextPageNumber = stateValue.pageNumber + if (incrementPageNumber) 1 else 0
-        getNextPageContents(nextPageNumber).collect { state ->
+        getNextPageContents(stateValue.pageNumber).collect { state ->
             when (state) {
                 is State.Error -> _state.updateIfSuccess { oldState ->
                     oldState.copyWith(paginationState = PaginationState.Error) as R
@@ -70,7 +69,7 @@ abstract class PaginationViewModel<T, R: PaginationStateHolder<T>>(initState: Ba
                             if (state.data.size < oldState.pageSize) PaginationState.EndReached
                             else PaginationState.Idle,
                         data = oldState.data + state.data,
-                        pageNumber = nextPageNumber,
+                        pageNumber = oldState.pageNumber + 1,
                     ) as R
                 }
             }
