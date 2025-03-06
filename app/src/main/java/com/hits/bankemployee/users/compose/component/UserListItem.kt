@@ -11,8 +11,6 @@ import com.hits.bankemployee.core.presentation.common.component.SwipeableListIte
 import com.hits.bankemployee.users.event.UserListEvent
 import com.hits.bankemployee.users.model.userlist.UserModel
 
-enum class SwipePosition { Swiped, NotSwiped }
-
 @Composable
 fun UserListItem(item: UserModel, onEvent: (UserListEvent) -> Unit) {
     val backgroundColor =

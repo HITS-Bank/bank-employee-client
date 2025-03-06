@@ -52,7 +52,6 @@ import com.hits.bankemployee.core.presentation.common.textDp
 import com.hits.bankemployee.core.presentation.theme.S14_W400
 import com.hits.bankemployee.core.presentation.theme.S16_W400
 import com.hits.bankemployee.core.presentation.theme.S16_W500
-import com.hits.bankemployee.users.compose.component.SwipePosition
 import androidx.compose.material3.Icon as MaterialIcon
 
 sealed interface ListItemIcon {
@@ -165,11 +164,13 @@ sealed interface Divider {
     }
 }
 
+enum class SwipePosition { Swiped, NotSwiped }
+
 data class SwipeableInfo(
-    val backgroundColor: Color,
-    val iconColor: Color,
     @DrawableRes val iconResId: Int,
     val onIconClick: () -> Unit,
+    val backgroundColor: Color? = null,
+    val iconColor: Color? = null,
 )
 
 @Composable
@@ -249,7 +250,7 @@ fun SwipeableListItem(
     Box(modifier = Modifier.height(IntrinsicSize.Min)) {
         Box(modifier = Modifier
             .fillMaxSize()
-            .background(swipeableInfo.backgroundColor))
+            .background(swipeableInfo.backgroundColor ?: MaterialTheme.colorScheme.primaryContainer))
         Box(
             modifier = Modifier
                 .noRippleClickable(swipeableInfo.onIconClick)
@@ -261,7 +262,7 @@ fun SwipeableListItem(
                 imageVector = ImageVector.vectorResource(swipeableInfo.iconResId),
                 contentDescription = null,
                 modifier = Modifier.size(27.dp),
-                tint = swipeableInfo.iconColor,
+                tint = swipeableInfo.iconColor ?: MaterialTheme.colorScheme.onPrimaryContainer,
             )
         }
         ListItem(

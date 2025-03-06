@@ -10,7 +10,7 @@ import com.hits.bankemployee.core.presentation.common.getIfSuccess
 import com.hits.bankemployee.core.presentation.common.updateIfSuccess
 import com.hits.bankemployee.core.presentation.navigation.UserDetails
 import com.hits.bankemployee.core.presentation.navigation.base.NavigationManager
-import com.hits.bankemployee.core.presentation.navigation.base.forward
+import com.hits.bankemployee.core.presentation.navigation.base.forwardWithCallbackResult
 import com.hits.bankemployee.core.presentation.pagination.PaginationEvent
 import com.hits.bankemployee.core.presentation.pagination.PaginationViewModel
 import com.hits.bankemployee.users.event.UserListEffect
@@ -57,7 +57,9 @@ class UserListViewModel(
 
             is UserListEvent.OpenClientDetails -> {
                 if (role != UserRole.CLIENT) return
-                navigationManager.forward(UserDetails.destinationWithArgs(event.userId))
+                navigationManager.forwardWithCallbackResult(UserDetails.destinationWithArgs(event.userId)) {
+                    onPaginationEvent(PaginationEvent.Reload)
+                }
             }
 
             is UserListEvent.Reload -> {

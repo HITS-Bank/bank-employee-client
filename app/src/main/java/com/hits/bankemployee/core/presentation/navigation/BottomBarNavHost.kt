@@ -11,12 +11,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.hits.bankemployee.core.presentation.pagination.sample.SamplePaginationScreen
+import com.hits.bankemployee.loan.tariff.compose.TariffsScreen
 import com.hits.bankemployee.users.compose.UsersScreen
 
 @Composable
@@ -61,7 +60,7 @@ fun BottomBarNavHost() {
                 UsersScreen()
             }
             composable(route = Tariffs.route) {
-                SamplePaginationScreen(viewModel = viewModel())
+                TariffsScreen()
             }
         }
     }

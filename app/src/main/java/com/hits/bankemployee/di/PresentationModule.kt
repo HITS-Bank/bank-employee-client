@@ -1,5 +1,6 @@
 package com.hits.bankemployee.di
 
+import com.hits.bankemployee.loan.tariff.viewmodel.TariffsScreenViewModel
 import com.hits.bankemployee.login.mapper.LoginScreenModelMapper
 import com.hits.bankemployee.login.viewmodel.LoginViewModel
 import com.hits.bankemployee.users.mapper.UsersScreenModelMapper
@@ -24,4 +25,5 @@ fun presentationModule() = module {
     viewModel(named(UserRole.EMPLOYEE.name)) {
         UserListViewModel(UserRole.EMPLOYEE, get(), get(), get())
     }
+    viewModelOf(::TariffsScreenViewModel)
 }

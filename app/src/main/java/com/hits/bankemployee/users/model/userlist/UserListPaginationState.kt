@@ -2,6 +2,7 @@ package com.hits.bankemployee.users.model.userlist
 
 import com.hits.bankemployee.core.presentation.pagination.PaginationState
 import com.hits.bankemployee.core.presentation.pagination.PaginationStateHolder
+import com.hits.bankemployee.users.viewmodel.UserListViewModel
 
 data class UserListPaginationState(
     override val paginationState: PaginationState,
@@ -31,7 +32,7 @@ data class UserListPaginationState(
             paginationState = PaginationState.Idle,
             data = emptyList(),
             pageNumber = 0,
-            pageSize = 5,
+            pageSize = UserListViewModel.PAGE_SIZE,
             blockUserId = null,
             unblockUserId = null,
             isPerformingAction = false,

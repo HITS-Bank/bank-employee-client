@@ -89,11 +89,11 @@ fun UserList(tab: UsersTab, viewModel: UserListViewModel = koinViewModel(named(t
             }
 
             PaginationReloadState.Reloading -> LoadingContent()
+
             PaginationReloadState.Error -> ErrorContent(
                 onReload = {
                     onPaginationEvent(PaginationEvent.Reload)
                 },
-                onBack = { },
             )
 
             else -> Unit

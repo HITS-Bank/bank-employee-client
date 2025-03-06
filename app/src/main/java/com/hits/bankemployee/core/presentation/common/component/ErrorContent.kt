@@ -26,7 +26,7 @@ import com.hits.bankemployee.core.presentation.theme.S24_W400
 @Composable
 fun ErrorContent(
     onReload: (() -> Unit)? = null,
-    onBack: () -> Unit,
+    onBack: (() -> Unit)? = null,
 ) {
     Column(
         modifier = Modifier
@@ -49,22 +49,26 @@ fun ErrorContent(
             textAlign = TextAlign.Center,
         )
         36.dp.verticalSpacer()
-        Button(
-            modifier = Modifier.size(width = 256.dp, height = 40.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.errorContainer,
-                contentColor = MaterialTheme.colorScheme.onErrorContainer,
-            ),
-            onClick = onBack,
-        ) {
-            Text(
-                text = "Назад",
-                style = S14_W500,
-                textAlign = TextAlign.Center,
-            )
+        onBack?.let {
+            Button(
+                modifier = Modifier.size(width = 256.dp, height = 40.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.errorContainer,
+                    contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                ),
+                onClick = onBack,
+            ) {
+                Text(
+                    text = "Назад",
+                    style = S14_W500,
+                    textAlign = TextAlign.Center,
+                )
+            }
         }
         onReload?.let {
-            16.dp.verticalSpacer()
+            if (onBack != null) {
+                16.dp.verticalSpacer()
+            }
             Button(
                 modifier = Modifier.size(width = 256.dp, height = 40.dp),
                 colors = ButtonDefaults.buttonColors(
