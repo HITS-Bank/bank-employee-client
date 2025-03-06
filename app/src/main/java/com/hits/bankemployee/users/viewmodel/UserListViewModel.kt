@@ -146,7 +146,7 @@ class UserListViewModel(
         }
     }
 
-    override suspend fun getNextPageContents(pageNumber: Int): Flow<State<List<UserModel>>> {
+    override fun getNextPageContents(pageNumber: Int): Flow<State<List<UserModel>>> {
         val pageInfo = PageInfo(
             pageNumber = pageNumber,
             pageSize = state.value.getIfSuccess()?.pageSize ?: PAGE_SIZE,

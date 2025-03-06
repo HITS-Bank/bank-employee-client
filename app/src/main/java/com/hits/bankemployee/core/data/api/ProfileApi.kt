@@ -12,10 +12,10 @@ import retrofit2.http.Query
 
 interface ProfileApi {
 
-    @GET("/profile")
+    @GET("profile")
     suspend fun getSelfProfile(): Response<ProfileResponse>
 
-    @GET("/employee/profile/list")
+    @GET("employee/profile/list")
     suspend fun getProfilesPage(
         @Query("role") role: String,
         @Query("pageNumber") pageNumber: Int,
@@ -23,12 +23,12 @@ interface ProfileApi {
         @Query("nameQuery") nameQuery: String? = null,
     ): Response<List<ProfileResponse>>
 
-    @POST("/employee/profile/{userId}/ban")
+    @POST("employee/profile/{userId}/ban")
     suspend fun banUser(@Path("userId") userId: String): Response<ResponseBody>
 
-    @POST("/employee/profile/{userId}/unban")
+    @POST("employee/profile/{userId}/unban")
     suspend fun unbanUser(@Path("userId") userId: String): Response<ResponseBody>
 
-    @POST("/employee/auth/register")
+    @POST("employee/auth/register")
     suspend fun registerUser(@Body registerRequest: RegisterRequest): Response<ResponseBody>
 }

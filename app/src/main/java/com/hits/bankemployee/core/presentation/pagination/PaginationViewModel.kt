@@ -76,5 +76,5 @@ abstract class PaginationViewModel<T, R: PaginationStateHolder<T>>(initState: Ba
         }
     }
 
-    protected abstract suspend fun getNextPageContents(pageNumber: Int): Flow<State<List<T>>>
+    protected abstract fun getNextPageContents(pageNumber: Int): Flow<State<List<T>>>
 }

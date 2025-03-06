@@ -1,5 +1,6 @@
 package com.hits.bankemployee.di
 
+import com.hits.bankemployee.loan.tariff.mapper.TariffsScreenModelMapper
 import com.hits.bankemployee.loan.tariff.viewmodel.TariffsScreenViewModel
 import com.hits.bankemployee.login.mapper.LoginScreenModelMapper
 import com.hits.bankemployee.login.viewmodel.LoginViewModel
@@ -16,6 +17,7 @@ import org.koin.dsl.module
 fun presentationModule() = module {
     singleOf(::LoginScreenModelMapper)
     singleOf(::UsersScreenModelMapper)
+    singleOf(::TariffsScreenModelMapper)
 
     viewModelOf(::LoginViewModel)
     viewModelOf(::UsersScreenViewModel)

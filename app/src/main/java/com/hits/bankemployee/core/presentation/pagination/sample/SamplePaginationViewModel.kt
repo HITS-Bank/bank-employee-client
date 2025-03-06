@@ -16,7 +16,7 @@ class SamplePaginationViewModel : PaginationViewModel<Int, SamplePaginationState
         onPaginationEvent(PaginationEvent.Reload)
     }
 
-    override suspend fun getNextPageContents(pageNumber: Int): Flow<State<List<Int>>> = flow {
+    override fun getNextPageContents(pageNumber: Int): Flow<State<List<Int>>> = flow {
         emit(State.Loading)
         delay(1000)
         nextPageCallCount++

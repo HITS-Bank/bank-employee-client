@@ -31,3 +31,19 @@ fun TariffsScreenDialogState.updateIfCreateTariff(
         this
     }
 }
+
+fun TariffsScreenDialogState.getCreateTariff(): TariffsScreenDialogState.CreateTariff? {
+    return if (this is TariffsScreenDialogState.CreateTariff) {
+        this
+    } else {
+        null
+    }
+}
+
+fun TariffsScreenDialogState.getDeleteTariff(): TariffsScreenDialogState.DeleteTariff? {
+    return if (this is TariffsScreenDialogState.DeleteTariff) {
+        this
+    } else {
+        null
+    }
+}
