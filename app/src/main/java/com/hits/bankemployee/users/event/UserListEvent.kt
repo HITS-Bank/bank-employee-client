@@ -8,7 +8,11 @@ sealed interface UserListEvent {
 
     data class Reload(val query: String) : UserListEvent
 
-    data class OpenClientDetails(val userId: String) : UserListEvent
+    data class OpenClientDetails(
+        val userId: String,
+        val fullName: String,
+        val isBlocked: Boolean,
+    ) : UserListEvent
 
     object CloseBlockDialog : UserListEvent
 

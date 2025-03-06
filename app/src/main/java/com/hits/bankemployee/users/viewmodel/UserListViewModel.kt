@@ -57,7 +57,13 @@ class UserListViewModel(
 
             is UserListEvent.OpenClientDetails -> {
                 if (role != UserRole.CLIENT) return
-                navigationManager.forwardWithCallbackResult(UserDetails.destinationWithArgs(event.userId)) {
+                navigationManager.forwardWithCallbackResult(
+                    UserDetails.destinationWithArgs(
+                        event.userId,
+                        event.fullName,
+                        event.isBlocked,
+                    )
+                ) {
                     onPaginationEvent(PaginationEvent.Reload)
                 }
             }
@@ -92,12 +98,14 @@ class UserListViewModel(
                                     oldState.copy(isPerformingAction = true)
                                 }
                             }
+
                             is State.Error -> {
                                 _state.updateIfSuccess { oldState ->
                                     oldState.copy(isPerformingAction = false, blockUserId = null)
                                 }
                                 _effects.emit(UserListEffect.ShowBlockError)
                             }
+
                             is State.Success -> {
                                 _state.updateIfSuccess { oldState ->
                                     oldState.copy(isPerformingAction = false, blockUserId = null)
@@ -127,12 +135,14 @@ class UserListViewModel(
                                     oldState.copy(isPerformingAction = true)
                                 }
                             }
+
                             is State.Error -> {
                                 _state.updateIfSuccess { oldState ->
                                     oldState.copy(isPerformingAction = false, unblockUserId = null)
                                 }
                                 _effects.emit(UserListEffect.ShowUnblockError)
                             }
+
                             is State.Success -> {
                                 _state.updateIfSuccess { oldState ->
                                     oldState.copy(isPerformingAction = false, unblockUserId = null)

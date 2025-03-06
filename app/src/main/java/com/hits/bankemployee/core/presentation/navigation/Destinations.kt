@@ -20,8 +20,10 @@ object Tariffs : BottomBarDestination() {
 
 object UserDetails : Destination() {
     const val ARG_USER_ID = "userId"
+    const val ARG_USER_FULLNAME = "userFullname"
+    const val ARG_IS_USER_BLOCKED = "isUserBlocked"
 
-    override var arguments = listOf(ARG_USER_ID)
+    override var arguments = listOf(ARG_USER_ID, ARG_USER_FULLNAME, ARG_IS_USER_BLOCKED)
 }
 
 object BankAccountDetails : Destination() {

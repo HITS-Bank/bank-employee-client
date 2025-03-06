@@ -30,6 +30,12 @@ fun RootNavHost(
             arguments = listOf(
                 navArgument(UserDetails.ARG_USER_ID) {
                     type = NavType.StringType
+                },
+                navArgument(UserDetails.ARG_USER_FULLNAME) {
+                    type = NavType.StringType
+                },
+                navArgument(UserDetails.ARG_IS_USER_BLOCKED) {
+                    type = NavType.BoolType
                 }
             ),
         ) {
