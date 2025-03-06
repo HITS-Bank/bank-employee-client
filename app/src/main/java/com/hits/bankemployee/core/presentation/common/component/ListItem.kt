@@ -2,26 +2,44 @@ package com.hits.bankemployee.core.presentation.common.component
 
 import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.core.Spring.DampingRatioNoBouncy
+import androidx.compose.animation.core.Spring.StiffnessHigh
+import androidx.compose.animation.core.exponentialDecay
+import androidx.compose.animation.core.spring
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.AnchoredDraggableState
+import androidx.compose.foundation.gestures.DraggableAnchors
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.anchoredDraggable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.pointer.pointerInteropFilter
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -29,10 +47,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.hits.bankemployee.R
 import com.hits.bankemployee.core.presentation.common.horizontalSpacer
+import com.hits.bankemployee.core.presentation.common.noRippleClickable
 import com.hits.bankemployee.core.presentation.common.textDp
 import com.hits.bankemployee.core.presentation.theme.S14_W400
 import com.hits.bankemployee.core.presentation.theme.S16_W400
 import com.hits.bankemployee.core.presentation.theme.S16_W500
+import com.hits.bankemployee.users.compose.component.SwipePosition
 import androidx.compose.material3.Icon as MaterialIcon
 
 sealed interface ListItemIcon {
@@ -145,6 +165,13 @@ sealed interface Divider {
     }
 }
 
+data class SwipeableInfo(
+    val backgroundColor: Color,
+    val iconColor: Color,
+    @DrawableRes val iconResId: Int,
+    val onIconClick: () -> Unit,
+)
+
 @Composable
 fun ListItem(
     icon: ListItemIcon,
@@ -184,5 +211,80 @@ fun ListItem(
             with(end) { End() }
         }
         with(divider) { Divider() }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
+@Composable
+fun SwipeableListItem(
+    icon: ListItemIcon,
+    title: String,
+    subtitle: String,
+    swipeableInfo: SwipeableInfo,
+    modifier: Modifier = Modifier,
+    end: ListItemEnd = ListItemEnd.None,
+    divider: Divider = Divider.Default(),
+    titleTextStyle: TextStyle = S16_W400.copy(color = MaterialTheme.colorScheme.onSurface),
+    subtitleTextStyle: TextStyle = S14_W400.copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
+    padding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
+) {
+    val swipeOffset = with(LocalDensity.current) { 65.dp.toPx() }
+    val velocityThreshold = with(LocalDensity.current) { 1000.dp.toPx() }
+    val anchors = DraggableAnchors {
+        SwipePosition.Swiped at -swipeOffset
+        SwipePosition.NotSwiped at 0f
+    }
+    val state = remember {
+        AnchoredDraggableState(
+            initialValue = SwipePosition.NotSwiped,
+            anchors = anchors,
+            positionalThreshold = { distance: Float -> distance * 0.8f },
+            velocityThreshold = { velocityThreshold },
+            snapAnimationSpec = spring(
+                dampingRatio = DampingRatioNoBouncy, stiffness = StiffnessHigh
+            ),
+            decayAnimationSpec = exponentialDecay()
+        )
+    }
+    Box(modifier = Modifier.height(IntrinsicSize.Min)) {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .background(swipeableInfo.backgroundColor))
+        Box(
+            modifier = Modifier
+                .noRippleClickable(swipeableInfo.onIconClick)
+                .padding(horizontal = 19.dp)
+                .align(Alignment.CenterEnd),
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(
+                imageVector = ImageVector.vectorResource(swipeableInfo.iconResId),
+                contentDescription = null,
+                modifier = Modifier.size(27.dp),
+                tint = swipeableInfo.iconColor,
+            )
+        }
+        ListItem(
+            modifier = modifier
+                .fillMaxWidth()
+                .pointerInteropFilter {
+                    return@pointerInteropFilter false
+                }
+                .anchoredDraggable(
+                    state = state, orientation = Orientation.Horizontal
+                )
+                .graphicsLayer {
+                    translationX = state.requireOffset()
+                }
+                .background(MaterialTheme.colorScheme.surface),
+            icon = icon,
+            title = title,
+            subtitle = subtitle,
+            end = end,
+            divider = divider,
+            titleTextStyle = titleTextStyle,
+            subtitleTextStyle = subtitleTextStyle,
+            padding = padding,
+        )
     }
 }
