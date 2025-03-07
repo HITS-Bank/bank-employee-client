@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 
 class NavigationManager {
 
-    private val _commands = MutableSharedFlow<NavigationCommand>(replay = 1)
+    private val _commands = MutableSharedFlow<NavigationCommand>(extraBufferCapacity = 1)
     val commands = _commands.asSharedFlow()
 
     suspend fun addCommand(command: NavigationCommand) {

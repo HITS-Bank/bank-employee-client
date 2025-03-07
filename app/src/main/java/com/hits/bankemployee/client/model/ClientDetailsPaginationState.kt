@@ -1,5 +1,7 @@
 package com.hits.bankemployee.client.model
 
+import androidx.annotation.DrawableRes
+import com.hits.bankemployee.R
 import com.hits.bankemployee.client.viewmodel.ClientDetailsScreenViewModel
 import com.hits.bankemployee.core.presentation.pagination.PaginationState
 import com.hits.bankemployee.core.presentation.pagination.PaginationStateHolder
@@ -10,7 +12,14 @@ data class ClientDetailsPaginationState(
     override val pageNumber: Int,
     override val pageSize: Int,
     val client: ClientModel,
+    val isDialogVisible: Boolean,
+    val isPerformingAction: Boolean,
 ) : PaginationStateHolder<ClientDetailsListItem> {
+
+    val fabText
+        get() = if (client.isBlocked) "Разблокировать" else "Заблокировать"
+    val fabIconResId
+        @DrawableRes get() = if (client.isBlocked) R.drawable.ic_unblock else R.drawable.ic_block
 
     override fun copyWith(
         paginationState: PaginationState,
@@ -31,6 +40,8 @@ data class ClientDetailsPaginationState(
             pageNumber = 0,
             pageSize = ClientDetailsScreenViewModel.PAGE_SIZE,
             client = client,
+            isDialogVisible = false,
+            isPerformingAction = false,
         )
     }
 }

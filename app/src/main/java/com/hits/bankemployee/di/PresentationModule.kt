@@ -30,6 +30,6 @@ fun presentationModule() = module {
     }
     viewModelOf(::TariffsScreenViewModel)
     viewModel { parameters ->
-        ClientDetailsScreenViewModel(parameters.get())
+        ClientDetailsScreenViewModel(parameters.get(), get(), get())
     }
 }

@@ -33,13 +33,30 @@ object UserDetails : Destination() {
 }
 
 object BankAccountDetails : Destination() {
-    const val ARG_BANK_ACCOUNT_NUMBER = "bankAccountId"
+    const val ARG_BANK_ACCOUNT_NUMBER = "bankAccountNumber"
+    const val ARG_BANK_ACCOUNT_BALANCE = "bankAccountBalance"
+    const val ARG_BANK_ACCOUNT_STATUS = "bankAccountStatus"
 
     override var arguments = listOf(ARG_BANK_ACCOUNT_NUMBER)
+    override var optionalArguments = listOf(ARG_BANK_ACCOUNT_BALANCE, ARG_BANK_ACCOUNT_STATUS)
+
+    fun withArgs(
+        bankAccountNumber: String,
+        bankAccountBalance: String? = null,
+        bankAccountStatus: String? = null,
+    ): String {
+        val optionalArgs = mutableMapOf<String, String>()
+        bankAccountBalance?.let { optionalArgs[ARG_BANK_ACCOUNT_BALANCE] = it }
+        bankAccountStatus?.let { optionalArgs[ARG_BANK_ACCOUNT_STATUS] = it }
+        return destinationWithArgs(
+            listOf(bankAccountNumber),
+            optionalArgs,
+        )
+    }
 }
 
 object LoanDetails : Destination() {
-    const val ARG_LOAN_NUMBER = "loanId"
+    const val ARG_LOAN_NUMBER = "loanNumber"
 
     override var arguments = listOf(ARG_LOAN_NUMBER)
 }

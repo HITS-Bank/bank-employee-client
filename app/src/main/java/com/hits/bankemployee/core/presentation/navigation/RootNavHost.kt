@@ -70,7 +70,15 @@ fun RootNavHost(
             arguments = listOf(
                 navArgument(BankAccountDetails.ARG_BANK_ACCOUNT_NUMBER) {
                     type = NavType.StringType
-                }
+                },
+                navArgument(BankAccountDetails.ARG_BANK_ACCOUNT_BALANCE) {
+                    type = NavType.StringType
+                    nullable = true
+                },
+                navArgument(BankAccountDetails.ARG_BANK_ACCOUNT_STATUS) {
+                    type = NavType.StringType
+                    nullable = true
+                },
             ),
         ) {
 
