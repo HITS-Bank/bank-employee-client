@@ -2,6 +2,7 @@ package com.hits.bankemployee.di
 
 import android.util.Patterns
 import com.hits.bankemployee.core.domain.interactor.AuthInteractor
+import com.hits.bankemployee.core.domain.interactor.BankAccountInteractor
 import com.hits.bankemployee.core.domain.interactor.LoanInteractor
 import com.hits.bankemployee.core.domain.interactor.ProfileInteractor
 import com.hits.bankemployee.core.domain.interactor.ValidationInteractor
@@ -13,4 +14,5 @@ fun domainModule() = module {
     singleOf(::ProfileInteractor)
     single { ValidationInteractor(emailPattern = Patterns.EMAIL_ADDRESS) }
     singleOf(::LoanInteractor)
+    singleOf(::BankAccountInteractor)
 }

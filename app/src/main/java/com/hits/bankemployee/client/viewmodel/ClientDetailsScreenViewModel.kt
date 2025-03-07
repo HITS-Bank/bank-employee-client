@@ -3,11 +3,15 @@ package com.hits.bankemployee.client.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.hits.bankemployee.client.event.ClientDetailsScreenEffect
 import com.hits.bankemployee.client.event.ClientDetailsScreenEvent
-import com.hits.bankemployee.client.model.BankAccountStatus
+import com.hits.bankemployee.client.mapper.ClientDetailsScreenMapper
 import com.hits.bankemployee.client.model.ClientDetailsListItem
 import com.hits.bankemployee.client.model.ClientDetailsPaginationState
 import com.hits.bankemployee.client.model.ClientModel
 import com.hits.bankemployee.core.domain.common.State
+import com.hits.bankemployee.core.domain.common.map
+import com.hits.bankemployee.core.domain.entity.PageInfo
+import com.hits.bankemployee.core.domain.interactor.BankAccountInteractor
+import com.hits.bankemployee.core.domain.interactor.LoanInteractor
 import com.hits.bankemployee.core.domain.interactor.ProfileInteractor
 import com.hits.bankemployee.core.presentation.common.BankUiState
 import com.hits.bankemployee.core.presentation.common.getIfSuccess
@@ -19,7 +23,6 @@ import com.hits.bankemployee.core.presentation.navigation.base.back
 import com.hits.bankemployee.core.presentation.navigation.base.forwardWithCallbackResult
 import com.hits.bankemployee.core.presentation.pagination.PaginationEvent
 import com.hits.bankemployee.core.presentation.pagination.PaginationViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -30,9 +33,12 @@ import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 
 class ClientDetailsScreenViewModel(
-    client: ClientModel,
+    private val client: ClientModel,
     private val profileInteractor: ProfileInteractor,
+    private val bankAccountInteractor: BankAccountInteractor,
+    private val loanInteractor: LoanInteractor,
     private val navigationManager: NavigationManager,
+    private val mapper: ClientDetailsScreenMapper,
 ) : PaginationViewModel<ClientDetailsListItem, ClientDetailsPaginationState>(
     BankUiState.Ready(ClientDetailsPaginationState.empty(client))
 ) {
@@ -142,14 +148,22 @@ class ClientDetailsScreenViewModel(
             if (bankAccountPageNumber == null) {
                 loadAccountsPage(pageNumber)
             } else {
-                emit(getLoansPage(pageNumber - bankAccountPageNumber).last())
+                val loans = loanInteractor.getLoans(
+                    client.id,
+                    pageInfo = PageInfo(pageSize = PAGE_SIZE, pageNumber - bankAccountPageNumber),
+                )
+                emit(loans.last().map { list -> list.map { mapper.map(it) } })
             }
         }
 
     private suspend fun FlowCollector<State<List<ClientDetailsListItem>>>.loadAccountsPage(
         pageNumber: Int
     ) {
-        val pageResult = getBankAccountsPage(pageNumber).last()
+        val accounts = bankAccountInteractor.getAccountList(
+            client.id,
+            PageInfo(pageSize = PAGE_SIZE, pageNumber)
+        )
+        val pageResult = accounts.last().map { list -> list.map { mapper.map(it) } }
         if (pageResult is State.Success) {
             val accountList = mutableListOf<ClientDetailsListItem>()
             if (pageNumber == 0) {
@@ -172,7 +186,11 @@ class ClientDetailsScreenViewModel(
         accountList: MutableList<ClientDetailsListItem>
     ): Boolean {
         bankAccountListLastPageNumber = pageNumber
-        val loanPageResult = getLoansPage(0).last()
+        val loans = loanInteractor.getLoans(
+            client.id,
+            pageInfo = PageInfo(pageSize = PAGE_SIZE, 0),
+        )
+        val loanPageResult = loans.last().map { list -> list.map { mapper.map(it) } }
         if (loanPageResult is State.Success) {
             accountList.add(ClientDetailsListItem.LoansHeader)
             accountList.addAll(loanPageResult.data)
@@ -182,102 +200,6 @@ class ClientDetailsScreenViewModel(
             return false
         }
     }
-
-    //TODO replace with interactor
-    private fun getBankAccountsPage(pageNumber: Int): Flow<State<List<ClientDetailsListItem.BankAccountModel>>> =
-        flow {
-            emit(State.Loading)
-            delay(1000)
-            val accountList = when (pageNumber) {
-                0 -> {
-                    listOf(
-                        ClientDetailsListItem.BankAccountModel(
-                            number = "1234567890",
-                            balance = "5000",
-                            status = BankAccountStatus.OPEN,
-                        ),
-                        ClientDetailsListItem.BankAccountModel(
-                            number = "0987654321",
-                            balance = "0",
-                            status = BankAccountStatus.CLOSED,
-                        ),
-                        ClientDetailsListItem.BankAccountModel(
-                            number = "1357924680",
-                            balance = "10000",
-                            status = BankAccountStatus.BLOCKED,
-                        ),
-                        ClientDetailsListItem.BankAccountModel(
-                            number = "2468135790",
-                            balance = "20000",
-                            status = BankAccountStatus.OPEN,
-                        ),
-                        ClientDetailsListItem.BankAccountModel(
-                            number = "9876543210",
-                            balance = "30000",
-                            status = BankAccountStatus.OPEN,
-                        ),
-                    )
-                }
-
-                1 -> {
-                    listOf(
-                        ClientDetailsListItem.BankAccountModel(
-                            number = "1234567891",
-                            balance = "5000",
-                            status = BankAccountStatus.OPEN,
-                        )
-                    )
-                }
-
-                else -> emptyList()
-            }
-            emit(State.Success(accountList))
-        }
-
-    //TODO replace with interactor
-    private fun getLoansPage(pageNumber: Int): Flow<State<List<ClientDetailsListItem.LoanModel>>> =
-        flow {
-            emit(State.Loading)
-            delay(1000)
-            val loanList = when (pageNumber) {
-                0 -> {
-                    listOf(
-                        ClientDetailsListItem.LoanModel(
-                            number = "1234567890",
-                            currentDebt = "5000",
-                        ),
-                        ClientDetailsListItem.LoanModel(
-                            number = "0987654321",
-                            currentDebt = "0",
-                        ),
-                        ClientDetailsListItem.LoanModel(
-                            number = "135792468",
-                            currentDebt = "10000",
-                        ),
-                        ClientDetailsListItem.LoanModel(
-                            number = "2468135790",
-                            currentDebt = "20000",
-                        ),
-                        ClientDetailsListItem.LoanModel(
-                            number = "9876543210",
-                            currentDebt = "30000",
-                        ),
-                    )
-                }
-
-                1 -> {
-                    listOf(
-                        ClientDetailsListItem.LoanModel(
-                            number = "1234567891",
-                            currentDebt = "30000",
-                        ),
-                    )
-                }
-
-                else -> emptyList()
-            }
-            emit(State.Success(loanList))
-        }
 
     companion object {
         const val PAGE_SIZE = 5

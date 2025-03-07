@@ -197,6 +197,9 @@ fun ClientDetailsScreen(viewModel: ClientDetailsScreenViewModel) {
                     onReload = {
                         onPaginationEvent(PaginationEvent.Reload)
                     },
+                    onBack = {
+                        onEvent(ClientDetailsScreenEvent.NavigateBack)
+                    }
                 )
 
                 else -> Unit

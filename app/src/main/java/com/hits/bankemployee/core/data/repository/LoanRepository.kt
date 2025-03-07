@@ -14,12 +14,18 @@ import com.hits.bankemployee.core.domain.entity.loan.LoanTariffSortingOrder
 import com.hits.bankemployee.core.domain.entity.loan.LoanTariffSortingProperty
 import com.hits.bankemployee.core.domain.repository.ILoanRepository
 import com.hits.bankemployee.core.domain.common.Result
+import com.hits.bankemployee.core.domain.entity.loan.LoanEntity
 import kotlinx.coroutines.Dispatchers
 
 class LoanRepository(
     private val loanApi: LoanApi,
     private val mapper: LoanMapper,
 ) : ILoanRepository {
+
+    override suspend fun getLoans(userId: String, pageInfo: PageInfo): Result<List<LoanEntity>> {
+        //TODO
+        return Result.Error()
+    }
 
     override suspend fun getLoanTariffs(
         pageInfo: PageInfo,

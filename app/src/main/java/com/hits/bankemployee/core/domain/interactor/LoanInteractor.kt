@@ -4,6 +4,7 @@ import com.hits.bankemployee.core.domain.common.Completable
 import com.hits.bankemployee.core.domain.common.State
 import com.hits.bankemployee.core.domain.common.toState
 import com.hits.bankemployee.core.domain.entity.PageInfo
+import com.hits.bankemployee.core.domain.entity.loan.LoanEntity
 import com.hits.bankemployee.core.domain.entity.loan.LoanTariffCreateRequestEntity
 import com.hits.bankemployee.core.domain.entity.loan.LoanTariffEntity
 import com.hits.bankemployee.core.domain.entity.loan.LoanTariffSortingOrder
@@ -24,6 +25,11 @@ class LoanInteractor(private val loanRepository: ILoanRepository) {
         emit(
             loanRepository.getLoanTariffs(pageInfo, sortingProperty, sortingOrder, query).toState()
         )
+    }
+
+    fun getLoans(userId: String, pageInfo: PageInfo): Flow<State<List<LoanEntity>>> = flow {
+        emit(State.Loading)
+        emit(loanRepository.getLoans(userId, pageInfo).toState())
     }
 
     fun createLoanTariff(

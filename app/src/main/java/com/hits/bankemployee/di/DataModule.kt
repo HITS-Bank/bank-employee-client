@@ -5,9 +5,11 @@ import com.hits.bankemployee.core.data.mapper.AuthMapper
 import com.hits.bankemployee.core.data.mapper.LoanMapper
 import com.hits.bankemployee.core.data.mapper.ProfileMapper
 import com.hits.bankemployee.core.data.repository.AuthRepository
+import com.hits.bankemployee.core.data.repository.BankAccountRepository
 import com.hits.bankemployee.core.data.repository.LoanRepository
 import com.hits.bankemployee.core.data.repository.ProfileRepository
 import com.hits.bankemployee.core.domain.repository.IAuthRepository
+import com.hits.bankemployee.core.domain.repository.IBankAccountRepository
 import com.hits.bankemployee.core.domain.repository.ILoanRepository
 import com.hits.bankemployee.core.domain.repository.IProfileRepository
 import org.koin.core.module.dsl.singleOf
@@ -21,5 +23,6 @@ fun dataModule() = module {
     singleOf(::AuthRepository) bind IAuthRepository::class
     singleOf(::ProfileRepository) bind IProfileRepository::class
     singleOf(::LoanRepository) bind ILoanRepository::class
+    singleOf(::BankAccountRepository) bind IBankAccountRepository::class
     singleOf(::SessionManager)
 }
