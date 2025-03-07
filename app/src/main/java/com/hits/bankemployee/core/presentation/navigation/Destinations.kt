@@ -24,6 +24,12 @@ object UserDetails : Destination() {
     const val ARG_IS_USER_BLOCKED = "isUserBlocked"
 
     override var arguments = listOf(ARG_USER_ID, ARG_USER_FULLNAME, ARG_IS_USER_BLOCKED)
+
+    fun withArgs(
+        userId: String,
+        userFullname: String,
+        isUserBlocked: Boolean,
+    ): String = destinationWithArgs(userId, userFullname, isUserBlocked)
 }
 
 object BankAccountDetails : Destination() {

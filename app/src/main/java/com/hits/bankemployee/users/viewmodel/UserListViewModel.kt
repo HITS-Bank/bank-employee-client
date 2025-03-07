@@ -58,7 +58,7 @@ class UserListViewModel(
             is UserListEvent.OpenClientDetails -> {
                 if (role != UserRole.CLIENT) return
                 navigationManager.forwardWithCallbackResult(
-                    UserDetails.destinationWithArgs(
+                    UserDetails.withArgs(
                         event.userId,
                         event.fullName,
                         event.isBlocked,
