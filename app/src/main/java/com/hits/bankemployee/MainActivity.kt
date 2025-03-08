@@ -15,11 +15,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.hits.bankemployee.core.presentation.common.LocalSnackbarController
-import com.hits.bankemployee.core.presentation.common.SnackbarController
-import com.hits.bankemployee.core.presentation.navigation.RootNavHost
-import com.hits.bankemployee.core.presentation.navigation.base.NavigationManager
-import com.hits.bankemployee.core.presentation.theme.BankEmployeeTheme
+import com.hits.bankemployee.presentation.common.LocalSnackbarController
+import com.hits.bankemployee.presentation.common.SnackbarController
+import com.hits.bankemployee.presentation.navigation.RootNavHost
+import com.hits.bankemployee.presentation.navigation.base.NavigationManager
+import com.hits.bankemployee.presentation.theme.BankEmployeeTheme
 import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {

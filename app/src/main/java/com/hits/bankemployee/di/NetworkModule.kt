@@ -2,10 +2,10 @@ package com.hits.bankemployee.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.hits.bankemployee.core.data.api.AuthApi
-import com.hits.bankemployee.core.data.api.LoanApi
-import com.hits.bankemployee.core.data.api.ProfileApi
-import com.hits.bankemployee.core.data.interceptor.AuthInterceptor
+import com.hits.bankemployee.data.api.AuthApi
+import com.hits.bankemployee.data.api.LoanApi
+import com.hits.bankemployee.data.api.ProfileApi
+import com.hits.bankemployee.data.interceptor.AuthInterceptor
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
