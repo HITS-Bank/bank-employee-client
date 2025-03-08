@@ -1,13 +1,6 @@
 package com.hits.bankemployee.presentation.screen.client.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.hits.bankemployee.presentation.screen.client.event.ClientDetailsScreenEffect
-import com.hits.bankemployee.presentation.screen.client.event.ClientDetailsScreenEvent
-import com.hits.bankemployee.presentation.screen.client.mapper.ClientDetailsScreenModelMapper
-import com.hits.bankemployee.presentation.screen.client.model.ClientDetailsListItem
-import com.hits.bankemployee.presentation.screen.client.model.ClientDetailsPaginationState
-import com.hits.bankemployee.presentation.screen.client.model.ClientModel
-import com.hits.bankemployee.presentation.screen.client.model.toEntity
 import com.hits.bankemployee.domain.common.State
 import com.hits.bankemployee.domain.common.map
 import com.hits.bankemployee.domain.entity.PageInfo
@@ -21,9 +14,16 @@ import com.hits.bankemployee.presentation.navigation.BankAccountDetails
 import com.hits.bankemployee.presentation.navigation.LoanDetails
 import com.hits.bankemployee.presentation.navigation.base.NavigationManager
 import com.hits.bankemployee.presentation.navigation.base.back
-import com.hits.bankemployee.presentation.navigation.base.forwardWithCallbackResult
+import com.hits.bankemployee.presentation.navigation.base.forward
 import com.hits.bankemployee.presentation.pagination.PaginationEvent
 import com.hits.bankemployee.presentation.pagination.PaginationViewModel
+import com.hits.bankemployee.presentation.screen.client.event.ClientDetailsScreenEffect
+import com.hits.bankemployee.presentation.screen.client.event.ClientDetailsScreenEvent
+import com.hits.bankemployee.presentation.screen.client.mapper.ClientDetailsScreenModelMapper
+import com.hits.bankemployee.presentation.screen.client.model.ClientDetailsListItem
+import com.hits.bankemployee.presentation.screen.client.model.ClientDetailsPaginationState
+import com.hits.bankemployee.presentation.screen.client.model.ClientModel
+import com.hits.bankemployee.presentation.screen.client.model.toEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -122,19 +122,15 @@ class ClientDetailsScreenViewModel(
             }
 
             is ClientDetailsScreenEvent.LoanClicked -> {
-                navigationManager.forwardWithCallbackResult(
+                navigationManager.forward(
                     LoanDetails.destinationWithArgs(event.number)
-                ) {
-                    onPaginationEvent(PaginationEvent.Reload)
-                }
+                )
             }
 
             is ClientDetailsScreenEvent.BankAccountClicked -> {
-                navigationManager.forwardWithCallbackResult(
+                navigationManager.forward(
                     BankAccountDetails.withArgs(event.number, event.balance, event.status.toEntity().name)
-                ) {
-                    onPaginationEvent(PaginationEvent.Reload)
-                }
+                )
             }
         }
     }
