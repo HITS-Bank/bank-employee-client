@@ -136,6 +136,24 @@ sealed interface ListItemEnd {
             )
         }
     }
+
+    class OperationAmount(
+        private val amount: String,
+        private val amountColor: Color,
+    ) : ListItemEnd {
+
+        @Composable
+        override fun RowScope.End() {
+            Text(
+                text = amount,
+                modifier = Modifier.align(Alignment.Top),
+                style = S14_W400.copy(color = amountColor),
+                textAlign = TextAlign.End,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
+    }
 }
 
 sealed interface Divider {

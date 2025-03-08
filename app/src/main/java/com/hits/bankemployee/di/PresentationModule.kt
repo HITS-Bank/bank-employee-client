@@ -1,6 +1,8 @@
 package com.hits.bankemployee.di
 
-import com.hits.bankemployee.client.mapper.ClientDetailsScreenMapper
+import com.hits.bankemployee.account.mapper.AccountDetailsScreenModelMapper
+import com.hits.bankemployee.account.viewmodel.AccountDetailsScreenViewModel
+import com.hits.bankemployee.client.mapper.ClientDetailsScreenModelMapper
 import com.hits.bankemployee.loan.tariff.mapper.TariffsScreenModelMapper
 import com.hits.bankemployee.loan.tariff.viewmodel.TariffsScreenViewModel
 import com.hits.bankemployee.login.mapper.LoginScreenModelMapper
@@ -20,7 +22,8 @@ fun presentationModule() = module {
     singleOf(::LoginScreenModelMapper)
     singleOf(::UsersScreenModelMapper)
     singleOf(::TariffsScreenModelMapper)
-    singleOf(::ClientDetailsScreenMapper)
+    singleOf(::ClientDetailsScreenModelMapper)
+    singleOf(::AccountDetailsScreenModelMapper)
 
     viewModelOf(::LoginViewModel)
     viewModelOf(::UsersScreenViewModel)
@@ -33,5 +36,15 @@ fun presentationModule() = module {
     viewModelOf(::TariffsScreenViewModel)
     viewModel { parameters ->
         ClientDetailsScreenViewModel(parameters.get(), get(), get(), get(), get(), get())
+    }
+    viewModel { parameters ->
+        AccountDetailsScreenViewModel(
+            parameters.get(),
+            parameters.get(),
+            parameters.get(),
+            get(),
+            get(),
+            get(),
+        )
     }
 }

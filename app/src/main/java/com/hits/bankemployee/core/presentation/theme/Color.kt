@@ -2,6 +2,11 @@ package com.hits.bankemployee.core.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
+val topUpForeground = Color(0xFF2D993F)
+val topUpBackground = Color(0xFFBEE7C5)
+val withdrawForeground = Color(0xFFC94B4D)
+val withdrawBackground = Color(0xFFFFD0D1)
+
 val primaryLight = Color(0xFF0C6B59)
 val onPrimaryLight = Color(0xFFFFFFFF)
 val primaryContainerLight = Color(0xFFA1F2DB)

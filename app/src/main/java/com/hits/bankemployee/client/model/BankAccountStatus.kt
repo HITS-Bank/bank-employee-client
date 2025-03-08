@@ -15,3 +15,11 @@ fun BankAccountStatusEntity.toStatus(): BankAccountStatus {
         BankAccountStatusEntity.BLOCKED -> BankAccountStatus.BLOCKED
     }
 }
+
+fun BankAccountStatus.toEntity(): BankAccountStatusEntity {
+    return when (this) {
+        BankAccountStatus.OPEN -> BankAccountStatusEntity.OPEN
+        BankAccountStatus.CLOSED -> BankAccountStatusEntity.CLOSED
+        BankAccountStatus.BLOCKED -> BankAccountStatusEntity.BLOCKED
+    }
+}

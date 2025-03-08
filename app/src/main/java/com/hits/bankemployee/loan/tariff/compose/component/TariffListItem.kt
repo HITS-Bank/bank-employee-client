@@ -23,6 +23,7 @@ fun TariffListItem(item: TariffModel, onEvent: (TariffsScreenEvent) -> Unit) {
             onIconClick = {
                 onEvent(TariffsScreenEvent.TariffDeleteClicked(item.id, item.name))
             }
-        )
+        ),
+        padding = PaddingValues(vertical = 12.dp),
     )
 }

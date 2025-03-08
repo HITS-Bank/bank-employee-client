@@ -3,10 +3,11 @@ package com.hits.bankemployee.client.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.hits.bankemployee.client.event.ClientDetailsScreenEffect
 import com.hits.bankemployee.client.event.ClientDetailsScreenEvent
-import com.hits.bankemployee.client.mapper.ClientDetailsScreenMapper
+import com.hits.bankemployee.client.mapper.ClientDetailsScreenModelMapper
 import com.hits.bankemployee.client.model.ClientDetailsListItem
 import com.hits.bankemployee.client.model.ClientDetailsPaginationState
 import com.hits.bankemployee.client.model.ClientModel
+import com.hits.bankemployee.client.model.toEntity
 import com.hits.bankemployee.core.domain.common.State
 import com.hits.bankemployee.core.domain.common.map
 import com.hits.bankemployee.core.domain.entity.PageInfo
@@ -38,7 +39,7 @@ class ClientDetailsScreenViewModel(
     private val bankAccountInteractor: BankAccountInteractor,
     private val loanInteractor: LoanInteractor,
     private val navigationManager: NavigationManager,
-    private val mapper: ClientDetailsScreenMapper,
+    private val mapper: ClientDetailsScreenModelMapper,
 ) : PaginationViewModel<ClientDetailsListItem, ClientDetailsPaginationState>(
     BankUiState.Ready(ClientDetailsPaginationState.empty(client))
 ) {
@@ -130,7 +131,7 @@ class ClientDetailsScreenViewModel(
 
             is ClientDetailsScreenEvent.BankAccountClicked -> {
                 navigationManager.forwardWithCallbackResult(
-                    BankAccountDetails.withArgs(event.number, event.balance, event.status.name)
+                    BankAccountDetails.withArgs(event.number, event.balance, event.status.toEntity().name)
                 ) {
                     onPaginationEvent(PaginationEvent.Reload)
                 }

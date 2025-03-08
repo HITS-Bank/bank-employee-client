@@ -8,9 +8,12 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.hits.bankemployee.account.compose.AccountDetailsScreen
+import com.hits.bankemployee.account.viewmodel.AccountDetailsScreenViewModel
 import com.hits.bankemployee.client.compose.ClientDetailsScreen
 import com.hits.bankemployee.client.model.ClientModel
 import com.hits.bankemployee.client.viewmodel.ClientDetailsScreenViewModel
+import com.hits.bankemployee.core.domain.entity.bankaccount.BankAccountStatusEntity
 import com.hits.bankemployee.login.compose.LoginScreenWrapper
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -80,8 +83,23 @@ fun RootNavHost(
                     nullable = true
                 },
             ),
-        ) {
+        ) { backStackEntry ->
+            val bankAccountNumber = backStackEntry.arguments?.getString(BankAccountDetails.ARG_BANK_ACCOUNT_NUMBER)
+            val bankAccountBalance = backStackEntry.arguments?.getString(BankAccountDetails.ARG_BANK_ACCOUNT_BALANCE)
+            val bankAccountStatus = backStackEntry.arguments?.getString(BankAccountDetails.ARG_BANK_ACCOUNT_STATUS)?.run {
+                BankAccountStatusEntity.valueOf(this)
+            }
 
+            if (bankAccountNumber != null) {
+                val viewModel: AccountDetailsScreenViewModel = koinViewModel(
+                    parameters = { parametersOf(bankAccountNumber, bankAccountBalance, bankAccountStatus) },
+                )
+                AccountDetailsScreen(viewModel)
+            } else {
+                LaunchedEffect(Unit) {
+                    navHostController.popBackStack()
+                }
+            }
         }
         composable(
             route = LoanDetails.route,

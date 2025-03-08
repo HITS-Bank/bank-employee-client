@@ -18,3 +18,15 @@ inline fun <T : Any, R : Any> State<T>.map(mapper: (T) -> (R)): State<R> {
         is State.Success -> State.Success(mapper(data))
     }
 }
+
+inline fun <T: Any> State<T>.mergeWith(other: State<T>, reducer: (thisState: T, otherState: T) -> T): State<T> {
+    return when (this) {
+        is State.Loading -> this
+        is State.Error -> this
+        is State.Success -> when (other) {
+            is State.Loading -> other
+            is State.Error -> other
+            is State.Success -> State.Success(reducer(data, other.data))
+        }
+    }
+}

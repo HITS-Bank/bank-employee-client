@@ -5,7 +5,7 @@ import com.hits.bankemployee.client.model.toStatus
 import com.hits.bankemployee.core.domain.entity.bankaccount.BankAccountEntity
 import com.hits.bankemployee.core.domain.entity.loan.LoanEntity
 
-class ClientDetailsScreenMapper {
+class ClientDetailsScreenModelMapper {
 
     fun map(bankAccountEntity: BankAccountEntity): ClientDetailsListItem.BankAccountModel {
         return ClientDetailsListItem.BankAccountModel(
