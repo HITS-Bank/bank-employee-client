@@ -139,6 +139,7 @@ class ClientDetailsScreenViewModel(
         }
     }
 
+    //TODO при возможности переписать (оно работает, но выглядит не очень красиво и читаемо)
     override fun getNextPageContents(pageNumber: Int): Flow<State<List<ClientDetailsListItem>>> =
         flow {
             emit(State.Loading)

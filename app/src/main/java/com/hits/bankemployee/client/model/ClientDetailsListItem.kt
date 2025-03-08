@@ -1,39 +1,28 @@
 package com.hits.bankemployee.client.model
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 
 sealed interface ClientDetailsListItem {
 
     data class BankAccountModel(
         val number: String,
+        val description: String,
         val balance: String,
         val status: BankAccountStatus,
+        private val descriptionColorProvider: @Composable () -> Color,
     ) : ClientDetailsListItem {
-        val description
-            get() = when (status) {
-                BankAccountStatus.OPEN -> "Баланс: $balance ₽"
-                BankAccountStatus.CLOSED -> "Закрыт"
-                BankAccountStatus.BLOCKED -> "Заблокирован"
-            }
-
-        val descriptionColor
-            @Composable get() = when (status) {
-                BankAccountStatus.OPEN -> MaterialTheme.colorScheme.onSurfaceVariant
-                BankAccountStatus.CLOSED -> MaterialTheme.colorScheme.onPrimaryContainer
-                BankAccountStatus.BLOCKED -> MaterialTheme.colorScheme.onErrorContainer
-            }
+        val descriptionColor: Color
+            @Composable get() = descriptionColorProvider()
     }
 
     data class LoanModel(
         val number: String,
-        val currentDebt: String,
+        val description: String,
+        private val descriptionColorProvider: @Composable () -> Color,
     ) : ClientDetailsListItem {
-        val description
-            get() = "Долг: $currentDebt ₽"
-
-        val descriptionColor
-            @Composable get() = MaterialTheme.colorScheme.onSurfaceVariant
+        val descriptionColor: Color
+            @Composable get() = descriptionColorProvider()
     }
 
     data object AccountsHeader : ClientDetailsListItem

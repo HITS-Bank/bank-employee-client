@@ -22,16 +22,16 @@ fun UserListItem(item: UserModel, onEvent: (UserListEvent) -> Unit) {
             )
         },
         icon = ListItemIcon.SingleChar(
-            char = item.firstName[0],
+            char = item.fullName[0],
             backgroundColor = item.backgroundColor,
             charColor = item.foregroundColor,
         ),
         title = item.fullName,
-        subtitle = item.subtitle,
+        subtitle = item.status,
         swipeableInfo = SwipeableInfo(
             backgroundColor = item.backgroundColor,
             iconColor = item.foregroundColor,
-            iconResId = item.swipeIconResId,
+            iconResId = item.actionIconResId,
             onIconClick = {
                 if (item.isBlocked) {
                     onEvent(UserListEvent.UnblockUser(item.id))
