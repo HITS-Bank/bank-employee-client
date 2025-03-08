@@ -23,7 +23,7 @@ class BankAccountRepository : IBankAccountRepository {
             listOf(
                 BankAccountEntity(
                     number = UUID.randomUUID().toString(),
-                    balance = "1000.0",
+                    balance = "1000.5",
                     status = BankAccountStatusEntity.OPEN,
                 ),
                 BankAccountEntity(

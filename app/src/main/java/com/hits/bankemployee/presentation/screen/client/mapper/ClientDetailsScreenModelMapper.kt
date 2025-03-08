@@ -6,6 +6,7 @@ import com.hits.bankemployee.presentation.screen.client.model.ClientDetailsListI
 import com.hits.bankemployee.presentation.screen.client.model.toStatus
 import com.hits.bankemployee.domain.entity.bankaccount.BankAccountEntity
 import com.hits.bankemployee.domain.entity.loan.LoanEntity
+import com.hits.bankemployee.presentation.common.formatToSum
 
 class ClientDetailsScreenModelMapper {
 
@@ -14,7 +15,7 @@ class ClientDetailsScreenModelMapper {
             number = bankAccountEntity.number,
             balance = bankAccountEntity.balance,
             description = when (bankAccountEntity.status.toStatus()) {
-                BankAccountStatus.OPEN -> "Баланс: ${bankAccountEntity.balance} ₽"
+                BankAccountStatus.OPEN -> "Баланс: ${bankAccountEntity.balance.formatToSum()}"
                 BankAccountStatus.CLOSED -> "Закрыт"
                 BankAccountStatus.BLOCKED -> "Заблокирован"
             },
@@ -32,7 +33,7 @@ class ClientDetailsScreenModelMapper {
     fun map(loanEntity: LoanEntity): ClientDetailsListItem.LoanModel {
         return ClientDetailsListItem.LoanModel(
             number = loanEntity.number,
-            description = "Долг: ${loanEntity.currentDebt} ₽",
+            description = "Долг: ${loanEntity.currentDebt.formatToSum()}",
             descriptionColorProvider = {
                 MaterialTheme.colorScheme.onSurfaceVariant
             }

@@ -5,6 +5,7 @@ import com.hits.bankemployee.domain.entity.bankaccount.BankAccountEntity
 import com.hits.bankemployee.domain.entity.bankaccount.BankAccountStatusEntity
 import com.hits.bankemployee.domain.entity.bankaccount.OperationHistoryEntity
 import com.hits.bankemployee.domain.entity.bankaccount.OperationTypeEntity
+import com.hits.bankemployee.presentation.common.formatToSum
 import com.hits.bankemployee.presentation.theme.topUpBackground
 import com.hits.bankemployee.presentation.theme.topUpForeground
 import com.hits.bankemployee.presentation.theme.withdrawBackground
@@ -20,7 +21,7 @@ class AccountDetailsScreenModelMapper {
         val secondProperty = when(account.status) {
             BankAccountStatusEntity.OPEN -> AccountDetailsListItem.AccountDetailsProperty(
                 name = "Баланс",
-                value = "${account.balance} ₽",
+                value = account.balance.formatToSum(),
             )
             BankAccountStatusEntity.CLOSED -> AccountDetailsListItem.AccountDetailsProperty(
                 name = "Статус",
@@ -45,9 +46,9 @@ class AccountDetailsScreenModelMapper {
             id = operation.id,
             date = formatter.format(operation.date),
             amount = when (operation.type) {
-                OperationTypeEntity.WITHDRAW -> "-${operation.amount} ₽"
-                OperationTypeEntity.TOP_UP -> "+${operation.amount} ₽"
-                OperationTypeEntity.LOAN_PAYMENT -> "-${operation.amount} ₽"
+                OperationTypeEntity.WITHDRAW -> "-${operation.amount.formatToSum()}"
+                OperationTypeEntity.TOP_UP -> "+${operation.amount.formatToSum()}"
+                OperationTypeEntity.LOAN_PAYMENT -> "-${operation.amount.formatToSum()}"
             },
             operationTitle = when (operation.type) {
                 OperationTypeEntity.WITHDRAW -> "Снятие"

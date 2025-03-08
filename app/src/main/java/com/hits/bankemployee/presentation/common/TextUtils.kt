@@ -3,7 +3,13 @@ package com.hits.bankemployee.presentation.common
 fun String?.formatToSum(): String {
     if (this == null) return ""
 
-    val digitsOnly = this.replace("\\D".toRegex(), "")
+    val integralPart = this.substringBefore(".")
+    var fractionalPart = this.substringAfter(".", "")
+    if (fractionalPart.length == fractionalPart.count { it == '0' }) {
+        fractionalPart = ""
+    }
+
+    val digitsOnly = integralPart.replace("\\D".toRegex(), "")
     if (digitsOnly.isEmpty()) return "0 ₽"
 
     val formattedAmount = StringBuilder()
@@ -16,5 +22,9 @@ fun String?.formatToSum(): String {
         }
     }
 
-    return formattedAmount.reverse().toString() + " ₽"
+    return if (fractionalPart.isNotBlank()) {
+        formattedAmount.reverse().toString() + "," + fractionalPart + " ₽"
+    } else {
+        formattedAmount.reverse().toString() + " ₽"
+    }
 }
