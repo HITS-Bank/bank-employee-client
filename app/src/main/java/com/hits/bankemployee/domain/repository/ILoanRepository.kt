@@ -23,6 +23,10 @@ interface ILoanRepository {
         pageInfo: PageInfo,
     ): Result<List<LoanEntity>>
 
+    suspend fun getLoanByNumber(
+        loanNumber: String,
+    ): Result<LoanEntity>
+
     suspend fun createLoanTariff(loanTariffCreateRequestEntity: LoanTariffCreateRequestEntity): Result<Completable>
 
     suspend fun deleteLoanTariff(loanTariffId: String): Result<Completable>

@@ -33,11 +33,6 @@ class BankAccountRepository : IBankAccountRepository {
                 ),
                 BankAccountEntity(
                     number = UUID.randomUUID().toString(),
-                    balance = "3000.0",
-                    status = BankAccountStatusEntity.OPEN,
-                ),
-                BankAccountEntity(
-                    number = UUID.randomUUID().toString(),
                     balance = "4000.0",
                     status = BankAccountStatusEntity.BLOCKED,
                 ),

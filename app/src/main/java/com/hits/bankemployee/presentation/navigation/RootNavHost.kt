@@ -14,6 +14,8 @@ import com.hits.bankemployee.presentation.screen.client.compose.ClientDetailsScr
 import com.hits.bankemployee.presentation.screen.client.model.ClientModel
 import com.hits.bankemployee.presentation.screen.client.viewmodel.ClientDetailsScreenViewModel
 import com.hits.bankemployee.domain.entity.bankaccount.BankAccountStatusEntity
+import com.hits.bankemployee.presentation.screen.loan.details.compose.LoanDetailsScreen
+import com.hits.bankemployee.presentation.screen.loan.details.viewmodel.LoanDetailsViewModel
 import com.hits.bankemployee.presentation.screen.login.compose.LoginScreenWrapper
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -109,7 +111,18 @@ fun RootNavHost(
                 }
             ),
         ) {
+            val loanNumber = it.arguments?.getString(LoanDetails.ARG_LOAN_NUMBER)
 
+            if (loanNumber != null) {
+                val viewModel: LoanDetailsViewModel = koinViewModel(
+                    parameters = { parametersOf(loanNumber) },
+                )
+                LoanDetailsScreen(viewModel)
+            } else {
+                LaunchedEffect(Unit) {
+                    navHostController.popBackStack()
+                }
+            }
         }
     }
 }

@@ -14,7 +14,7 @@ import com.hits.bankemployee.presentation.navigation.BankAccountDetails
 import com.hits.bankemployee.presentation.navigation.LoanDetails
 import com.hits.bankemployee.presentation.navigation.base.NavigationManager
 import com.hits.bankemployee.presentation.navigation.base.back
-import com.hits.bankemployee.presentation.navigation.base.forward
+import com.hits.bankemployee.presentation.navigation.base.forwardWithCallbackResult
 import com.hits.bankemployee.presentation.pagination.PaginationEvent
 import com.hits.bankemployee.presentation.pagination.PaginationViewModel
 import com.hits.bankemployee.presentation.screen.client.event.ClientDetailsScreenEffect
@@ -122,15 +122,19 @@ class ClientDetailsScreenViewModel(
             }
 
             is ClientDetailsScreenEvent.LoanClicked -> {
-                navigationManager.forward(
+                navigationManager.forwardWithCallbackResult(
                     LoanDetails.destinationWithArgs(event.number)
-                )
+                ) {
+                    onPaginationEvent(PaginationEvent.Reload)
+                }
             }
 
             is ClientDetailsScreenEvent.BankAccountClicked -> {
-                navigationManager.forward(
+                navigationManager.forwardWithCallbackResult(
                     BankAccountDetails.withArgs(event.number, event.balance, event.status.toEntity().name)
-                )
+                ) {
+                    onPaginationEvent(PaginationEvent.Reload)
+                }
             }
         }
     }

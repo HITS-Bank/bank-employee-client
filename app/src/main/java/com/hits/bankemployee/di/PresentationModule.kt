@@ -8,6 +8,8 @@ import com.hits.bankemployee.presentation.screen.loan.tariff.viewmodel.TariffsSc
 import com.hits.bankemployee.presentation.screen.login.mapper.LoginScreenModelMapper
 import com.hits.bankemployee.presentation.screen.login.viewmodel.LoginViewModel
 import com.hits.bankemployee.presentation.screen.client.viewmodel.ClientDetailsScreenViewModel
+import com.hits.bankemployee.presentation.screen.loan.details.mapper.LoanDetailsMapper
+import com.hits.bankemployee.presentation.screen.loan.details.viewmodel.LoanDetailsViewModel
 import com.hits.bankemployee.presentation.screen.users.mapper.UsersScreenModelMapper
 import com.hits.bankemployee.presentation.screen.users.model.UserRole
 import com.hits.bankemployee.presentation.screen.users.viewmodel.UserListViewModel
@@ -24,6 +26,7 @@ fun presentationModule() = module {
     singleOf(::TariffsScreenModelMapper)
     singleOf(::ClientDetailsScreenModelMapper)
     singleOf(::AccountDetailsScreenModelMapper)
+    singleOf(::LoanDetailsMapper)
 
     viewModelOf(::LoginViewModel)
     viewModelOf(::UsersScreenViewModel)
@@ -39,12 +42,15 @@ fun presentationModule() = module {
     }
     viewModel { parameters ->
         AccountDetailsScreenViewModel(
-            parameters.get(),
-            parameters.get(),
-            parameters.get(),
+            parameters[0],
+            parameters[1],
+            parameters[2],
             get(),
             get(),
             get(),
         )
+    }
+    viewModel { parameters ->
+        LoanDetailsViewModel(parameters.get(), get(), get(), get())
     }
 }

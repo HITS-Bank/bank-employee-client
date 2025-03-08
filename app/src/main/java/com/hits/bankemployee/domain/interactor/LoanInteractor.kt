@@ -32,6 +32,11 @@ class LoanInteractor(private val loanRepository: ILoanRepository) {
         emit(loanRepository.getLoans(userId, pageInfo).toState())
     }
 
+    fun getLoanByNumber(loanNumber: String): Flow<State<LoanEntity>> = flow {
+        emit(State.Loading)
+        emit(loanRepository.getLoanByNumber(loanNumber).toState())
+    }
+
     fun createLoanTariff(
         loanTariffCreateRequestEntity: LoanTariffCreateRequestEntity,
     ): Flow<State<Completable>> = flow {
