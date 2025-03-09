@@ -3,6 +3,7 @@ package com.hits.bankemployee.di
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.hits.bankemployee.data.api.AuthApi
+import com.hits.bankemployee.data.api.BankAccountApi
 import com.hits.bankemployee.data.api.LoanApi
 import com.hits.bankemployee.data.api.ProfileApi
 import com.hits.bankemployee.data.interceptor.AuthInterceptor
@@ -66,6 +67,8 @@ private fun profileApi(retrofit: Retrofit) = retrofit.create(ProfileApi::class.j
 
 private fun loanApi(retrofit: Retrofit) = retrofit.create(LoanApi::class.java)
 
+private fun bankAccountApi(retrofit: Retrofit) = retrofit.create(BankAccountApi::class.java)
+
 fun networkModule() = module {
     singleOf(::loggingInterceptor)
     singleOf(::AuthInterceptor)
@@ -88,4 +91,5 @@ fun networkModule() = module {
     single { authApi(get(named(NO_AUTH_RETROFIT))) }
     single { profileApi(get(named(AUTH_RETROFIT))) }
     single { loanApi(get(named(AUTH_RETROFIT))) }
+    single { bankAccountApi(get(named(AUTH_RETROFIT))) }
 }

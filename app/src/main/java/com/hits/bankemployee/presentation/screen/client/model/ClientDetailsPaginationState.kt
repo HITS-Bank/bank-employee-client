@@ -30,14 +30,14 @@ data class ClientDetailsPaginationState(
     }
 
     override fun resetPagination(): PaginationStateHolder<ClientDetailsListItem> {
-        return copy(data = emptyList(), pageNumber = 0)
+        return copy(data = emptyList(), pageNumber = 1)
     }
 
     companion object {
         fun empty(client: ClientModel) = ClientDetailsPaginationState(
             paginationState = PaginationState.Idle,
             data = emptyList(),
-            pageNumber = 0,
+            pageNumber = 1,
             pageSize = ClientDetailsScreenViewModel.PAGE_SIZE,
             client = client,
             isDialogVisible = false,

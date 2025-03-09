@@ -27,14 +27,14 @@ data class TariffsPaginationState(
     }
 
     override fun resetPagination(): PaginationStateHolder<TariffModel> {
-        return copy(data = emptyList(), pageNumber = 0)
+        return copy(data = emptyList(), pageNumber = 1)
     }
 
     companion object {
         val EMPTY = TariffsPaginationState(
             paginationState = PaginationState.Idle,
             data = emptyList(),
-            pageNumber = 0,
+            pageNumber = 1,
             pageSize = TariffsScreenViewModel.PAGE_SIZE,
             queryDisplayText = "",
             query = "",

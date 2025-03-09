@@ -2,6 +2,7 @@ package com.hits.bankemployee.di
 
 import com.hits.bankemployee.data.datasource.SessionManager
 import com.hits.bankemployee.data.mapper.AuthMapper
+import com.hits.bankemployee.data.mapper.BankAccountMapper
 import com.hits.bankemployee.data.mapper.LoanMapper
 import com.hits.bankemployee.data.mapper.ProfileMapper
 import com.hits.bankemployee.data.repository.AuthRepository
@@ -20,6 +21,7 @@ fun dataModule() = module {
     singleOf(::AuthMapper)
     singleOf(::ProfileMapper)
     singleOf(::LoanMapper)
+    singleOf(::BankAccountMapper)
     singleOf(::AuthRepository) bind IAuthRepository::class
     singleOf(::ProfileRepository) bind IProfileRepository::class
     singleOf(::LoanRepository) bind ILoanRepository::class

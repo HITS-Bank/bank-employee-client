@@ -143,7 +143,7 @@ class ClientDetailsScreenViewModel(
     override fun getNextPageContents(pageNumber: Int): Flow<State<List<ClientDetailsListItem>>> =
         flow {
             emit(State.Loading)
-            if (pageNumber == 0) {
+            if (pageNumber == 1) {
                 bankAccountListLastPageNumber = null
             }
             val bankAccountPageNumber = bankAccountListLastPageNumber
@@ -152,7 +152,7 @@ class ClientDetailsScreenViewModel(
             } else {
                 val loans = loanInteractor.getLoans(
                     client.id,
-                    pageInfo = PageInfo(pageSize = PAGE_SIZE, pageNumber - bankAccountPageNumber),
+                    pageInfo = PageInfo(pageSize = PAGE_SIZE, pageNumber - bankAccountPageNumber + 1),
                 )
                 emit(loans.last().map { list -> list.map { mapper.map(it) } })
             }
@@ -168,7 +168,7 @@ class ClientDetailsScreenViewModel(
         val pageResult = accounts.last().map { list -> list.map { mapper.map(it) } }
         if (pageResult is State.Success) {
             val accountList = mutableListOf<ClientDetailsListItem>()
-            if (pageNumber == 0) {
+            if (pageNumber == 1) {
                 accountList.add(ClientDetailsListItem.AccountsHeader)
             }
             accountList.addAll(pageResult.data)
@@ -190,7 +190,7 @@ class ClientDetailsScreenViewModel(
         bankAccountListLastPageNumber = pageNumber
         val loans = loanInteractor.getLoans(
             client.id,
-            pageInfo = PageInfo(pageSize = PAGE_SIZE, 0),
+            pageInfo = PageInfo(pageSize = PAGE_SIZE, 1),
         )
         val loanPageResult = loans.last().map { list -> list.map { mapper.map(it) } }
         if (loanPageResult is State.Success) {

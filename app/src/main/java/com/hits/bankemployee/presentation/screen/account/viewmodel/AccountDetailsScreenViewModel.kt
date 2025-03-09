@@ -47,7 +47,7 @@ class AccountDetailsScreenViewModel(
     }
 
     override fun getNextPageContents(pageNumber: Int): Flow<State<List<AccountDetailsListItem>>> {
-        return if (pageNumber == 0) {
+        return if (pageNumber == 1) {
             if (accountBalance != null && accountStatusEntity != null) {
                 val accountListItems = getAccountInfoItemsFromArgs(
                     accountNumber,

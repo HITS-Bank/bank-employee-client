@@ -21,14 +21,14 @@ data class AccountDetailsPaginationState(
     }
 
     override fun resetPagination(): PaginationStateHolder<AccountDetailsListItem> {
-        return copy(data = emptyList(), pageNumber = 0)
+        return copy(data = emptyList(), pageNumber = 1)
     }
 
     companion object {
         val EMPTY = AccountDetailsPaginationState(
             paginationState = PaginationState.Idle,
             data = emptyList(),
-            pageNumber = 0,
+            pageNumber = 1,
             pageSize = AccountDetailsScreenViewModel.PAGE_SIZE,
         )
     }
