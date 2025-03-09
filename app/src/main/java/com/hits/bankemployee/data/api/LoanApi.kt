@@ -12,7 +12,7 @@ import retrofit2.http.Query
 
 interface LoanApi {
 
-    @GET("loan/tariffs")
+    @GET("credit/loan/tariffs")
     suspend fun getLoanTariffs(
         @Query("sortingProperty") sortingProperty: String,
         @Query("sortingOrder") sortingOrder: String,
@@ -21,12 +21,12 @@ interface LoanApi {
         @Query("nameQuery") nameQuery: String? = null,
     ): Response<LoanTariffsPage>
 
-    @POST("employee/loan/tariffs/delete")
+    @POST("credit/employee/loan/tariffs/delete")
     suspend fun deleteLoanTariff(
         @Body loanTariffDeleteRequest: LoanTariffDeleteRequest
     ): Response<ResponseBody>
 
-    @POST("employee/loan/tariffs/create")
+    @POST("credit/employee/loan/tariffs/create")
     suspend fun createLoanTariff(
         @Body loanTariffCreateRequest: LoanTariffCreateRequest
     ): Response<ResponseBody>

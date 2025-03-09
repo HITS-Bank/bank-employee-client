@@ -11,13 +11,13 @@ import retrofit2.http.Query
 
 interface AuthApi {
 
-    @POST("auth/login")
+    @POST("users/auth/login")
     suspend fun login(
         @Query("channel") channel: String,
         @Body request: LoginRequest,
     ): Response<TokenResponse>
 
-    @POST("auth/refresh")
+    @POST("users/auth/refresh")
     suspend fun refresh(
         @Header("Authorization") expiredToken: String,
         @Body request: RefreshRequest,
