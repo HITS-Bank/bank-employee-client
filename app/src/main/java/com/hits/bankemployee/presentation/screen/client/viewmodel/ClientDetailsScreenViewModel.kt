@@ -152,7 +152,7 @@ class ClientDetailsScreenViewModel(
             } else {
                 val loans = loanInteractor.getLoans(
                     client.id,
-                    pageInfo = PageInfo(pageSize = PAGE_SIZE, pageNumber - bankAccountPageNumber + 1),
+                    pageInfo = PageInfo(pageSize = PAGE_SIZE, pageNumber - bankAccountPageNumber),
                 )
                 emit(loans.last().map { list -> list.map { mapper.map(it) } })
             }
@@ -190,7 +190,7 @@ class ClientDetailsScreenViewModel(
         bankAccountListLastPageNumber = pageNumber
         val loans = loanInteractor.getLoans(
             client.id,
-            pageInfo = PageInfo(pageSize = PAGE_SIZE, 1),
+            pageInfo = PageInfo(pageSize = PAGE_SIZE, 0),
         )
         val loanPageResult = loans.last().map { list -> list.map { mapper.map(it) } }
         if (loanPageResult is State.Success) {

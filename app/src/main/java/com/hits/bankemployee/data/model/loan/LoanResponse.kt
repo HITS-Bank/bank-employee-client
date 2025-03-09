@@ -8,6 +8,6 @@ data class LoanResponse(
     val bankAccountNumber: String,
     val paymentAmount: String,
     val paymentSum: String,
-    val nexPaymentDateTime: String,
+    val nextPaymentDateTime: String,
     val currentDebt: String,
 )
