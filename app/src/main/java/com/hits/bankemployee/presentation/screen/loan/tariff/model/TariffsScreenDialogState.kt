@@ -14,7 +14,7 @@ sealed interface TariffsScreenDialogState {
         val interestRate: String,
     ) : TariffsScreenDialogState {
         val isDataValid: Boolean
-            get() = name.isNotBlank() && interestRate.isNotBlank() && interestRate.toFloatOrNull() != null
+            get() = name.isNotBlank() && interestRate.isNotBlank() && interestRate.toFloatOrNull() != null && interestRate.toFloat() >= 0 && interestRate.toFloat() <= 100
 
         companion object {
             val EMPTY = CreateTariff(name = "", interestRate = "")

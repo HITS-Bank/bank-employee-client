@@ -6,7 +6,9 @@ import com.hits.bankemployee.data.model.loan.LoanTariffsPage
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.HTTP
 import retrofit2.http.POST
 import retrofit2.http.Query
 
@@ -21,7 +23,7 @@ interface LoanApi {
         @Query("nameQuery") nameQuery: String? = null,
     ): Response<LoanTariffsPage>
 
-    @POST("credit/employee/loan/tariffs/delete")
+    @HTTP(method = "DELETE", path = "credit/employee/loan/tariffs/delete", hasBody = true)
     suspend fun deleteLoanTariff(
         @Body loanTariffDeleteRequest: LoanTariffDeleteRequest
     ): Response<ResponseBody>
