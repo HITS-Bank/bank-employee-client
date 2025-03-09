@@ -9,7 +9,7 @@ class ValidationInteractor(private val emailPattern: Pattern) {
     }
 
     fun isPasswordValid(password: String): Boolean {
-        return password.isNotBlank() && password.length >= 8
+        return password.isNotBlank()
     }
 
     fun isEmailValid(email: String): Boolean {
