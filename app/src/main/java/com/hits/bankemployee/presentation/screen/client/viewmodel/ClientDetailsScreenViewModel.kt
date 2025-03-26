@@ -123,7 +123,7 @@ class ClientDetailsScreenViewModel(
 
             is ClientDetailsScreenEvent.LoanClicked -> {
                 navigationManager.forwardWithCallbackResult(
-                    LoanDetails.destinationWithArgs(event.number)
+                    LoanDetails.destinationWithArgs(event.id)
                 ) {
                     onPaginationEvent(PaginationEvent.Reload)
                 }
@@ -131,7 +131,13 @@ class ClientDetailsScreenViewModel(
 
             is ClientDetailsScreenEvent.BankAccountClicked -> {
                 navigationManager.forwardWithCallbackResult(
-                    BankAccountDetails.withArgs(event.number, event.balance, event.status.toEntity().name)
+                    BankAccountDetails.withArgs(
+                        bankAccountId = event.id,
+                        bankAccountNumber = event.number,
+                        bankAccountBalance = event.balance,
+                        currencyCode = event.currencyCode.name,
+                        bankAccountStatus = event.status.toEntity().name,
+                    )
                 ) {
                     onPaginationEvent(PaginationEvent.Reload)
                 }
@@ -152,7 +158,7 @@ class ClientDetailsScreenViewModel(
             } else {
                 val loans = loanInteractor.getLoans(
                     client.id,
-                    pageInfo = PageInfo(pageSize = PAGE_SIZE, pageNumber - bankAccountPageNumber),
+                    pageInfo = PageInfo(pageSize = PAGE_SIZE, pageNumber - bankAccountPageNumber + 1),
                 )
                 emit(loans.last().map { list -> list.map { mapper.map(it) } })
             }
@@ -190,7 +196,7 @@ class ClientDetailsScreenViewModel(
         bankAccountListLastPageNumber = pageNumber
         val loans = loanInteractor.getLoans(
             client.id,
-            pageInfo = PageInfo(pageSize = PAGE_SIZE, 0),
+            pageInfo = PageInfo(pageSize = PAGE_SIZE, 1),
         )
         val loanPageResult = loans.last().map { list -> list.map { mapper.map(it) } }
         if (loanPageResult is State.Success) {

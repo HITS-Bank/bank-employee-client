@@ -29,15 +29,15 @@ class LoanDetailsMapper {
                 name = "Срок кредита (мес.)",
             ),
             LoanDetailsListItem.LoanDetailsProperty(
-                value = loan.amount.formatToSum(),
+                value = loan.amount.formatToSum(loan.currencyCode),
                 name = "Сумма кредита",
             ),
             LoanDetailsListItem.LoanDetailsProperty(
-                value = loan.paymentSum.formatToSum(),
+                value = loan.paymentSum.formatToSum(loan.currencyCode),
                 name = "Сумма выплат"
             ),
             LoanDetailsListItem.LoanDetailsProperty(
-                value = loan.paymentAmount.formatToSum(),
+                value = loan.paymentAmount.formatToSum(loan.currencyCode),
                 name = "Сумма платежа"
             ),
             LoanDetailsListItem.LoanDetailsProperty(
@@ -45,13 +45,13 @@ class LoanDetailsMapper {
                 name = "Время следующего платежа",
             ),
             LoanDetailsListItem.LoanDetailsProperty(
-                value = loan.currentDebt.formatToSum(),
+                value = loan.currentDebt.formatToSum(loan.currencyCode),
                 name = "Текущий долг",
             ),
             LoanDetailsListItem.LoanBankAccount(
                 value = loan.bankAccountNumber,
                 name = "Счет кредита",
-                accountNumber = loan.bankAccountNumber,
+                accountId = loan.bankAccountId,
             ),
         )
     }

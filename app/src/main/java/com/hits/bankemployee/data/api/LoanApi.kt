@@ -1,15 +1,13 @@
 package com.hits.bankemployee.data.api
 
-import com.hits.bankemployee.data.model.loan.LoanPage
 import com.hits.bankemployee.data.model.loan.LoanResponse
 import com.hits.bankemployee.data.model.loan.LoanTariffCreateRequest
-import com.hits.bankemployee.data.model.loan.LoanTariffDeleteRequest
-import com.hits.bankemployee.data.model.loan.LoanTariffsPage
+import com.hits.bankemployee.data.model.loan.LoanTariffResponse
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
-import retrofit2.http.HTTP
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -23,11 +21,11 @@ interface LoanApi {
         @Query("pageNumber") pageNumber: Int,
         @Query("pageSize") pageSize: Int,
         @Query("nameQuery") nameQuery: String? = null,
-    ): Response<LoanTariffsPage>
+    ): Response<List<LoanTariffResponse>>
 
-    @HTTP(method = "DELETE", path = "credit/employee/loan/tariffs/delete", hasBody = true)
+    @DELETE("credit/employee/loan/tariffs/{tariffId}/delete")
     suspend fun deleteLoanTariff(
-        @Body loanTariffDeleteRequest: LoanTariffDeleteRequest
+        @Path("tariffId") tariffId: String,
     ): Response<ResponseBody>
 
     @POST("credit/employee/loan/tariffs/create")
@@ -39,9 +37,9 @@ interface LoanApi {
     suspend fun getClientLoans(
         @Path("userId") userId: String,
         @Query("pageNumber") pageNumber: Int,
-        @Query("pageSize") pageSize: Int
-    ): Response<LoanPage>
+        @Query("pageSize") pageSize: Int,
+    ): Response<List<LoanResponse>>
 
-    @GET("credit/loan/{loanNumber}")
-    suspend fun getLoanByNumber(@Path("loanNumber") loanNumber: String): Response<LoanResponse>
+    @GET("credit/loan/{loanId}")
+    suspend fun getLoanById(@Path("loanid") loanId: String): Response<LoanResponse>
 }

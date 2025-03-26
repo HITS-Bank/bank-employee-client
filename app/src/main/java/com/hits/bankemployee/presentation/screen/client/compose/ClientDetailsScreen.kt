@@ -146,8 +146,10 @@ fun ClientDetailsScreen(viewModel: ClientDetailsScreenViewModel) {
                                         modifier = Modifier.clickable {
                                             onEvent(
                                                 ClientDetailsScreenEvent.BankAccountClicked(
+                                                    id = item.id,
                                                     number = item.number,
                                                     balance = item.balance,
+                                                    currencyCode = item.currencyCode,
                                                     status = item.status,
                                                 )
                                             )
@@ -162,7 +164,7 @@ fun ClientDetailsScreen(viewModel: ClientDetailsScreenViewModel) {
                                     is ClientDetailsListItem.LoanModel -> ListItem(
                                         modifier = Modifier.clickable {
                                             onEvent(
-                                                ClientDetailsScreenEvent.LoanClicked(item.number)
+                                                ClientDetailsScreenEvent.LoanClicked(item.id)
                                             )
                                         },
                                         icon = ListItemIcon.Vector(iconResId = R.drawable.ic_loan),

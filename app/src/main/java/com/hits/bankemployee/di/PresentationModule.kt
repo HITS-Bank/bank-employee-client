@@ -45,6 +45,8 @@ fun presentationModule() = module {
             parameters[0],
             parameters[1],
             parameters[2],
+            parameters[3],
+            parameters[4],
             get(),
             get(),
             get(),

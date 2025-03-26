@@ -1,6 +1,16 @@
 package com.hits.bankemployee.presentation.common
 
-fun String?.formatToSum(): String {
+import com.hits.bankemployee.domain.entity.bankaccount.CurrencyCode
+
+private fun  CurrencyCode.toSymbol(): Char {
+    return when (this) {
+        CurrencyCode.RUB -> '₽'
+        CurrencyCode.KZT -> '₸'
+        CurrencyCode.CNY -> '¥'
+    }
+}
+
+fun String?.formatToSum(currencyCode: CurrencyCode): String {
     if (this == null) return ""
 
     val integralPart = this.substringBefore(".")
@@ -10,7 +20,7 @@ fun String?.formatToSum(): String {
     }
 
     val digitsOnly = integralPart.replace("\\D".toRegex(), "")
-    if (digitsOnly.isEmpty()) return "0 ₽"
+    if (digitsOnly.isEmpty()) return "0 ${currencyCode.toSymbol()}"
 
     val formattedAmount = StringBuilder()
     var count = 0
@@ -23,8 +33,8 @@ fun String?.formatToSum(): String {
     }
 
     return if (fractionalPart.isNotBlank()) {
-        formattedAmount.reverse().toString() + "," + fractionalPart + " ₽"
+        formattedAmount.reverse().toString() + "," + fractionalPart + " ${currencyCode.toSymbol()}"
     } else {
-        formattedAmount.reverse().toString() + " ₽"
+        formattedAmount.reverse().toString() + " ${currencyCode.toSymbol()}"
     }
 }

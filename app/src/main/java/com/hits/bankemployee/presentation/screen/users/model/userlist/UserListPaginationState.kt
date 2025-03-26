@@ -24,14 +24,14 @@ data class UserListPaginationState(
     }
 
     override fun resetPagination(): PaginationStateHolder<UserModel> {
-        return copy(data = emptyList(), pageNumber = 0)
+        return copy(data = emptyList(), pageNumber = 1)
     }
 
     companion object {
         val EMPTY = UserListPaginationState(
             paginationState = PaginationState.Idle,
             data = emptyList(),
-            pageNumber = 0,
+            pageNumber = 1,
             pageSize = UserListViewModel.PAGE_SIZE,
             blockUserId = null,
             unblockUserId = null,

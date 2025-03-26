@@ -28,7 +28,7 @@ class ProfileRepository(
                 .toResult()
                 .also { result ->
                     if (result is Result.Success) {
-                        sessionManager.saveIsUserBlocked(result.data.isBanned)
+                        sessionManager.saveIsUserBlocked(result.data.isBlocked)
                     }
                 }
                 .map(mapper::map)
@@ -36,12 +36,12 @@ class ProfileRepository(
     }
 
     override suspend fun getProfilesPage(
-        roleType: RoleType,
+        roleType: RoleType?,
         page: PageInfo,
-        query: String?
+        query: String?,
     ): Result<List<ProfileEntity>> {
         return apiCall(Dispatchers.IO) {
-            profileApi.getProfilesPage(roleType.name, page.pageNumber, page.pageSize, query)
+            profileApi.getProfilesPage(roleType?.name, page.pageNumber, page.pageSize, query)
                 .toResult()
                 .map { list -> list.map { profile -> mapper.map(profile) } }
         }

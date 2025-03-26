@@ -21,7 +21,7 @@ class AccountDetailsScreenModelMapper {
         val secondProperty = when(account.status) {
             BankAccountStatusEntity.OPEN -> AccountDetailsListItem.AccountDetailsProperty(
                 name = "Баланс",
-                value = account.balance.formatToSum(),
+                value = account.balance.formatToSum(account.currencyCode),
             )
             BankAccountStatusEntity.CLOSED -> AccountDetailsListItem.AccountDetailsProperty(
                 name = "Статус",
@@ -46,29 +46,39 @@ class AccountDetailsScreenModelMapper {
             id = operation.id,
             date = formatter.format(operation.date),
             amount = when (operation.type) {
-                OperationTypeEntity.WITHDRAW -> "-${operation.amount.formatToSum()}"
-                OperationTypeEntity.TOP_UP -> "+${operation.amount.formatToSum()}"
-                OperationTypeEntity.LOAN_PAYMENT -> "-${operation.amount.formatToSum()}"
+                OperationTypeEntity.WITHDRAW -> "-${operation.amount.formatToSum(operation.currencyCode)}"
+                OperationTypeEntity.TOP_UP -> "+${operation.amount.formatToSum(operation.currencyCode)}"
+                OperationTypeEntity.LOAN_PAYMENT -> "-${operation.amount.formatToSum(operation.currencyCode)}"
+                OperationTypeEntity.TRANSFER_INCOMING -> "+${operation.amount.formatToSum(operation.currencyCode)}"
+                OperationTypeEntity.TRANSFER_OUTGOING -> "-${operation.amount.formatToSum(operation.currencyCode)}"
             },
             operationTitle = when (operation.type) {
                 OperationTypeEntity.WITHDRAW -> "Снятие"
                 OperationTypeEntity.TOP_UP -> "Пополнение"
                 OperationTypeEntity.LOAN_PAYMENT -> "Выплата по кредиту"
+                OperationTypeEntity.TRANSFER_INCOMING -> "Входящий перевод"
+                OperationTypeEntity.TRANSFER_OUTGOING -> "Исходящий перевод"
             },
             amountColor = when (operation.type) {
                 OperationTypeEntity.WITHDRAW -> withdrawForeground
                 OperationTypeEntity.TOP_UP -> topUpForeground
                 OperationTypeEntity.LOAN_PAYMENT -> withdrawForeground
+                OperationTypeEntity.TRANSFER_INCOMING -> topUpForeground
+                OperationTypeEntity.TRANSFER_OUTGOING -> withdrawForeground
             },
             iconColor = when (operation.type) {
                 OperationTypeEntity.WITHDRAW -> withdrawForeground
                 OperationTypeEntity.TOP_UP -> topUpForeground
                 OperationTypeEntity.LOAN_PAYMENT -> withdrawForeground
+                OperationTypeEntity.TRANSFER_INCOMING -> topUpForeground
+                OperationTypeEntity.TRANSFER_OUTGOING -> withdrawForeground
             },
             iconBackground = when (operation.type) {
                 OperationTypeEntity.WITHDRAW -> withdrawBackground
                 OperationTypeEntity.TOP_UP -> topUpBackground
                 OperationTypeEntity.LOAN_PAYMENT -> withdrawBackground
+                OperationTypeEntity.TRANSFER_INCOMING -> topUpBackground
+                OperationTypeEntity.TRANSFER_OUTGOING -> withdrawBackground
             },
         )
     }

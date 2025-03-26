@@ -15,24 +15,24 @@ class BankAccountInteractor(
 
     fun getAccountList(
         userId: String,
-        pageInfo: PageInfo
+        pageInfo: PageInfo,
     ): Flow<State<List<BankAccountEntity>>> = flow {
         emit(State.Loading)
         emit(bankAccountRepository.getAccountList(userId, pageInfo).toState())
     }
 
     fun getAccountDetails(
-        accountNumber: String
+        accountId: String,
     ): Flow<State<BankAccountEntity>> = flow {
         emit(State.Loading)
-        emit(bankAccountRepository.getAccountDetails(accountNumber).toState())
+        emit(bankAccountRepository.getAccountDetails(accountId).toState())
     }
 
     fun getAccountOperationHistory(
-        accountNumber: String,
-        pageInfo: PageInfo
+        accountId: String,
+        pageInfo: PageInfo,
     ): Flow<State<List<OperationHistoryEntity>>> = flow {
         emit(State.Loading)
-        emit(bankAccountRepository.getAccountOperationHistory(accountNumber, pageInfo).toState())
+        emit(bankAccountRepository.getAccountOperationHistory(accountId, pageInfo).toState())
     }
 }

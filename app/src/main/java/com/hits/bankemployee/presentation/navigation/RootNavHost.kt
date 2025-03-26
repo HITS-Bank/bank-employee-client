@@ -14,6 +14,7 @@ import com.hits.bankemployee.presentation.screen.client.compose.ClientDetailsScr
 import com.hits.bankemployee.presentation.screen.client.model.ClientModel
 import com.hits.bankemployee.presentation.screen.client.viewmodel.ClientDetailsScreenViewModel
 import com.hits.bankemployee.domain.entity.bankaccount.BankAccountStatusEntity
+import com.hits.bankemployee.domain.entity.bankaccount.CurrencyCode
 import com.hits.bankemployee.presentation.screen.loan.details.compose.LoanDetailsScreen
 import com.hits.bankemployee.presentation.screen.loan.details.viewmodel.LoanDetailsViewModel
 import com.hits.bankemployee.presentation.screen.login.compose.LoginScreenWrapper
@@ -52,7 +53,8 @@ fun RootNavHost(
         ) { backStackEntry ->
             val userId = backStackEntry.arguments?.getString(UserDetails.ARG_USER_ID)
             val userFullname = backStackEntry.arguments?.getString(UserDetails.ARG_USER_FULLNAME)
-            val isUserBlocked = backStackEntry.arguments?.getBoolean(UserDetails.ARG_IS_USER_BLOCKED)
+            val isUserBlocked =
+                backStackEntry.arguments?.getBoolean(UserDetails.ARG_IS_USER_BLOCKED)
 
             if (userId != null && userFullname != null && isUserBlocked != null) {
                 val clientInfo = ClientModel(
@@ -73,10 +75,18 @@ fun RootNavHost(
         composable(
             route = BankAccountDetails.route,
             arguments = listOf(
-                navArgument(BankAccountDetails.ARG_BANK_ACCOUNT_NUMBER) {
+                navArgument(BankAccountDetails.ARG_BANK_ACCOUNT_ID) {
                     type = NavType.StringType
                 },
+                navArgument(BankAccountDetails.ARG_BANK_ACCOUNT_NUMBER) {
+                    type = NavType.StringType
+                    nullable = true
+                },
                 navArgument(BankAccountDetails.ARG_BANK_ACCOUNT_BALANCE) {
+                    type = NavType.StringType
+                    nullable = true
+                },
+                navArgument(BankAccountDetails.ARG_CURRENCY_CODE) {
                     type = NavType.StringType
                     nullable = true
                 },
@@ -86,15 +96,33 @@ fun RootNavHost(
                 },
             ),
         ) { backStackEntry ->
-            val bankAccountNumber = backStackEntry.arguments?.getString(BankAccountDetails.ARG_BANK_ACCOUNT_NUMBER)
-            val bankAccountBalance = backStackEntry.arguments?.getString(BankAccountDetails.ARG_BANK_ACCOUNT_BALANCE)
-            val bankAccountStatus = backStackEntry.arguments?.getString(BankAccountDetails.ARG_BANK_ACCOUNT_STATUS)?.run {
-                BankAccountStatusEntity.valueOf(this)
-            }
+            val bankAccountId =
+                backStackEntry.arguments?.getString(BankAccountDetails.ARG_BANK_ACCOUNT_ID)
+            val bankAccountNumber =
+                backStackEntry.arguments?.getString(BankAccountDetails.ARG_BANK_ACCOUNT_NUMBER)
+            val bankAccountBalance =
+                backStackEntry.arguments?.getString(BankAccountDetails.ARG_BANK_ACCOUNT_BALANCE)
+            val currencyCode =
+                backStackEntry.arguments?.getString(BankAccountDetails.ARG_CURRENCY_CODE)?.run {
+                    CurrencyCode.valueOf(this)
+                }
+            val bankAccountStatus =
+                backStackEntry.arguments?.getString(BankAccountDetails.ARG_BANK_ACCOUNT_STATUS)
+                    ?.run {
+                        BankAccountStatusEntity.valueOf(this)
+                    }
 
-            if (bankAccountNumber != null) {
+            if (bankAccountId != null) {
                 val viewModel: AccountDetailsScreenViewModel = koinViewModel(
-                    parameters = { parametersOf(bankAccountNumber, bankAccountBalance, bankAccountStatus) },
+                    parameters = {
+                        parametersOf(
+                            bankAccountId,
+                            bankAccountNumber,
+                            bankAccountBalance,
+                            currencyCode,
+                            bankAccountStatus,
+                        )
+                    },
                 )
                 AccountDetailsScreen(viewModel)
             } else {
@@ -106,16 +134,16 @@ fun RootNavHost(
         composable(
             route = LoanDetails.route,
             arguments = listOf(
-                navArgument(LoanDetails.ARG_LOAN_NUMBER) {
+                navArgument(LoanDetails.ARG_LOAN_ID) {
                     type = NavType.StringType
                 }
             ),
         ) {
-            val loanNumber = it.arguments?.getString(LoanDetails.ARG_LOAN_NUMBER)
+            val loanId = it.arguments?.getString(LoanDetails.ARG_LOAN_ID)
 
-            if (loanNumber != null) {
+            if (loanId != null) {
                 val viewModel: LoanDetailsViewModel = koinViewModel(
-                    parameters = { parametersOf(loanNumber) },
+                    parameters = { parametersOf(loanId) },
                 )
                 LoanDetailsScreen(viewModel)
             } else {

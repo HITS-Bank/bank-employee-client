@@ -23,8 +23,8 @@ interface ILoanRepository {
         pageInfo: PageInfo,
     ): Result<List<LoanEntity>>
 
-    suspend fun getLoanByNumber(
-        loanNumber: String,
+    suspend fun getLoanById(
+        loanId: String,
     ): Result<LoanEntity>
 
     suspend fun createLoanTariff(loanTariffCreateRequestEntity: LoanTariffCreateRequestEntity): Result<Completable>

@@ -9,15 +9,15 @@ interface IBankAccountRepository {
 
     suspend fun getAccountList(
         userId: String,
-        pageInfo: PageInfo
+        pageInfo: PageInfo,
     ): Result<List<BankAccountEntity>>
 
     suspend fun getAccountDetails(
-        accountNumber: String
+        accountId: String,
     ): Result<BankAccountEntity>
 
     suspend fun getAccountOperationHistory(
-        accountNumber: String,
-        pageInfo: PageInfo
+        accountId: String,
+        pageInfo: PageInfo,
     ): Result<List<OperationHistoryEntity>>
 }

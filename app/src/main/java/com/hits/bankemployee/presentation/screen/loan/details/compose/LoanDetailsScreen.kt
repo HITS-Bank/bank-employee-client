@@ -116,7 +116,7 @@ private fun LoanDetailsScreenContent(
                     )
 
                     is LoanDetailsListItem.LoanBankAccount -> ListItem(
-                        modifier = Modifier.clickable { onEvent(LoanDetailsEvent.OpenBankAccount(item.accountNumber)) },
+                        modifier = Modifier.clickable { onEvent(LoanDetailsEvent.OpenBankAccount(item.accountId)) },
                         icon = ListItemIcon.None,
                         divider = Divider.None,
                         padding = PaddingValues(top = 12.dp, bottom = 12.dp, end = 16.dp),

@@ -6,5 +6,6 @@ data class OperationHistoryEntity(
     val id: String,
     val date: LocalDateTime,
     val amount: String,
-    val type: OperationTypeEntity
+    val currencyCode: CurrencyCode,
+    val type: OperationTypeEntity,
 )

@@ -12,7 +12,7 @@ interface IProfileRepository {
     suspend fun getSelfProfile(): Result<ProfileEntity>
 
     suspend fun getProfilesPage(
-        roleType: RoleType,
+        roleType: RoleType?,
         page: PageInfo,
         query: String? = null,
     ): Result<List<ProfileEntity>>

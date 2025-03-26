@@ -10,6 +10,7 @@ import com.hits.bankemployee.domain.common.mergeWith
 import com.hits.bankemployee.domain.entity.PageInfo
 import com.hits.bankemployee.domain.entity.bankaccount.BankAccountEntity
 import com.hits.bankemployee.domain.entity.bankaccount.BankAccountStatusEntity
+import com.hits.bankemployee.domain.entity.bankaccount.CurrencyCode
 import com.hits.bankemployee.domain.interactor.BankAccountInteractor
 import com.hits.bankemployee.presentation.common.BankUiState
 import com.hits.bankemployee.presentation.navigation.base.NavigationManager
@@ -24,8 +25,10 @@ import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
 
 class AccountDetailsScreenViewModel(
-    private val accountNumber: String,
+    private val accountId: String,
+    private val accountNumber: String?,
     private val accountBalance: String?,
+    private val currencyCode: CurrencyCode?,
     private val accountStatusEntity: BankAccountStatusEntity?,
     private val bankAccountInteractor: BankAccountInteractor,
     private val mapper: AccountDetailsScreenModelMapper,
@@ -48,10 +51,12 @@ class AccountDetailsScreenViewModel(
 
     override fun getNextPageContents(pageNumber: Int): Flow<State<List<AccountDetailsListItem>>> {
         return if (pageNumber == 1) {
-            if (accountBalance != null && accountStatusEntity != null) {
+            if (accountNumber != null && accountBalance != null && currencyCode != null && accountStatusEntity != null) {
                 val accountListItems = getAccountInfoItemsFromArgs(
+                    accountId,
                     accountNumber,
                     accountBalance,
+                    currencyCode,
                     accountStatusEntity,
                 )
                 loadOperationHistoryPage(pageNumber, accountListItems)
@@ -59,7 +64,7 @@ class AccountDetailsScreenViewModel(
                 flow {
                     emit(State.Loading)
                     coroutineScope {
-                        val accountListItemsRequest = async { tryLoadAccountInfoItems(accountNumber) }
+                        val accountListItemsRequest = async { tryLoadAccountInfoItems(accountId) }
                         val operationHistoryRequest = async { loadOperationHistoryPage(pageNumber).last() }
                         val accountListItemsResult = accountListItemsRequest.await()
                         val operationHistoryResult = operationHistoryRequest.await()
@@ -74,27 +79,31 @@ class AccountDetailsScreenViewModel(
         }
     }
 
-    private suspend fun tryLoadAccountInfoItems(accountNumber: String): State<List<AccountDetailsListItem>> {
-        return bankAccountInteractor.getAccountDetails(accountNumber).last().map { accountEntity ->
+    private suspend fun tryLoadAccountInfoItems(accountId: String): State<List<AccountDetailsListItem>> {
+        return bankAccountInteractor.getAccountDetails(accountId).last().map { accountEntity ->
             val account = mapper.map(accountEntity)
             listOf(
                 AccountDetailsListItem.AccountDetailsHeader,
                 *account.toTypedArray(),
-                AccountDetailsListItem.OperationHistoryHeader
+                AccountDetailsListItem.OperationHistoryHeader,
             )
         }
     }
 
     private fun getAccountInfoItemsFromArgs(
+        accountId: String,
         accountNumber: String,
         accountBalance: String,
+        currencyCode: CurrencyCode,
         accountStatusEntity: BankAccountStatusEntity
     ): List<AccountDetailsListItem> {
         val account = mapper.map(
             BankAccountEntity(
+                accountId,
                 accountNumber,
                 accountBalance,
-                accountStatusEntity
+                currencyCode,
+                accountStatusEntity,
             )
         )
         val accountListItems = listOf(
@@ -110,7 +119,7 @@ class AccountDetailsScreenViewModel(
         prependData: List<AccountDetailsListItem> = emptyList()
     ): Flow<State<List<AccountDetailsListItem>>> {
         return bankAccountInteractor.getAccountOperationHistory(
-            accountNumber = accountNumber,
+            accountId = accountId,
             pageInfo = PageInfo(pageSize = PAGE_SIZE, pageNumber = pageNumber),
         ).map { state ->
             state.map { list ->

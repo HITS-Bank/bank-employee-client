@@ -12,10 +12,12 @@ class ClientDetailsScreenModelMapper {
 
     fun map(bankAccountEntity: BankAccountEntity): ClientDetailsListItem.BankAccountModel {
         return ClientDetailsListItem.BankAccountModel(
+            id = bankAccountEntity.id,
             number = bankAccountEntity.number,
             balance = bankAccountEntity.balance,
+            currencyCode = bankAccountEntity.currencyCode,
             description = when (bankAccountEntity.status.toStatus()) {
-                BankAccountStatus.OPEN -> "Баланс: ${bankAccountEntity.balance.formatToSum()}"
+                BankAccountStatus.OPEN -> "Баланс: ${bankAccountEntity.balance.formatToSum(bankAccountEntity.currencyCode)}"
                 BankAccountStatus.CLOSED -> "Закрыт"
                 BankAccountStatus.BLOCKED -> "Заблокирован"
             },
@@ -32,11 +34,12 @@ class ClientDetailsScreenModelMapper {
 
     fun map(loanEntity: LoanEntity): ClientDetailsListItem.LoanModel {
         return ClientDetailsListItem.LoanModel(
+            id = loanEntity.id,
             number = loanEntity.number,
-            description = "Долг: ${loanEntity.currentDebt.formatToSum()}",
+            description = "Долг: ${loanEntity.currentDebt.formatToSum(loanEntity.currencyCode)}",
             descriptionColorProvider = {
                 MaterialTheme.colorScheme.onSurfaceVariant
-            }
+            },
         )
     }
 }

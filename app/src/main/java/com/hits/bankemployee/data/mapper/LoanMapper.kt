@@ -28,13 +28,16 @@ class LoanMapper {
 
     fun map(loanResponse: LoanResponse): LoanEntity {
         return LoanEntity(
+            id = loanResponse.id,
             number = loanResponse.number,
             tariff = map(loanResponse.tariff),
             amount = loanResponse.amount,
             termInMonths = loanResponse.termInMonths,
+            bankAccountId = loanResponse.bankAccountId,
             bankAccountNumber = loanResponse.bankAccountNumber,
             paymentAmount = loanResponse.paymentAmount,
             paymentSum = loanResponse.paymentSum,
+            currencyCode = loanResponse.currencyCode,
             nextPaymentDateTime = LocalDateTime.parse(loanResponse.nextPaymentDateTime).atZone(
                 ZoneOffset.UTC).toLocalDateTime(),
             currentDebt = loanResponse.currentDebt,

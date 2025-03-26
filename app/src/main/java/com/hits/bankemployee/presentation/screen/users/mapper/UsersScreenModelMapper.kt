@@ -20,7 +20,7 @@ class UsersScreenModelMapper {
                 fullName = "${profile.firstName} ${profile.lastName}",
                 status = when (profile.isBanned) {
                     true -> "Заблокирован"
-                    false -> profile.role.toUserRole().title
+                    false -> profile.roles.joinToString { it.toUserRole().title }
                 },
                 actionIconResId = when (profile.isBanned) {
                     true -> R.drawable.ic_unblock

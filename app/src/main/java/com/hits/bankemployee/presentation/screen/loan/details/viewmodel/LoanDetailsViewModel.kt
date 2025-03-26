@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class LoanDetailsViewModel(
-    private val loanNumber: String,
+    private val loanId: String,
     private val loanInteractor: LoanInteractor,
     private val mapper: LoanDetailsMapper,
     private val navigationManager: NavigationManager,
@@ -37,10 +37,10 @@ class LoanDetailsViewModel(
             is LoanDetailsEvent.OpenBankAccount -> {
                 navigationManager.forwardWithCallbackResult(
                     BankAccountDetails.withArgs(
-                        bankAccountNumber = event.accountNumber,
+                        bankAccountId = event.accountId,
                     )
                 ) {
-                    forceReloadLoanDetails(loanNumber)
+                    forceReloadLoanDetails(loanId)
                 }
             }
 
@@ -51,11 +51,11 @@ class LoanDetailsViewModel(
     }
 
     private fun loadLoanDetails() {
-        forceReloadLoanDetails(loanNumber)
+        forceReloadLoanDetails(loanId)
     }
 
-    private fun forceReloadLoanDetails(loanNumber: String) {
-        val loanEntityRequest = loanInteractor.getLoanByNumber(loanNumber)
+    private fun forceReloadLoanDetails(loanId: String) {
+        val loanEntityRequest = loanInteractor.getLoanById(loanId)
         viewModelScope.launch {
             loanEntityRequest.collectLatest { state ->
                 _state.update {

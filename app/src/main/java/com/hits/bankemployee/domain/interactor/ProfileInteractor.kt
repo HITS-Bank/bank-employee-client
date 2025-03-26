@@ -16,7 +16,7 @@ class ProfileInteractor(
 ) {
 
     fun getProfilesPage(
-        roleType: RoleType,
+        roleType: RoleType?,
         page: PageInfo,
         query: String? = null,
     ): Flow<State<List<ProfileEntity>>> = flow {
