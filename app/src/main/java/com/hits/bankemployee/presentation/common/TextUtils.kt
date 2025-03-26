@@ -10,7 +10,7 @@ private fun  CurrencyCode.toSymbol(): Char {
     }
 }
 
-fun String?.formatToSum(currencyCode: CurrencyCode): String {
+fun String?.formatToSum(currencyCode: CurrencyCode, isWithoutSpacers: Boolean = false): String {
     if (this == null) return ""
 
     val integralPart = this.substringBefore(".")
@@ -27,7 +27,7 @@ fun String?.formatToSum(currencyCode: CurrencyCode): String {
     for (i in digitsOnly.length - 1 downTo 0) {
         formattedAmount.append(digitsOnly[i])
         count++
-        if (count % 3 == 0 && i != 0) {
+        if (count % 3 == 0 && i != 0 && !isWithoutSpacers) {
             formattedAmount.append(' ')
         }
     }

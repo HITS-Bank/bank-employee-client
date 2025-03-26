@@ -46,11 +46,11 @@ class AccountDetailsScreenModelMapper {
             id = operation.id,
             date = formatter.format(operation.date),
             amount = when (operation.type) {
-                OperationTypeEntity.WITHDRAW -> "-${operation.amount.formatToSum(operation.currencyCode)}"
-                OperationTypeEntity.TOP_UP -> "+${operation.amount.formatToSum(operation.currencyCode)}"
-                OperationTypeEntity.LOAN_PAYMENT -> "-${operation.amount.formatToSum(operation.currencyCode)}"
-                OperationTypeEntity.TRANSFER_INCOMING -> "+${operation.amount.formatToSum(operation.currencyCode)}"
-                OperationTypeEntity.TRANSFER_OUTGOING -> "-${operation.amount.formatToSum(operation.currencyCode)}"
+                OperationTypeEntity.WITHDRAW -> "-${operation.amount.formatToSum(operation.currencyCode, true)}"
+                OperationTypeEntity.TOP_UP -> "+${operation.amount.formatToSum(operation.currencyCode, true)}"
+                OperationTypeEntity.LOAN_PAYMENT -> "-${operation.amount.formatToSum(operation.currencyCode, true)}"
+                OperationTypeEntity.TRANSFER_INCOMING -> "+${operation.amount.formatToSum(operation.currencyCode, true)}"
+                OperationTypeEntity.TRANSFER_OUTGOING -> "-${operation.amount.formatToSum(operation.currencyCode, true)}"
             },
             operationTitle = when (operation.type) {
                 OperationTypeEntity.WITHDRAW -> "Снятие"
