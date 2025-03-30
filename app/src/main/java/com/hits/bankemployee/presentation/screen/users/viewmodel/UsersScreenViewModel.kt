@@ -14,6 +14,7 @@ import com.hits.bankemployee.presentation.screen.users.model.CreateUserDialogSta
 import com.hits.bankemployee.presentation.screen.users.model.UsersScreenModel
 import com.hits.bankemployee.presentation.screen.users.model.getIfShown
 import com.hits.bankemployee.presentation.screen.users.model.updateIfShown
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,8 +25,10 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class UsersScreenViewModel(
+@HiltViewModel
+class UsersScreenViewModel @Inject constructor(
     private val validationInteractor: ValidationInteractor,
     private val profileInteractor: ProfileInteractor,
     private val mapper: UsersScreenModelMapper,

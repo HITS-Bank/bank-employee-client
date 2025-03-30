@@ -24,6 +24,10 @@ import com.hits.bankemployee.presentation.screen.client.model.ClientDetailsListI
 import com.hits.bankemployee.presentation.screen.client.model.ClientDetailsPaginationState
 import com.hits.bankemployee.presentation.screen.client.model.ClientModel
 import com.hits.bankemployee.presentation.screen.client.model.toEntity
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -33,8 +37,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 
-class ClientDetailsScreenViewModel(
-    private val client: ClientModel,
+@HiltViewModel(assistedFactory = ClientDetailsScreenViewModel.Factory::class)
+class ClientDetailsScreenViewModel @AssistedInject constructor(
+    @Assisted private val client: ClientModel,
     private val profileInteractor: ProfileInteractor,
     private val bankAccountInteractor: BankAccountInteractor,
     private val loanInteractor: LoanInteractor,
@@ -211,5 +216,10 @@ class ClientDetailsScreenViewModel(
 
     companion object {
         const val PAGE_SIZE = 5
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(client: ClientModel): ClientDetailsScreenViewModel
     }
 }

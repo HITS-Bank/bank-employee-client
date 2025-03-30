@@ -12,8 +12,9 @@ import com.hits.bankemployee.domain.entity.loan.LoanTariffSortingProperty
 import com.hits.bankemployee.domain.repository.ILoanRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class LoanInteractor(private val loanRepository: ILoanRepository) {
+class LoanInteractor @Inject constructor(private val loanRepository: ILoanRepository) {
 
     fun getLoanTariffs(
         pageInfo: PageInfo,

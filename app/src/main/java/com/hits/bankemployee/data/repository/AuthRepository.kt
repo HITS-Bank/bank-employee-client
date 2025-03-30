@@ -13,8 +13,11 @@ import com.hits.bankemployee.domain.entity.LoginRequestEntity
 import com.hits.bankemployee.domain.repository.IAuthRepository
 import com.hits.bankemployee.domain.common.Result
 import kotlinx.coroutines.Dispatchers
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AuthRepository(
+@Singleton
+class AuthRepository @Inject constructor(
     private val authApi: AuthApi,
     private val mapper: AuthMapper,
     private val sessionManager: SessionManager,

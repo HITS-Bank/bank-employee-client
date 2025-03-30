@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hits.bankemployee.R
 import com.hits.bankemployee.presentation.common.LocalSnackbarController
@@ -49,10 +50,9 @@ import com.hits.bankemployee.presentation.screen.loan.tariff.model.SortingOrder
 import com.hits.bankemployee.presentation.screen.loan.tariff.model.SortingProperty
 import com.hits.bankemployee.presentation.screen.loan.tariff.model.TariffsScreenDialogState
 import com.hits.bankemployee.presentation.screen.loan.tariff.viewmodel.TariffsScreenViewModel
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun TariffsScreen(viewModel: TariffsScreenViewModel = koinViewModel()) {
+fun TariffsScreen(viewModel: TariffsScreenViewModel = hiltViewModel()) {
     val snackbarController = LocalSnackbarController.current
     val state by viewModel.state.collectAsStateWithLifecycle()
     val onEvent = rememberCallback(viewModel::onEvent)

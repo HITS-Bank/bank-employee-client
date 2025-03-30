@@ -9,8 +9,9 @@ import com.hits.bankemployee.presentation.screen.users.model.UserRole
 import com.hits.bankemployee.presentation.screen.users.model.toRoleType
 import com.hits.bankemployee.presentation.screen.users.model.toUserRole
 import com.hits.bankemployee.presentation.screen.users.model.userlist.UserModel
+import javax.inject.Inject
 
-class UsersScreenModelMapper {
+class UsersScreenModelMapper @Inject constructor() {
 
     fun map(usersPage: List<ProfileEntity>): List<UserModel> {
         return usersPage.map { profile ->

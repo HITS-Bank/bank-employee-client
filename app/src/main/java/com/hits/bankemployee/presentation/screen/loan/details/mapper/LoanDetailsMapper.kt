@@ -4,8 +4,9 @@ import com.hits.bankemployee.domain.entity.loan.LoanEntity
 import com.hits.bankemployee.presentation.common.formatToSum
 import com.hits.bankemployee.presentation.screen.loan.details.model.LoanDetailsListItem
 import java.time.format.DateTimeFormatter
+import javax.inject.Inject
 
-class LoanDetailsMapper {
+class LoanDetailsMapper @Inject constructor() {
 
     private val dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
 

@@ -4,8 +4,9 @@ import com.hits.bankemployee.domain.entity.loan.LoanTariffCreateRequestEntity
 import com.hits.bankemployee.domain.entity.loan.LoanTariffEntity
 import com.hits.bankemployee.presentation.screen.loan.tariff.model.TariffModel
 import com.hits.bankemployee.presentation.screen.loan.tariff.model.TariffsScreenDialogState
+import javax.inject.Inject
 
-class TariffsScreenModelMapper {
+class TariffsScreenModelMapper @Inject constructor() {
 
     fun map(loanTariffEntity: LoanTariffEntity): TariffModel {
         return TariffModel(

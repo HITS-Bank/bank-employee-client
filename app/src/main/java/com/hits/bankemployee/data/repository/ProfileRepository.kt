@@ -15,8 +15,11 @@ import com.hits.bankemployee.domain.entity.RegisterRequestEntity
 import com.hits.bankemployee.domain.entity.RoleType
 import com.hits.bankemployee.domain.repository.IProfileRepository
 import kotlinx.coroutines.Dispatchers
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ProfileRepository(
+@Singleton
+class ProfileRepository @Inject constructor(
     private val profileApi: ProfileApi,
     private val sessionManager: SessionManager,
     private val mapper: ProfileMapper,

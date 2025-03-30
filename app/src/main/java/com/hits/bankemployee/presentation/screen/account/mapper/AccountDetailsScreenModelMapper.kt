@@ -12,8 +12,9 @@ import com.hits.bankemployee.presentation.theme.withdrawBackground
 import com.hits.bankemployee.presentation.theme.withdrawForeground
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import javax.inject.Inject
 
-class AccountDetailsScreenModelMapper {
+class AccountDetailsScreenModelMapper @Inject constructor() {
 
     private val formatter = DateTimeFormatter.ofPattern("HH:mm, dd MMMM yyyy", Locale("ru"))
 

@@ -17,6 +17,10 @@ import com.hits.bankemployee.presentation.navigation.base.NavigationManager
 import com.hits.bankemployee.presentation.navigation.base.back
 import com.hits.bankemployee.presentation.pagination.PaginationEvent
 import com.hits.bankemployee.presentation.pagination.PaginationViewModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -24,12 +28,19 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
 
-class AccountDetailsScreenViewModel(
-    private val accountId: String,
-    private val accountNumber: String?,
-    private val accountBalance: String?,
-    private val currencyCode: CurrencyCode?,
-    private val accountStatusEntity: BankAccountStatusEntity?,
+private const val ACCOUNT_ID = "accountId"
+private const val ACCOUNT_NUMBER = "accountNumber"
+private const val ACCOUNT_BALANCE = "accountBalance"
+private const val CURRENCY_CODE = "currencyCode"
+private const val ACCOUNT_STATUS = "accountStatus"
+
+@HiltViewModel(assistedFactory = AccountDetailsScreenViewModel.Factory::class)
+class AccountDetailsScreenViewModel @AssistedInject constructor(
+    @Assisted(ACCOUNT_ID) private val accountId: String,
+    @Assisted(ACCOUNT_NUMBER) private val accountNumber: String?,
+    @Assisted(ACCOUNT_BALANCE) private val accountBalance: String?,
+    @Assisted(CURRENCY_CODE) private val currencyCode: CurrencyCode?,
+    @Assisted(ACCOUNT_STATUS) private val accountStatusEntity: BankAccountStatusEntity?,
     private val bankAccountInteractor: BankAccountInteractor,
     private val mapper: AccountDetailsScreenModelMapper,
     private val navigationManager: NavigationManager,
@@ -132,5 +143,16 @@ class AccountDetailsScreenViewModel(
 
     companion object {
         const val PAGE_SIZE = 5
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(
+            @Assisted(ACCOUNT_ID) accountId: String,
+            @Assisted(ACCOUNT_NUMBER) accountNumber: String?,
+            @Assisted(ACCOUNT_BALANCE) accountBalance: String?,
+            @Assisted(CURRENCY_CODE) currencyCode: CurrencyCode?,
+            @Assisted(ACCOUNT_STATUS) accountStatusEntity: BankAccountStatusEntity?,
+        ): AccountDetailsScreenViewModel
     }
 }

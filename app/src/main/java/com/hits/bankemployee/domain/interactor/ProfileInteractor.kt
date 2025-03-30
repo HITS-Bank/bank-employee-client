@@ -10,8 +10,9 @@ import com.hits.bankemployee.domain.entity.RoleType
 import com.hits.bankemployee.domain.repository.IProfileRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class ProfileInteractor(
+class ProfileInteractor @Inject constructor(
     private val profileRepository: IProfileRepository
 ) {
 

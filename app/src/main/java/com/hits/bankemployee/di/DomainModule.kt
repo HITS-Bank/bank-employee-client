@@ -1,18 +1,18 @@
 package com.hits.bankemployee.di
 
 import android.util.Patterns
-import com.hits.bankemployee.domain.interactor.AuthInteractor
-import com.hits.bankemployee.domain.interactor.BankAccountInteractor
-import com.hits.bankemployee.domain.interactor.LoanInteractor
-import com.hits.bankemployee.domain.interactor.ProfileInteractor
 import com.hits.bankemployee.domain.interactor.ValidationInteractor
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.module
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
-fun domainModule() = module {
-    singleOf(::AuthInteractor)
-    singleOf(::ProfileInteractor)
-    single { ValidationInteractor(emailPattern = Patterns.EMAIL_ADDRESS) }
-    singleOf(::LoanInteractor)
-    singleOf(::BankAccountInteractor)
+@Module
+@InstallIn(SingletonComponent::class)
+class DomainModule {
+
+    @Provides
+    fun provideValidationInteractor(): ValidationInteractor {
+        return ValidationInteractor(emailPattern = Patterns.EMAIL_ADDRESS)
+    }
 }

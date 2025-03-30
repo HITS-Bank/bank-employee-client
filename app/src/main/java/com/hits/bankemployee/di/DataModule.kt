@@ -1,10 +1,5 @@
 package com.hits.bankemployee.di
 
-import com.hits.bankemployee.data.datasource.SessionManager
-import com.hits.bankemployee.data.mapper.AuthMapper
-import com.hits.bankemployee.data.mapper.BankAccountMapper
-import com.hits.bankemployee.data.mapper.LoanMapper
-import com.hits.bankemployee.data.mapper.ProfileMapper
 import com.hits.bankemployee.data.repository.AuthRepository
 import com.hits.bankemployee.data.repository.BankAccountRepository
 import com.hits.bankemployee.data.repository.LoanRepository
@@ -13,18 +8,32 @@ import com.hits.bankemployee.domain.repository.IAuthRepository
 import com.hits.bankemployee.domain.repository.IBankAccountRepository
 import com.hits.bankemployee.domain.repository.ILoanRepository
 import com.hits.bankemployee.domain.repository.IProfileRepository
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.bind
-import org.koin.dsl.module
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
-fun dataModule() = module {
-    singleOf(::AuthMapper)
-    singleOf(::ProfileMapper)
-    singleOf(::LoanMapper)
-    singleOf(::BankAccountMapper)
-    singleOf(::AuthRepository) bind IAuthRepository::class
-    singleOf(::ProfileRepository) bind IProfileRepository::class
-    singleOf(::LoanRepository) bind ILoanRepository::class
-    singleOf(::BankAccountRepository) bind IBankAccountRepository::class
-    singleOf(::SessionManager)
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class DataModule {
+
+    @Binds
+    abstract fun bindAuthRepository(
+        authRepository: AuthRepository
+    ): IAuthRepository
+
+    @Binds
+    abstract fun bindProfileRepository(
+        profileRepository: ProfileRepository
+    ): IProfileRepository
+
+    @Binds
+    abstract fun bindLoanRepository(
+        loanRepository: LoanRepository
+    ): ILoanRepository
+
+    @Binds
+    abstract fun bindBankAccountRepository(
+        bankAccountRepository: BankAccountRepository
+    ): IBankAccountRepository
 }

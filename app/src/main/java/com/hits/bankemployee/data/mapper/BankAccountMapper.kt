@@ -8,8 +8,9 @@ import com.hits.bankemployee.domain.entity.bankaccount.BankAccountStatusEntity
 import com.hits.bankemployee.domain.entity.bankaccount.OperationHistoryEntity
 import com.hits.bankemployee.domain.entity.bankaccount.OperationTypeEntity
 import java.time.LocalDateTime
+import javax.inject.Inject
 
-class BankAccountMapper {
+class BankAccountMapper @Inject constructor() {
 
     fun map(account: AccountResponse): BankAccountEntity {
         return BankAccountEntity(

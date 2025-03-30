@@ -9,8 +9,9 @@ import com.hits.bankemployee.domain.repository.IProfileRepository
 import com.hits.bankemployee.domain.common.Result
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class AuthInteractor(
+class AuthInteractor @Inject constructor(
     private val authRepository: IAuthRepository,
     private val profileRepository: IProfileRepository,
 ) {

@@ -8,8 +8,9 @@ import com.hits.bankemployee.domain.entity.bankaccount.OperationHistoryEntity
 import com.hits.bankemployee.domain.repository.IBankAccountRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class BankAccountInteractor(
+class BankAccountInteractor @Inject constructor(
     private val bankAccountRepository: IBankAccountRepository,
 ) {
 

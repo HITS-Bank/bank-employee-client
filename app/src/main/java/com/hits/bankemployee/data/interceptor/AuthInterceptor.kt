@@ -7,8 +7,11 @@ import com.hits.bankemployee.domain.common.Result
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AuthInterceptor(
+@Singleton
+class AuthInterceptor @Inject constructor(
     private val authRepository: IAuthRepository,
     private val sessionManager: SessionManager
 ) : Interceptor {

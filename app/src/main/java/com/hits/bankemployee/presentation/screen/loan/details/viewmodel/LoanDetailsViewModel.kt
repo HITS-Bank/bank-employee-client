@@ -12,14 +12,19 @@ import com.hits.bankemployee.presentation.navigation.base.forwardWithCallbackRes
 import com.hits.bankemployee.presentation.screen.loan.details.event.LoanDetailsEvent
 import com.hits.bankemployee.presentation.screen.loan.details.mapper.LoanDetailsMapper
 import com.hits.bankemployee.presentation.screen.loan.details.model.LoanDetailsState
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class LoanDetailsViewModel(
-    private val loanId: String,
+@HiltViewModel(assistedFactory = LoanDetailsViewModel.Factory::class)
+class LoanDetailsViewModel @AssistedInject constructor(
+    @Assisted private val loanId: String,
     private val loanInteractor: LoanInteractor,
     private val mapper: LoanDetailsMapper,
     private val navigationManager: NavigationManager,
@@ -69,5 +74,10 @@ class LoanDetailsViewModel(
                 }
             }
         }
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(loanId: String): LoanDetailsViewModel
     }
 }

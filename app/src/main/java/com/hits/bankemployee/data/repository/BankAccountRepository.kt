@@ -11,8 +11,11 @@ import com.hits.bankemployee.domain.entity.bankaccount.BankAccountEntity
 import com.hits.bankemployee.domain.entity.bankaccount.OperationHistoryEntity
 import com.hits.bankemployee.domain.repository.IBankAccountRepository
 import kotlinx.coroutines.Dispatchers
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class BankAccountRepository(
+@Singleton
+class BankAccountRepository @Inject constructor(
     private val bankAccountApi: BankAccountApi,
     private val mapper: BankAccountMapper,
 ) : IBankAccountRepository {

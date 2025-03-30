@@ -7,8 +7,9 @@ import com.hits.bankemployee.presentation.screen.client.model.toStatus
 import com.hits.bankemployee.domain.entity.bankaccount.BankAccountEntity
 import com.hits.bankemployee.domain.entity.loan.LoanEntity
 import com.hits.bankemployee.presentation.common.formatToSum
+import javax.inject.Inject
 
-class ClientDetailsScreenModelMapper {
+class ClientDetailsScreenModelMapper @Inject constructor() {
 
     fun map(bankAccountEntity: BankAccountEntity): ClientDetailsListItem.BankAccountModel {
         return ClientDetailsListItem.BankAccountModel(

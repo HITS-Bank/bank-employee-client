@@ -3,23 +3,22 @@ package com.hits.bankemployee.presentation.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.hits.bankemployee.domain.entity.bankaccount.BankAccountStatusEntity
+import com.hits.bankemployee.domain.entity.bankaccount.CurrencyCode
 import com.hits.bankemployee.presentation.screen.account.compose.AccountDetailsScreen
 import com.hits.bankemployee.presentation.screen.account.viewmodel.AccountDetailsScreenViewModel
 import com.hits.bankemployee.presentation.screen.client.compose.ClientDetailsScreen
 import com.hits.bankemployee.presentation.screen.client.model.ClientModel
 import com.hits.bankemployee.presentation.screen.client.viewmodel.ClientDetailsScreenViewModel
-import com.hits.bankemployee.domain.entity.bankaccount.BankAccountStatusEntity
-import com.hits.bankemployee.domain.entity.bankaccount.CurrencyCode
 import com.hits.bankemployee.presentation.screen.loan.details.compose.LoanDetailsScreen
 import com.hits.bankemployee.presentation.screen.loan.details.viewmodel.LoanDetailsViewModel
 import com.hits.bankemployee.presentation.screen.login.compose.LoginScreenWrapper
-import org.koin.androidx.compose.koinViewModel
-import org.koin.core.parameter.parametersOf
 
 @Composable
 fun RootNavHost(
@@ -62,9 +61,12 @@ fun RootNavHost(
                     userFullname,
                     isUserBlocked,
                 )
-                val viewModel: ClientDetailsScreenViewModel = koinViewModel(
-                    parameters = { parametersOf(clientInfo) },
-                )
+                val viewModel: ClientDetailsScreenViewModel =
+                    hiltViewModel<ClientDetailsScreenViewModel, ClientDetailsScreenViewModel.Factory>(
+                        creationCallback = { factory ->
+                            factory.create(clientInfo)
+                        }
+                    )
                 ClientDetailsScreen(viewModel)
             } else {
                 LaunchedEffect(Unit) {
@@ -113,17 +115,18 @@ fun RootNavHost(
                     }
 
             if (bankAccountId != null) {
-                val viewModel: AccountDetailsScreenViewModel = koinViewModel(
-                    parameters = {
-                        parametersOf(
-                            bankAccountId,
-                            bankAccountNumber,
-                            bankAccountBalance,
-                            currencyCode,
-                            bankAccountStatus,
-                        )
-                    },
-                )
+                val viewModel: AccountDetailsScreenViewModel =
+                    hiltViewModel<AccountDetailsScreenViewModel, AccountDetailsScreenViewModel.Factory>(
+                        creationCallback = { factory ->
+                            factory.create(
+                                bankAccountId,
+                                bankAccountNumber,
+                                bankAccountBalance,
+                                currencyCode,
+                                bankAccountStatus,
+                            )
+                        }
+                    )
                 AccountDetailsScreen(viewModel)
             } else {
                 LaunchedEffect(Unit) {
@@ -142,9 +145,12 @@ fun RootNavHost(
             val loanId = it.arguments?.getString(LoanDetails.ARG_LOAN_ID)
 
             if (loanId != null) {
-                val viewModel: LoanDetailsViewModel = koinViewModel(
-                    parameters = { parametersOf(loanId) },
-                )
+                val viewModel: LoanDetailsViewModel =
+                    hiltViewModel<LoanDetailsViewModel, LoanDetailsViewModel.Factory>(
+                        creationCallback = { factory ->
+                            factory.create(loanId)
+                        }
+                    )
                 LoanDetailsScreen(viewModel)
             } else {
                 LaunchedEffect(Unit) {

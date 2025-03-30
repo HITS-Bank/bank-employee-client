@@ -4,8 +4,9 @@ import com.hits.bankemployee.data.model.ProfileResponse
 import com.hits.bankemployee.data.model.RegisterRequest
 import com.hits.bankemployee.domain.entity.ProfileEntity
 import com.hits.bankemployee.domain.entity.RegisterRequestEntity
+import javax.inject.Inject
 
-class ProfileMapper {
+class ProfileMapper @Inject constructor() {
 
     fun map(response: ProfileResponse): ProfileEntity {
         with (response) {

@@ -23,6 +23,7 @@ import com.hits.bankemployee.presentation.screen.loan.tariff.model.getCreateTari
 import com.hits.bankemployee.presentation.screen.loan.tariff.model.getDeleteTariff
 import com.hits.bankemployee.presentation.screen.loan.tariff.model.toDomain
 import com.hits.bankemployee.presentation.screen.loan.tariff.model.updateIfCreateTariff
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -33,8 +34,10 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class TariffsScreenViewModel(
+@HiltViewModel
+class TariffsScreenViewModel @Inject constructor(
     private val loanInteractor: LoanInteractor,
     private val mapper: TariffsScreenModelMapper,
 ) : PaginationViewModel<TariffModel, TariffsPaginationState>(BankUiState.Ready(

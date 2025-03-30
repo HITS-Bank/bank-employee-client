@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hits.bankemployee.presentation.common.LocalSnackbarController
 import com.hits.bankemployee.presentation.common.component.ErrorContent
@@ -30,11 +31,16 @@ import com.hits.bankemployee.presentation.screen.users.compose.component.UserLis
 import com.hits.bankemployee.presentation.screen.users.event.UserListEffect
 import com.hits.bankemployee.presentation.screen.users.model.UsersTab
 import com.hits.bankemployee.presentation.screen.users.viewmodel.UserListViewModel
-import org.koin.androidx.compose.koinViewModel
-import org.koin.core.qualifier.named
 
 @Composable
-fun UserList(tab: UsersTab, viewModel: UserListViewModel = koinViewModel(named(tab.role.name))) {
+fun UserList(
+    tab: UsersTab,
+    viewModel: UserListViewModel = hiltViewModel<UserListViewModel, UserListViewModel.Factory>(
+        creationCallback = { factory ->
+            factory.create(tab.role)
+        }
+    ),
+) {
     val onEvent = rememberCallback(viewModel::onEvent)
     val onPaginationEvent = rememberCallback(viewModel::onPaginationEvent)
     val snackbarController = LocalSnackbarController.current

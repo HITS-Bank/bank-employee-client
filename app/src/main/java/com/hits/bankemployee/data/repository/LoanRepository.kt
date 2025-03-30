@@ -15,8 +15,11 @@ import com.hits.bankemployee.domain.entity.loan.LoanTariffSortingOrder
 import com.hits.bankemployee.domain.entity.loan.LoanTariffSortingProperty
 import com.hits.bankemployee.domain.repository.ILoanRepository
 import kotlinx.coroutines.Dispatchers
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class LoanRepository(
+@Singleton
+class LoanRepository @Inject constructor(
     private val loanApi: LoanApi,
     private val mapper: LoanMapper,
 ) : ILoanRepository {

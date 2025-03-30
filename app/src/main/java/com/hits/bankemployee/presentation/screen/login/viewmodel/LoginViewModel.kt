@@ -15,14 +15,17 @@ import com.hits.bankemployee.presentation.screen.login.event.LoginEffect
 import com.hits.bankemployee.presentation.screen.login.event.LoginEvent
 import com.hits.bankemployee.presentation.screen.login.mapper.LoginScreenModelMapper
 import com.hits.bankemployee.presentation.screen.login.model.LoginScreenModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel(
+@HiltViewModel
+class LoginViewModel @Inject constructor(
     private val authInteractor: AuthInteractor,
     private val mapper: LoginScreenModelMapper,
     private val navigationManager: NavigationManager,

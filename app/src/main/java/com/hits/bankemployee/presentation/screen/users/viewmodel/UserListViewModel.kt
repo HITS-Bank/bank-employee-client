@@ -20,6 +20,10 @@ import com.hits.bankemployee.presentation.screen.users.model.UserRole
 import com.hits.bankemployee.presentation.screen.users.model.toRoleType
 import com.hits.bankemployee.presentation.screen.users.model.userlist.UserListPaginationState
 import com.hits.bankemployee.presentation.screen.users.model.userlist.UserModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -27,8 +31,9 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-class UserListViewModel(
-    private val role: UserRole = UserRole.CLIENT,
+@HiltViewModel(assistedFactory = UserListViewModel.Factory::class)
+class UserListViewModel @AssistedInject constructor(
+    @Assisted private val role: UserRole = UserRole.CLIENT,
     private val navigationManager: NavigationManager,
     private val profileInteractor: ProfileInteractor,
     private val mapper: UsersScreenModelMapper,
@@ -169,5 +174,10 @@ class UserListViewModel(
 
     companion object {
         const val PAGE_SIZE = 10
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(role: UserRole): UserListViewModel
     }
 }
