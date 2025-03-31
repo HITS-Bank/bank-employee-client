@@ -3,8 +3,8 @@ package com.hits.bankemployee.presentation.screen.client.model
 import androidx.annotation.DrawableRes
 import com.hits.bankemployee.R
 import com.hits.bankemployee.presentation.screen.client.viewmodel.ClientDetailsScreenViewModel
-import com.hits.bankemployee.presentation.pagination.PaginationState
-import com.hits.bankemployee.presentation.pagination.PaginationStateHolder
+import ru.hitsbank.bank_common.presentation.pagination.PaginationState
+import ru.hitsbank.bank_common.presentation.pagination.PaginationStateHolder
 
 data class ClientDetailsPaginationState(
     override val paginationState: PaginationState,

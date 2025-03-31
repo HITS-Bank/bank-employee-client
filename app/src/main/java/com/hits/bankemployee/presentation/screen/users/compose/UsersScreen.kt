@@ -18,11 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hits.bankemployee.R
-import com.hits.bankemployee.presentation.common.LocalSnackbarController
-import com.hits.bankemployee.presentation.common.component.LoadingContentOverlay
-import com.hits.bankemployee.presentation.common.component.SearchTextField
-import com.hits.bankemployee.presentation.common.observeWithLifecycle
-import com.hits.bankemployee.presentation.common.rememberCallback
 import com.hits.bankemployee.presentation.screen.users.compose.component.CreateUserDialog
 import com.hits.bankemployee.presentation.screen.users.compose.component.UsersScreenPager
 import com.hits.bankemployee.presentation.screen.users.event.UserListEvent
@@ -32,6 +27,11 @@ import com.hits.bankemployee.presentation.screen.users.model.CreateUserDialogSta
 import com.hits.bankemployee.presentation.screen.users.model.UserRole
 import com.hits.bankemployee.presentation.screen.users.viewmodel.UserListViewModel
 import com.hits.bankemployee.presentation.screen.users.viewmodel.UsersScreenViewModel
+import ru.hitsbank.bank_common.presentation.common.LocalSnackbarController
+import ru.hitsbank.bank_common.presentation.common.component.LoadingContentOverlay
+import ru.hitsbank.bank_common.presentation.common.component.SearchTextField
+import ru.hitsbank.bank_common.presentation.common.observeWithLifecycle
+import ru.hitsbank.bank_common.presentation.common.rememberCallback
 
 @Composable
 fun UsersScreen(viewModel: UsersScreenViewModel = hiltViewModel()) {

@@ -1,8 +1,8 @@
 package com.hits.bankemployee.presentation.screen.users.model.userlist
 
-import com.hits.bankemployee.presentation.pagination.PaginationState
-import com.hits.bankemployee.presentation.pagination.PaginationStateHolder
 import com.hits.bankemployee.presentation.screen.users.viewmodel.UserListViewModel
+import ru.hitsbank.bank_common.presentation.pagination.PaginationState
+import ru.hitsbank.bank_common.presentation.pagination.PaginationStateHolder
 
 data class UserListPaginationState(
     override val paginationState: PaginationState,

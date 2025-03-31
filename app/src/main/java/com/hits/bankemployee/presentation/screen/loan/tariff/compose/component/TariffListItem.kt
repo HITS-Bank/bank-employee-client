@@ -4,12 +4,12 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import com.hits.bankemployee.R
-import com.hits.bankemployee.presentation.common.component.Divider
-import com.hits.bankemployee.presentation.common.component.ListItemIcon
-import com.hits.bankemployee.presentation.common.component.SwipeableInfo
-import com.hits.bankemployee.presentation.common.component.SwipeableListItem
 import com.hits.bankemployee.presentation.screen.loan.tariff.event.TariffsScreenEvent
 import com.hits.bankemployee.presentation.screen.loan.tariff.model.TariffModel
+import ru.hitsbank.bank_common.presentation.common.component.Divider
+import ru.hitsbank.bank_common.presentation.common.component.ListItemIcon
+import ru.hitsbank.bank_common.presentation.common.component.SwipeableInfo
+import ru.hitsbank.bank_common.presentation.common.component.SwipeableListItem
 
 @Composable
 fun TariffListItem(item: TariffModel, onEvent: (TariffsScreenEvent) -> Unit) {

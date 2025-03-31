@@ -2,8 +2,6 @@ package com.hits.bankemployee.presentation.screen.users.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hits.bankemployee.common.dropFirstBlank
-import com.hits.bankemployee.domain.common.State
 import com.hits.bankemployee.domain.interactor.ProfileInteractor
 import com.hits.bankemployee.domain.interactor.ValidationInteractor
 import com.hits.bankemployee.presentation.screen.users.event.UsersScreenEffect
@@ -25,6 +23,8 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import ru.hitsbank.bank_common.domain.State
+import ru.hitsbank.bank_common.dropFirstBlank
 import javax.inject.Inject
 
 @HiltViewModel

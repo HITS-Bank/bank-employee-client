@@ -23,24 +23,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hits.bankemployee.R
-import com.hits.bankemployee.presentation.common.LocalSnackbarController
-import com.hits.bankemployee.presentation.common.component.ErrorContent
-import com.hits.bankemployee.presentation.common.component.LoadingContent
-import com.hits.bankemployee.presentation.common.component.LoadingContentOverlay
-import com.hits.bankemployee.presentation.common.component.PaginationErrorContent
-import com.hits.bankemployee.presentation.common.component.PaginationLoadingContent
-import com.hits.bankemployee.presentation.common.component.SearchTextField
-import com.hits.bankemployee.presentation.common.component.dropdown.DropdownField
-import com.hits.bankemployee.presentation.common.getIfSuccess
-import com.hits.bankemployee.presentation.common.horizontalSpacer
-import com.hits.bankemployee.presentation.common.observeWithLifecycle
-import com.hits.bankemployee.presentation.common.rememberCallback
-import com.hits.bankemployee.presentation.common.verticalSpacer
-import com.hits.bankemployee.presentation.pagination.PaginationEvent
-import com.hits.bankemployee.presentation.pagination.PaginationReloadState
-import com.hits.bankemployee.presentation.pagination.PaginationState
-import com.hits.bankemployee.presentation.pagination.reloadState
-import com.hits.bankemployee.presentation.pagination.rememberPaginationListState
 import com.hits.bankemployee.presentation.screen.loan.tariff.compose.component.TariffCreateDialog
 import com.hits.bankemployee.presentation.screen.loan.tariff.compose.component.TariffDeleteDialog
 import com.hits.bankemployee.presentation.screen.loan.tariff.compose.component.TariffListItem
@@ -50,6 +32,24 @@ import com.hits.bankemployee.presentation.screen.loan.tariff.model.SortingOrder
 import com.hits.bankemployee.presentation.screen.loan.tariff.model.SortingProperty
 import com.hits.bankemployee.presentation.screen.loan.tariff.model.TariffsScreenDialogState
 import com.hits.bankemployee.presentation.screen.loan.tariff.viewmodel.TariffsScreenViewModel
+import ru.hitsbank.bank_common.presentation.common.LocalSnackbarController
+import ru.hitsbank.bank_common.presentation.common.component.ErrorContent
+import ru.hitsbank.bank_common.presentation.common.component.LoadingContent
+import ru.hitsbank.bank_common.presentation.common.component.LoadingContentOverlay
+import ru.hitsbank.bank_common.presentation.common.component.PaginationErrorContent
+import ru.hitsbank.bank_common.presentation.common.component.PaginationLoadingContent
+import ru.hitsbank.bank_common.presentation.common.component.SearchTextField
+import ru.hitsbank.bank_common.presentation.common.component.dropdown.DropdownField
+import ru.hitsbank.bank_common.presentation.common.getIfSuccess
+import ru.hitsbank.bank_common.presentation.common.horizontalSpacer
+import ru.hitsbank.bank_common.presentation.common.observeWithLifecycle
+import ru.hitsbank.bank_common.presentation.common.rememberCallback
+import ru.hitsbank.bank_common.presentation.common.verticalSpacer
+import ru.hitsbank.bank_common.presentation.pagination.PaginationEvent
+import ru.hitsbank.bank_common.presentation.pagination.PaginationReloadState
+import ru.hitsbank.bank_common.presentation.pagination.PaginationState
+import ru.hitsbank.bank_common.presentation.pagination.reloadState
+import ru.hitsbank.bank_common.presentation.pagination.rememberPaginationListState
 
 @Composable
 fun TariffsScreen(viewModel: TariffsScreenViewModel = hiltViewModel()) {

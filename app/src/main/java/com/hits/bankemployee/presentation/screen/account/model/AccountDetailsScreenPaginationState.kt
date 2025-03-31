@@ -2,8 +2,8 @@ package com.hits.bankemployee.presentation.screen.account.model
 
 import androidx.compose.ui.graphics.Color
 import com.hits.bankemployee.presentation.screen.account.viewmodel.AccountDetailsScreenViewModel
-import com.hits.bankemployee.presentation.pagination.PaginationState
-import com.hits.bankemployee.presentation.pagination.PaginationStateHolder
+import ru.hitsbank.bank_common.presentation.pagination.PaginationState
+import ru.hitsbank.bank_common.presentation.pagination.PaginationStateHolder
 
 data class AccountDetailsPaginationState(
     override val paginationState: PaginationState,

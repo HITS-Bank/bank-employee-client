@@ -4,19 +4,11 @@ import com.hits.bankemployee.presentation.screen.account.event.AccountDetailsScr
 import com.hits.bankemployee.presentation.screen.account.mapper.AccountDetailsScreenModelMapper
 import com.hits.bankemployee.presentation.screen.account.model.AccountDetailsListItem
 import com.hits.bankemployee.presentation.screen.account.model.AccountDetailsPaginationState
-import com.hits.bankemployee.domain.common.State
-import com.hits.bankemployee.domain.common.map
-import com.hits.bankemployee.domain.common.mergeWith
 import com.hits.bankemployee.domain.entity.PageInfo
 import com.hits.bankemployee.domain.entity.bankaccount.BankAccountEntity
 import com.hits.bankemployee.domain.entity.bankaccount.BankAccountStatusEntity
 import com.hits.bankemployee.domain.entity.bankaccount.CurrencyCode
 import com.hits.bankemployee.domain.interactor.BankAccountInteractor
-import com.hits.bankemployee.presentation.common.BankUiState
-import com.hits.bankemployee.presentation.navigation.base.NavigationManager
-import com.hits.bankemployee.presentation.navigation.base.back
-import com.hits.bankemployee.presentation.pagination.PaginationEvent
-import com.hits.bankemployee.presentation.pagination.PaginationViewModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -27,6 +19,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
+import ru.hitsbank.bank_common.domain.State
+import ru.hitsbank.bank_common.domain.map
+import ru.hitsbank.bank_common.domain.mergeWith
+import ru.hitsbank.bank_common.presentation.common.BankUiState
+import ru.hitsbank.bank_common.presentation.pagination.PaginationEvent
+import ru.hitsbank.bank_common.presentation.pagination.PaginationViewModel
+import ru.hitsbank.clientbankapplication.core.navigation.base.NavigationManager
+import ru.hitsbank.clientbankapplication.core.navigation.base.back
 
 private const val ACCOUNT_ID = "accountId"
 private const val ACCOUNT_NUMBER = "accountNumber"

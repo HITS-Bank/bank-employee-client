@@ -1,18 +1,10 @@
 package com.hits.bankemployee.presentation.screen.loan.tariff.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.hits.bankemployee.common.dropFirstBlank
-import com.hits.bankemployee.domain.common.State
-import com.hits.bankemployee.domain.common.map
 import com.hits.bankemployee.domain.entity.PageInfo
 import com.hits.bankemployee.domain.entity.loan.LoanTariffSortingOrder
 import com.hits.bankemployee.domain.entity.loan.LoanTariffSortingProperty
 import com.hits.bankemployee.domain.interactor.LoanInteractor
-import com.hits.bankemployee.presentation.common.BankUiState
-import com.hits.bankemployee.presentation.common.getIfSuccess
-import com.hits.bankemployee.presentation.common.updateIfSuccess
-import com.hits.bankemployee.presentation.pagination.PaginationEvent
-import com.hits.bankemployee.presentation.pagination.PaginationViewModel
 import com.hits.bankemployee.presentation.screen.loan.tariff.event.TariffsScreenEffect
 import com.hits.bankemployee.presentation.screen.loan.tariff.event.TariffsScreenEvent
 import com.hits.bankemployee.presentation.screen.loan.tariff.mapper.TariffsScreenModelMapper
@@ -34,14 +26,21 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import ru.hitsbank.bank_common.domain.State
+import ru.hitsbank.bank_common.domain.map
+import ru.hitsbank.bank_common.dropFirstBlank
+import ru.hitsbank.bank_common.presentation.common.BankUiState
+import ru.hitsbank.bank_common.presentation.common.getIfSuccess
+import ru.hitsbank.bank_common.presentation.common.updateIfSuccess
+import ru.hitsbank.bank_common.presentation.pagination.PaginationEvent
+import ru.hitsbank.bank_common.presentation.pagination.PaginationViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class TariffsScreenViewModel @Inject constructor(
     private val loanInteractor: LoanInteractor,
     private val mapper: TariffsScreenModelMapper,
-) : PaginationViewModel<TariffModel, TariffsPaginationState>(BankUiState.Ready(
-    TariffsPaginationState.EMPTY)) {
+) : PaginationViewModel<TariffModel, TariffsPaginationState>(BankUiState.Ready(TariffsPaginationState.EMPTY)) {
 
     private val _effects = MutableSharedFlow<TariffsScreenEffect>()
     val effects = _effects.asSharedFlow()

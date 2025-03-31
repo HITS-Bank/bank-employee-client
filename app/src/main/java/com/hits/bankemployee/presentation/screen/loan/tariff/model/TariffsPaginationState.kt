@@ -1,8 +1,8 @@
 package com.hits.bankemployee.presentation.screen.loan.tariff.model
 
-import com.hits.bankemployee.presentation.pagination.PaginationState
-import com.hits.bankemployee.presentation.pagination.PaginationStateHolder
 import com.hits.bankemployee.presentation.screen.loan.tariff.viewmodel.TariffsScreenViewModel
+import ru.hitsbank.bank_common.presentation.pagination.PaginationState
+import ru.hitsbank.bank_common.presentation.pagination.PaginationStateHolder
 
 data class TariffsPaginationState(
     override val paginationState: PaginationState,

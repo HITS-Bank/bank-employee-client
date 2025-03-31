@@ -1,22 +1,12 @@
 package com.hits.bankemployee.presentation.screen.client.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.hits.bankemployee.domain.common.State
-import com.hits.bankemployee.domain.common.map
 import com.hits.bankemployee.domain.entity.PageInfo
 import com.hits.bankemployee.domain.interactor.BankAccountInteractor
 import com.hits.bankemployee.domain.interactor.LoanInteractor
 import com.hits.bankemployee.domain.interactor.ProfileInteractor
-import com.hits.bankemployee.presentation.common.BankUiState
-import com.hits.bankemployee.presentation.common.getIfSuccess
-import com.hits.bankemployee.presentation.common.updateIfSuccess
 import com.hits.bankemployee.presentation.navigation.BankAccountDetails
 import com.hits.bankemployee.presentation.navigation.LoanDetails
-import com.hits.bankemployee.presentation.navigation.base.NavigationManager
-import com.hits.bankemployee.presentation.navigation.base.back
-import com.hits.bankemployee.presentation.navigation.base.forwardWithCallbackResult
-import com.hits.bankemployee.presentation.pagination.PaginationEvent
-import com.hits.bankemployee.presentation.pagination.PaginationViewModel
 import com.hits.bankemployee.presentation.screen.client.event.ClientDetailsScreenEffect
 import com.hits.bankemployee.presentation.screen.client.event.ClientDetailsScreenEvent
 import com.hits.bankemployee.presentation.screen.client.mapper.ClientDetailsScreenModelMapper
@@ -36,6 +26,16 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
+import ru.hitsbank.bank_common.domain.State
+import ru.hitsbank.bank_common.domain.map
+import ru.hitsbank.bank_common.presentation.common.BankUiState
+import ru.hitsbank.bank_common.presentation.common.getIfSuccess
+import ru.hitsbank.bank_common.presentation.common.updateIfSuccess
+import ru.hitsbank.bank_common.presentation.pagination.PaginationEvent
+import ru.hitsbank.bank_common.presentation.pagination.PaginationViewModel
+import ru.hitsbank.clientbankapplication.core.navigation.base.NavigationManager
+import ru.hitsbank.clientbankapplication.core.navigation.base.back
+import ru.hitsbank.clientbankapplication.core.navigation.base.forwardWithCallbackResult
 
 @HiltViewModel(assistedFactory = ClientDetailsScreenViewModel.Factory::class)
 class ClientDetailsScreenViewModel @AssistedInject constructor(

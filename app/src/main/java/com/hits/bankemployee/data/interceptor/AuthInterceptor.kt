@@ -3,7 +3,7 @@ package com.hits.bankemployee.data.interceptor
 import com.hits.bankemployee.data.datasource.SessionManager
 import com.hits.bankemployee.data.model.TokenType
 import com.hits.bankemployee.domain.repository.IAuthRepository
-import com.hits.bankemployee.domain.common.Result
+import ru.hitsbank.bank_common.domain.Result
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response

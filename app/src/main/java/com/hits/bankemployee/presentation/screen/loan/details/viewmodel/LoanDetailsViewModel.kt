@@ -2,13 +2,8 @@ package com.hits.bankemployee.presentation.screen.loan.details.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hits.bankemployee.domain.common.State
 import com.hits.bankemployee.domain.interactor.LoanInteractor
-import com.hits.bankemployee.presentation.common.BankUiState
 import com.hits.bankemployee.presentation.navigation.BankAccountDetails
-import com.hits.bankemployee.presentation.navigation.base.NavigationManager
-import com.hits.bankemployee.presentation.navigation.base.back
-import com.hits.bankemployee.presentation.navigation.base.forwardWithCallbackResult
 import com.hits.bankemployee.presentation.screen.loan.details.event.LoanDetailsEvent
 import com.hits.bankemployee.presentation.screen.loan.details.mapper.LoanDetailsMapper
 import com.hits.bankemployee.presentation.screen.loan.details.model.LoanDetailsState
@@ -21,6 +16,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import ru.hitsbank.bank_common.domain.State
+import ru.hitsbank.bank_common.presentation.common.BankUiState
+import ru.hitsbank.clientbankapplication.core.navigation.base.NavigationManager
+import ru.hitsbank.clientbankapplication.core.navigation.base.back
+import ru.hitsbank.clientbankapplication.core.navigation.base.forwardWithCallbackResult
 
 @HiltViewModel(assistedFactory = LoanDetailsViewModel.Factory::class)
 class LoanDetailsViewModel @AssistedInject constructor(

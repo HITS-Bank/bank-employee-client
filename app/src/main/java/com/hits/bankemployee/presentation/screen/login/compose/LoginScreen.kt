@@ -22,16 +22,16 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hits.bankemployee.common.Constants.GENERAL_ERROR_TEXT
-import com.hits.bankemployee.presentation.common.BankUiState
-import com.hits.bankemployee.presentation.common.LocalSnackbarController
-import com.hits.bankemployee.presentation.common.component.LoadingContentOverlay
-import com.hits.bankemployee.presentation.common.observeWithLifecycle
-import com.hits.bankemployee.presentation.common.rememberCallback
-import com.hits.bankemployee.presentation.common.verticalSpacer
 import com.hits.bankemployee.presentation.screen.login.event.LoginEffect
 import com.hits.bankemployee.presentation.screen.login.event.LoginEvent
 import com.hits.bankemployee.presentation.screen.login.model.LoginScreenModel
 import com.hits.bankemployee.presentation.screen.login.viewmodel.LoginViewModel
+import ru.hitsbank.bank_common.presentation.common.BankUiState
+import ru.hitsbank.bank_common.presentation.common.LocalSnackbarController
+import ru.hitsbank.bank_common.presentation.common.component.LoadingContentOverlay
+import ru.hitsbank.bank_common.presentation.common.observeWithLifecycle
+import ru.hitsbank.bank_common.presentation.common.rememberCallback
+import ru.hitsbank.bank_common.presentation.common.verticalSpacer
 
 @Composable
 internal fun LoginScreenWrapper(

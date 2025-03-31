@@ -15,12 +15,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.hits.bankemployee.presentation.common.LocalSnackbarController
-import com.hits.bankemployee.presentation.common.SnackbarController
 import com.hits.bankemployee.presentation.navigation.RootNavHost
-import com.hits.bankemployee.presentation.navigation.base.NavigationManager
-import com.hits.bankemployee.presentation.theme.BankEmployeeTheme
 import dagger.hilt.android.AndroidEntryPoint
+import ru.hitsbank.bank_common.presentation.common.LocalSnackbarController
+import ru.hitsbank.bank_common.presentation.common.SnackbarController
+import ru.hitsbank.bank_common.presentation.theme.AppTheme
+import ru.hitsbank.clientbankapplication.core.navigation.base.NavigationManager
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
                     command.execute(navController, this@MainActivity)
                 }
             }
-            BankEmployeeTheme {
+            AppTheme {
                 CompositionLocalProvider(
                     LocalSnackbarController provides SnackbarController(
                         snackbarHostState = snackbarHostState,

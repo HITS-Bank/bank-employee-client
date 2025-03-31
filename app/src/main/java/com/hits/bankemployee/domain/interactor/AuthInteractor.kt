@@ -1,15 +1,15 @@
 package com.hits.bankemployee.domain.interactor
 
-import com.hits.bankemployee.domain.common.Completable
-import com.hits.bankemployee.domain.common.State
-import com.hits.bankemployee.domain.common.toState
 import com.hits.bankemployee.domain.entity.LoginRequestEntity
 import com.hits.bankemployee.domain.repository.IAuthRepository
 import com.hits.bankemployee.domain.repository.IProfileRepository
-import com.hits.bankemployee.domain.common.Result
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import ru.hitsbank.bank_common.domain.Completable
+import ru.hitsbank.bank_common.domain.State
+import ru.hitsbank.bank_common.domain.toState
 import javax.inject.Inject
+import ru.hitsbank.bank_common.domain.Result
 
 class AuthInteractor @Inject constructor(
     private val authRepository: IAuthRepository,

@@ -1,8 +1,8 @@
 package com.hits.bankemployee.presentation.navigation
 
 import com.hits.bankemployee.R
-import com.hits.bankemployee.presentation.navigation.base.BottomBarDestination
-import com.hits.bankemployee.presentation.navigation.base.Destination
+import ru.hitsbank.clientbankapplication.core.navigation.base.BottomBarDestination
+import ru.hitsbank.clientbankapplication.core.navigation.base.Destination
 
 object Auth : Destination()
 

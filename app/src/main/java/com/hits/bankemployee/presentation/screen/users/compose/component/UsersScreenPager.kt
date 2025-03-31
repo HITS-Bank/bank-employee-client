@@ -23,10 +23,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.hits.bankemployee.presentation.theme.S14_W500
 import com.hits.bankemployee.presentation.screen.users.event.UsersScreenEvent
 import com.hits.bankemployee.presentation.screen.users.model.UsersTab
 import kotlinx.coroutines.launch
+import ru.hitsbank.bank_common.presentation.theme.S14_W500
 
 @Composable
 fun ColumnScope.UsersScreenPager(

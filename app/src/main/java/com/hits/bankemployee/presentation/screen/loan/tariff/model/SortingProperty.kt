@@ -1,7 +1,7 @@
 package com.hits.bankemployee.presentation.screen.loan.tariff.model
 
 import com.hits.bankemployee.domain.entity.loan.LoanTariffSortingProperty
-import com.hits.bankemployee.presentation.common.component.dropdown.DropdownItem
+import ru.hitsbank.bank_common.presentation.common.component.dropdown.DropdownItem
 
 enum class SortingProperty(override val title: String) : DropdownItem {
     NAME("Названию"),

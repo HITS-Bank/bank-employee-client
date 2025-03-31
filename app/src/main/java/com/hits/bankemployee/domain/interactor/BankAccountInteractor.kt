@@ -1,13 +1,13 @@
 package com.hits.bankemployee.domain.interactor
 
-import com.hits.bankemployee.domain.common.State
-import com.hits.bankemployee.domain.common.toState
 import com.hits.bankemployee.domain.entity.PageInfo
 import com.hits.bankemployee.domain.entity.bankaccount.BankAccountEntity
 import com.hits.bankemployee.domain.entity.bankaccount.OperationHistoryEntity
 import com.hits.bankemployee.domain.repository.IBankAccountRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import ru.hitsbank.bank_common.domain.State
+import ru.hitsbank.bank_common.domain.toState
 import javax.inject.Inject
 
 class BankAccountInteractor @Inject constructor(

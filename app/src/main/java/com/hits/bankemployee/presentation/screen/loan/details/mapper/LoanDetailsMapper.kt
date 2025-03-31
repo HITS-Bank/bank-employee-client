@@ -1,8 +1,9 @@
 package com.hits.bankemployee.presentation.screen.loan.details.mapper
 
+import com.hits.bankemployee.domain.entity.bankaccount.toCommonModel
 import com.hits.bankemployee.domain.entity.loan.LoanEntity
-import com.hits.bankemployee.presentation.common.formatToSum
 import com.hits.bankemployee.presentation.screen.loan.details.model.LoanDetailsListItem
+import ru.hitsbank.bank_common.presentation.common.formatToSum
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
@@ -30,15 +31,15 @@ class LoanDetailsMapper @Inject constructor() {
                 name = "Срок кредита (мес.)",
             ),
             LoanDetailsListItem.LoanDetailsProperty(
-                value = loan.amount.formatToSum(loan.currencyCode),
+                value = loan.amount.formatToSum(loan.currencyCode.toCommonModel()),
                 name = "Сумма кредита",
             ),
             LoanDetailsListItem.LoanDetailsProperty(
-                value = loan.paymentSum.formatToSum(loan.currencyCode),
+                value = loan.paymentSum.formatToSum(loan.currencyCode.toCommonModel()),
                 name = "Сумма выплат"
             ),
             LoanDetailsListItem.LoanDetailsProperty(
-                value = loan.paymentAmount.formatToSum(loan.currencyCode),
+                value = loan.paymentAmount.formatToSum(loan.currencyCode.toCommonModel()),
                 name = "Сумма платежа"
             ),
             LoanDetailsListItem.LoanDetailsProperty(
@@ -46,7 +47,7 @@ class LoanDetailsMapper @Inject constructor() {
                 name = "Время следующего платежа",
             ),
             LoanDetailsListItem.LoanDetailsProperty(
-                value = loan.currentDebt.formatToSum(loan.currencyCode),
+                value = loan.currentDebt.formatToSum(loan.currencyCode.toCommonModel()),
                 name = "Текущий долг",
             ),
             LoanDetailsListItem.LoanBankAccount(

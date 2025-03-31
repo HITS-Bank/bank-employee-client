@@ -15,12 +15,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.hits.bankemployee.presentation.common.horizontalSpacer
-import com.hits.bankemployee.presentation.common.verticalSpacer
-import com.hits.bankemployee.presentation.theme.S16_W400
-import com.hits.bankemployee.presentation.theme.S16_W500
 import com.hits.bankemployee.presentation.screen.loan.tariff.event.TariffsScreenEvent
 import com.hits.bankemployee.presentation.screen.loan.tariff.model.TariffsScreenDialogState
+import ru.hitsbank.bank_common.presentation.common.horizontalSpacer
+import ru.hitsbank.bank_common.presentation.common.verticalSpacer
+import ru.hitsbank.bank_common.presentation.theme.S16_W400
+import ru.hitsbank.bank_common.presentation.theme.S16_W500
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

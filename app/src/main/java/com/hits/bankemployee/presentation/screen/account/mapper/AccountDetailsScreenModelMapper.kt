@@ -5,11 +5,12 @@ import com.hits.bankemployee.domain.entity.bankaccount.BankAccountEntity
 import com.hits.bankemployee.domain.entity.bankaccount.BankAccountStatusEntity
 import com.hits.bankemployee.domain.entity.bankaccount.OperationHistoryEntity
 import com.hits.bankemployee.domain.entity.bankaccount.OperationTypeEntity
-import com.hits.bankemployee.presentation.common.formatToSum
-import com.hits.bankemployee.presentation.theme.topUpBackground
-import com.hits.bankemployee.presentation.theme.topUpForeground
-import com.hits.bankemployee.presentation.theme.withdrawBackground
-import com.hits.bankemployee.presentation.theme.withdrawForeground
+import com.hits.bankemployee.domain.entity.bankaccount.toCommonModel
+import ru.hitsbank.bank_common.presentation.common.formatToSum
+import ru.hitsbank.bank_common.presentation.theme.topUpBackground
+import ru.hitsbank.bank_common.presentation.theme.topUpForeground
+import ru.hitsbank.bank_common.presentation.theme.withdrawBackground
+import ru.hitsbank.bank_common.presentation.theme.withdrawForeground
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import javax.inject.Inject
@@ -22,7 +23,7 @@ class AccountDetailsScreenModelMapper @Inject constructor() {
         val secondProperty = when(account.status) {
             BankAccountStatusEntity.OPEN -> AccountDetailsListItem.AccountDetailsProperty(
                 name = "Баланс",
-                value = account.balance.formatToSum(account.currencyCode),
+                value = account.balance.formatToSum(account.currencyCode.toCommonModel()),
             )
             BankAccountStatusEntity.CLOSED -> AccountDetailsListItem.AccountDetailsProperty(
                 name = "Статус",
@@ -47,11 +48,11 @@ class AccountDetailsScreenModelMapper @Inject constructor() {
             id = operation.id,
             date = formatter.format(operation.date),
             amount = when (operation.type) {
-                OperationTypeEntity.WITHDRAW -> "-${operation.amount.formatToSum(operation.currencyCode, true)}"
-                OperationTypeEntity.TOP_UP -> "+${operation.amount.formatToSum(operation.currencyCode, true)}"
-                OperationTypeEntity.LOAN_PAYMENT -> "-${operation.amount.formatToSum(operation.currencyCode, true)}"
-                OperationTypeEntity.TRANSFER_INCOMING -> "+${operation.amount.formatToSum(operation.currencyCode, true)}"
-                OperationTypeEntity.TRANSFER_OUTGOING -> "-${operation.amount.formatToSum(operation.currencyCode, true)}"
+                OperationTypeEntity.WITHDRAW -> "-${operation.amount.formatToSum(operation.currencyCode.toCommonModel(), true)}"
+                OperationTypeEntity.TOP_UP -> "+${operation.amount.formatToSum(operation.currencyCode.toCommonModel(), true)}"
+                OperationTypeEntity.LOAN_PAYMENT -> "-${operation.amount.formatToSum(operation.currencyCode.toCommonModel(), true)}"
+                OperationTypeEntity.TRANSFER_INCOMING -> "+${operation.amount.formatToSum(operation.currencyCode.toCommonModel(), true)}"
+                OperationTypeEntity.TRANSFER_OUTGOING -> "-${operation.amount.formatToSum(operation.currencyCode.toCommonModel(), true)}"
             },
             operationTitle = when (operation.type) {
                 OperationTypeEntity.WITHDRAW -> "Снятие"

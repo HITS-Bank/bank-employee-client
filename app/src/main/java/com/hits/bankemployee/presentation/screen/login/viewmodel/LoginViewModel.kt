@@ -3,14 +3,8 @@ package com.hits.bankemployee.presentation.screen.login.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hits.bankemployee.common.Constants.EMPLOYEE_APP_CHANNEL
-import com.hits.bankemployee.domain.common.State
 import com.hits.bankemployee.domain.interactor.AuthInteractor
-import com.hits.bankemployee.presentation.common.BankUiState
-import com.hits.bankemployee.presentation.common.getIfSuccess
-import com.hits.bankemployee.presentation.common.updateIfSuccess
 import com.hits.bankemployee.presentation.navigation.BottomBarRoot
-import com.hits.bankemployee.presentation.navigation.base.NavigationManager
-import com.hits.bankemployee.presentation.navigation.base.replace
 import com.hits.bankemployee.presentation.screen.login.event.LoginEffect
 import com.hits.bankemployee.presentation.screen.login.event.LoginEvent
 import com.hits.bankemployee.presentation.screen.login.mapper.LoginScreenModelMapper
@@ -22,6 +16,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import ru.hitsbank.bank_common.domain.State
+import ru.hitsbank.bank_common.presentation.common.BankUiState
+import ru.hitsbank.bank_common.presentation.common.getIfSuccess
+import ru.hitsbank.bank_common.presentation.common.updateIfSuccess
+import ru.hitsbank.clientbankapplication.core.navigation.base.NavigationManager
+import ru.hitsbank.clientbankapplication.core.navigation.base.replace
 import javax.inject.Inject
 
 @HiltViewModel

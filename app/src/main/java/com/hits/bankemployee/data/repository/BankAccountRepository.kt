@@ -1,18 +1,18 @@
 package com.hits.bankemployee.data.repository
 
 import com.hits.bankemployee.data.api.BankAccountApi
-import com.hits.bankemployee.data.common.apiCall
-import com.hits.bankemployee.data.common.toResult
 import com.hits.bankemployee.data.mapper.BankAccountMapper
-import com.hits.bankemployee.domain.common.Result
-import com.hits.bankemployee.domain.common.map
 import com.hits.bankemployee.domain.entity.PageInfo
 import com.hits.bankemployee.domain.entity.bankaccount.BankAccountEntity
 import com.hits.bankemployee.domain.entity.bankaccount.OperationHistoryEntity
 import com.hits.bankemployee.domain.repository.IBankAccountRepository
 import kotlinx.coroutines.Dispatchers
+import ru.hitsbank.bank_common.data.apiCall
+import ru.hitsbank.bank_common.data.toResult
 import javax.inject.Inject
 import javax.inject.Singleton
+import ru.hitsbank.bank_common.domain.Result
+import ru.hitsbank.bank_common.domain.map
 
 @Singleton
 class BankAccountRepository @Inject constructor(

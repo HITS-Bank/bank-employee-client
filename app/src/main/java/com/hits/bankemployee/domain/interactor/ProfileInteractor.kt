@@ -1,8 +1,5 @@
 package com.hits.bankemployee.domain.interactor
 
-import com.hits.bankemployee.domain.common.Completable
-import com.hits.bankemployee.domain.common.State
-import com.hits.bankemployee.domain.common.toState
 import com.hits.bankemployee.domain.entity.PageInfo
 import com.hits.bankemployee.domain.entity.ProfileEntity
 import com.hits.bankemployee.domain.entity.RegisterRequestEntity
@@ -10,6 +7,9 @@ import com.hits.bankemployee.domain.entity.RoleType
 import com.hits.bankemployee.domain.repository.IProfileRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import ru.hitsbank.bank_common.domain.Completable
+import ru.hitsbank.bank_common.domain.State
+import ru.hitsbank.bank_common.domain.toState
 import javax.inject.Inject
 
 class ProfileInteractor @Inject constructor(
