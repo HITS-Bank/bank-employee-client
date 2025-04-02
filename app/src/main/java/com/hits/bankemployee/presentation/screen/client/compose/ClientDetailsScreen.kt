@@ -29,6 +29,7 @@ import com.hits.bankemployee.presentation.screen.client.event.ClientDetailsScree
 import com.hits.bankemployee.presentation.screen.client.model.ClientDetailsListItem
 import com.hits.bankemployee.presentation.screen.client.viewmodel.ClientDetailsScreenViewModel
 import ru.hitsbank.bank_common.presentation.common.LocalSnackbarController
+import ru.hitsbank.bank_common.presentation.common.component.Divider
 import ru.hitsbank.bank_common.presentation.common.component.ErrorContent
 import ru.hitsbank.bank_common.presentation.common.component.ListItem
 import ru.hitsbank.bank_common.presentation.common.component.ListItemEnd
@@ -124,6 +125,36 @@ fun ClientDetailsScreen(viewModel: ClientDetailsScreenViewModel) {
                         state.getIfSuccess()?.data?.let { data ->
                             items(data) { item ->
                                 when (item) {
+                                    ClientDetailsListItem.UserInfoHeader -> Text(
+                                        modifier = Modifier.padding(16.dp),
+                                        text = "Информация о пользователе",
+                                        style = S24_W600,
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                    )
+                                    is ClientDetailsListItem.RolesModel -> ListItem(
+                                        icon = ListItemIcon.None,
+                                        title = item.rolesText,
+                                        subtitle = "Роли",
+                                        end = ListItemEnd.Chevron,
+                                        divider = Divider.None,
+                                    )
+                                    ClientDetailsListItem.IsBlockedModel -> ListItem(
+                                        icon = ListItemIcon.None,
+                                        title = "Заблокирован",
+                                        subtitle = "Статус",
+                                        end = ListItemEnd.None,
+                                        divider = Divider.None,
+                                    )
+                                    is ClientDetailsListItem.LoanRatingModel -> ListItem(
+                                        icon = ListItemIcon.None,
+                                        title = item.rating,
+                                        subtitle = "Кредитный рейтинг",
+                                        end = ListItemEnd.None,
+                                        divider = Divider.None,
+                                    )
+
                                     ClientDetailsListItem.AccountsHeader -> Text(
                                         modifier = Modifier.padding(16.dp),
                                         text = "Счета",

@@ -29,6 +29,22 @@ sealed interface ClientDetailsListItem {
             @Composable get() = descriptionColorProvider()
     }
 
+    data object UserInfoHeader : ClientDetailsListItem
+
+    data class LoanRatingModel(
+        val rating: String,
+    ) : ClientDetailsListItem
+
+    data object IsBlockedModel : ClientDetailsListItem
+
+    data class RolesModel(
+        val roles: List<String>,
+    ) : ClientDetailsListItem {
+
+        val rolesText: String
+            get() = roles.joinToString(separator = ", ")
+    }
+
     data object AccountsHeader : ClientDetailsListItem
 
     data object LoansHeader : ClientDetailsListItem

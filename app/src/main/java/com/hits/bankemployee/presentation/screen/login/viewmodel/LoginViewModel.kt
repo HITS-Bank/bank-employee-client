@@ -20,8 +20,8 @@ import ru.hitsbank.bank_common.domain.State
 import ru.hitsbank.bank_common.presentation.common.BankUiState
 import ru.hitsbank.bank_common.presentation.common.getIfSuccess
 import ru.hitsbank.bank_common.presentation.common.updateIfSuccess
-import ru.hitsbank.clientbankapplication.core.navigation.base.NavigationManager
-import ru.hitsbank.clientbankapplication.core.navigation.base.replace
+import ru.hitsbank.bank_common.presentation.navigation.NavigationManager
+import ru.hitsbank.bank_common.presentation.navigation.replace
 import javax.inject.Inject
 
 @HiltViewModel

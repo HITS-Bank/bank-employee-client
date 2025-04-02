@@ -2,6 +2,7 @@ package com.hits.bankemployee.domain.interactor
 
 import com.hits.bankemployee.domain.entity.PageInfo
 import com.hits.bankemployee.domain.entity.loan.LoanEntity
+import com.hits.bankemployee.domain.entity.loan.LoanPaymentEntity
 import com.hits.bankemployee.domain.entity.loan.LoanTariffCreateRequestEntity
 import com.hits.bankemployee.domain.entity.loan.LoanTariffEntity
 import com.hits.bankemployee.domain.entity.loan.LoanTariffSortingOrder
@@ -48,5 +49,15 @@ class LoanInteractor @Inject constructor(private val loanRepository: ILoanReposi
     fun deleteLoanTariff(loanTariffId: String): Flow<State<Completable>> = flow {
         emit(State.Loading)
         emit(loanRepository.deleteLoanTariff(loanTariffId).toState())
+    }
+
+    fun getLoanRating(userId: String): Flow<State<Int>> = flow {
+        emit(State.Loading)
+        emit(loanRepository.getLoanRating(userId).toState())
+    }
+
+    fun getLoanPayments(loanId: String): Flow<State<List<LoanPaymentEntity>>> = flow {
+        emit(State.Loading)
+        emit(loanRepository.getLoanPayments(loanId).toState())
     }
 }

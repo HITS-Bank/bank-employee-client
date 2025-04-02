@@ -26,10 +26,10 @@ import ru.hitsbank.bank_common.domain.map
 import ru.hitsbank.bank_common.presentation.common.BankUiState
 import ru.hitsbank.bank_common.presentation.common.getIfSuccess
 import ru.hitsbank.bank_common.presentation.common.updateIfSuccess
+import ru.hitsbank.bank_common.presentation.navigation.NavigationManager
+import ru.hitsbank.bank_common.presentation.navigation.forwardWithCallbackResult
 import ru.hitsbank.bank_common.presentation.pagination.PaginationEvent
 import ru.hitsbank.bank_common.presentation.pagination.PaginationViewModel
-import ru.hitsbank.clientbankapplication.core.navigation.base.NavigationManager
-import ru.hitsbank.clientbankapplication.core.navigation.base.forwardWithCallbackResult
 
 @HiltViewModel(assistedFactory = UserListViewModel.Factory::class)
 class UserListViewModel @AssistedInject constructor(
@@ -66,6 +66,7 @@ class UserListViewModel @AssistedInject constructor(
                         event.userId,
                         event.fullName,
                         event.isBlocked,
+                        event.roles,
                     )
                 ) {
                     onPaginationEvent(PaginationEvent.Reload)

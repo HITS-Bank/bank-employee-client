@@ -23,6 +23,7 @@ class UsersScreenModelMapper @Inject constructor() {
                     true -> "Заблокирован"
                     false -> profile.roles.joinToString { it.toUserRole().title }
                 },
+                roles = profile.roles,
                 actionIconResId = when (profile.isBanned) {
                     true -> R.drawable.ic_unblock
                     false -> R.drawable.ic_block

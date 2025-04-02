@@ -1,8 +1,10 @@
 package com.hits.bankemployee.data.api
 
+import com.hits.bankemployee.data.model.loan.LoanPaymentResponse
 import com.hits.bankemployee.data.model.loan.LoanResponse
 import com.hits.bankemployee.data.model.loan.LoanTariffCreateRequest
 import com.hits.bankemployee.data.model.loan.LoanTariffResponse
+import com.hits.bankemployee.data.model.loan.LoanUserRatingResponse
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -42,4 +44,14 @@ interface LoanApi {
 
     @GET("credit/loan/{loanId}")
     suspend fun getLoanById(@Path("loanid") loanId: String): Response<LoanResponse>
+
+    @GET("core/loan/{loanId}/payments")
+    suspend fun getLoanPayments(
+        @Path("loanId") loanId: String,
+    ): Response<List<LoanPaymentResponse>>
+
+    @GET("core/loan/{userId}/rating")
+    suspend fun getLoanUserRating(
+        @Path("userId") userId: String,
+    ): Response<LoanUserRatingResponse>
 }

@@ -19,8 +19,8 @@ import com.hits.bankemployee.presentation.navigation.RootNavHost
 import dagger.hilt.android.AndroidEntryPoint
 import ru.hitsbank.bank_common.presentation.common.LocalSnackbarController
 import ru.hitsbank.bank_common.presentation.common.SnackbarController
+import ru.hitsbank.bank_common.presentation.navigation.NavigationManager
 import ru.hitsbank.bank_common.presentation.theme.AppTheme
-import ru.hitsbank.clientbankapplication.core.navigation.base.NavigationManager
 import javax.inject.Inject
 
 @AndroidEntryPoint

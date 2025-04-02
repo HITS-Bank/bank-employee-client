@@ -1,8 +1,9 @@
 package com.hits.bankemployee.presentation.navigation
 
 import com.hits.bankemployee.R
-import ru.hitsbank.clientbankapplication.core.navigation.base.BottomBarDestination
-import ru.hitsbank.clientbankapplication.core.navigation.base.Destination
+import com.hits.bankemployee.domain.entity.RoleType
+import ru.hitsbank.bank_common.presentation.navigation.BottomBarDestination
+import ru.hitsbank.bank_common.presentation.navigation.Destination
 
 object Auth : Destination()
 
@@ -22,14 +23,16 @@ object UserDetails : Destination() {
     const val ARG_USER_ID = "userId"
     const val ARG_USER_FULLNAME = "userFullname"
     const val ARG_IS_USER_BLOCKED = "isUserBlocked"
+    const val ARG_USER_ROLES = "userRoles"
 
-    override var arguments = listOf(ARG_USER_ID, ARG_USER_FULLNAME, ARG_IS_USER_BLOCKED)
+    override var arguments = listOf(ARG_USER_ID, ARG_USER_FULLNAME, ARG_IS_USER_BLOCKED, ARG_USER_ROLES)
 
     fun withArgs(
         userId: String,
         userFullname: String,
         isUserBlocked: Boolean,
-    ): String = destinationWithArgs(userId, userFullname, isUserBlocked)
+        userRoles: List<RoleType>,
+    ): String = destinationWithArgs(userId, userFullname, isUserBlocked, userRoles.map { it.name })
 }
 
 object BankAccountDetails : Destination() {
@@ -67,6 +70,12 @@ object BankAccountDetails : Destination() {
 }
 
 object LoanDetails : Destination() {
+    const val ARG_LOAN_ID = "loanId"
+
+    override var arguments = listOf(ARG_LOAN_ID)
+}
+
+object LoanPayments : Destination() {
     const val ARG_LOAN_ID = "loanId"
 
     override var arguments = listOf(ARG_LOAN_ID)

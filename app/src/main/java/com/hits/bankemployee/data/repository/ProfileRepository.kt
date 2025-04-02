@@ -9,9 +9,9 @@ import com.hits.bankemployee.domain.entity.RegisterRequestEntity
 import com.hits.bankemployee.domain.entity.RoleType
 import com.hits.bankemployee.domain.repository.IProfileRepository
 import kotlinx.coroutines.Dispatchers
-import ru.hitsbank.bank_common.data.apiCall
-import ru.hitsbank.bank_common.data.toCompletableResult
-import ru.hitsbank.bank_common.data.toResult
+import ru.hitsbank.bank_common.data.utils.apiCall
+import ru.hitsbank.bank_common.data.utils.toCompletableResult
+import ru.hitsbank.bank_common.data.utils.toResult
 import ru.hitsbank.bank_common.domain.Completable
 import ru.hitsbank.bank_common.domain.map
 import javax.inject.Inject

@@ -6,8 +6,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import ru.hitsbank.clientbankapplication.core.navigation.base.NavigationManager
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -18,11 +16,5 @@ class PresentationModule {
         @ApplicationContext context: Context,
     ): Context {
         return context
-    }
-
-    @Singleton
-    @Provides
-    fun provideNavigationManager(): NavigationManager {
-        return NavigationManager()
     }
 }

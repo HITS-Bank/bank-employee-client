@@ -7,8 +7,8 @@ import com.hits.bankemployee.domain.entity.bankaccount.BankAccountEntity
 import com.hits.bankemployee.domain.entity.bankaccount.OperationHistoryEntity
 import com.hits.bankemployee.domain.repository.IBankAccountRepository
 import kotlinx.coroutines.Dispatchers
-import ru.hitsbank.bank_common.data.apiCall
-import ru.hitsbank.bank_common.data.toResult
+import ru.hitsbank.bank_common.data.utils.apiCall
+import ru.hitsbank.bank_common.data.utils.toResult
 import javax.inject.Inject
 import javax.inject.Singleton
 import ru.hitsbank.bank_common.domain.Result

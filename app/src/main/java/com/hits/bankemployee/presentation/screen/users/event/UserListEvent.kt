@@ -1,5 +1,7 @@
 package com.hits.bankemployee.presentation.screen.users.event
 
+import com.hits.bankemployee.domain.entity.RoleType
+
 sealed interface UserListEvent {
 
     data class BlockUser(val userId: String) : UserListEvent
@@ -12,6 +14,7 @@ sealed interface UserListEvent {
         val userId: String,
         val fullName: String,
         val isBlocked: Boolean,
+        val roles: List<RoleType>,
     ) : UserListEvent
 
     object CloseBlockDialog : UserListEvent

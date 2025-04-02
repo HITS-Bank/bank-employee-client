@@ -18,9 +18,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.hitsbank.bank_common.domain.State
 import ru.hitsbank.bank_common.presentation.common.BankUiState
-import ru.hitsbank.clientbankapplication.core.navigation.base.NavigationManager
-import ru.hitsbank.clientbankapplication.core.navigation.base.back
-import ru.hitsbank.clientbankapplication.core.navigation.base.forwardWithCallbackResult
+import ru.hitsbank.bank_common.presentation.navigation.NavigationManager
+import ru.hitsbank.bank_common.presentation.navigation.back
+import ru.hitsbank.bank_common.presentation.navigation.forwardWithCallbackResult
 
 @HiltViewModel(assistedFactory = LoanDetailsViewModel.Factory::class)
 class LoanDetailsViewModel @AssistedInject constructor(

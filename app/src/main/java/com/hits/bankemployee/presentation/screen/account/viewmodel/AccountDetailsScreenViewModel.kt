@@ -23,10 +23,10 @@ import ru.hitsbank.bank_common.domain.State
 import ru.hitsbank.bank_common.domain.map
 import ru.hitsbank.bank_common.domain.mergeWith
 import ru.hitsbank.bank_common.presentation.common.BankUiState
+import ru.hitsbank.bank_common.presentation.navigation.NavigationManager
+import ru.hitsbank.bank_common.presentation.navigation.back
 import ru.hitsbank.bank_common.presentation.pagination.PaginationEvent
 import ru.hitsbank.bank_common.presentation.pagination.PaginationViewModel
-import ru.hitsbank.clientbankapplication.core.navigation.base.NavigationManager
-import ru.hitsbank.clientbankapplication.core.navigation.base.back
 
 private const val ACCOUNT_ID = "accountId"
 private const val ACCOUNT_NUMBER = "accountNumber"

@@ -8,8 +8,8 @@ import com.hits.bankemployee.data.model.TokenType
 import com.hits.bankemployee.domain.entity.LoginRequestEntity
 import com.hits.bankemployee.domain.repository.IAuthRepository
 import kotlinx.coroutines.Dispatchers
-import ru.hitsbank.bank_common.data.apiCall
-import ru.hitsbank.bank_common.data.toResult
+import ru.hitsbank.bank_common.data.utils.apiCall
+import ru.hitsbank.bank_common.data.utils.toResult
 import ru.hitsbank.bank_common.domain.Completable
 import javax.inject.Inject
 import javax.inject.Singleton
