@@ -1,22 +1,25 @@
 package com.hits.bankemployee.data.repository
 
 import com.hits.bankemployee.data.api.ProfileApi
-import com.hits.bankemployee.data.common.apiCall
-import com.hits.bankemployee.data.common.toCompletableResult
-import com.hits.bankemployee.data.common.toResult
 import com.hits.bankemployee.data.datasource.SessionManager
 import com.hits.bankemployee.data.mapper.ProfileMapper
-import com.hits.bankemployee.domain.common.Completable
-import com.hits.bankemployee.domain.common.Result
-import com.hits.bankemployee.domain.common.map
 import com.hits.bankemployee.domain.entity.PageInfo
 import com.hits.bankemployee.domain.entity.ProfileEntity
 import com.hits.bankemployee.domain.entity.RegisterRequestEntity
 import com.hits.bankemployee.domain.entity.RoleType
 import com.hits.bankemployee.domain.repository.IProfileRepository
 import kotlinx.coroutines.Dispatchers
+import ru.hitsbank.bank_common.data.apiCall
+import ru.hitsbank.bank_common.data.toCompletableResult
+import ru.hitsbank.bank_common.data.toResult
+import ru.hitsbank.bank_common.domain.Completable
+import ru.hitsbank.bank_common.domain.map
+import javax.inject.Inject
+import javax.inject.Singleton
+import ru.hitsbank.bank_common.domain.Result
 
-class ProfileRepository(
+@Singleton
+class ProfileRepository @Inject constructor(
     private val profileApi: ProfileApi,
     private val sessionManager: SessionManager,
     private val mapper: ProfileMapper,
@@ -28,7 +31,7 @@ class ProfileRepository(
                 .toResult()
                 .also { result ->
                     if (result is Result.Success) {
-                        sessionManager.saveIsUserBlocked(result.data.isBanned)
+                        sessionManager.saveIsUserBlocked(result.data.isBlocked)
                     }
                 }
                 .map(mapper::map)
@@ -36,12 +39,12 @@ class ProfileRepository(
     }
 
     override suspend fun getProfilesPage(
-        roleType: RoleType,
+        roleType: RoleType?,
         page: PageInfo,
-        query: String?
+        query: String?,
     ): Result<List<ProfileEntity>> {
         return apiCall(Dispatchers.IO) {
-            profileApi.getProfilesPage(roleType.name, page.pageNumber, page.pageSize, query)
+            profileApi.getProfilesPage(roleType?.name, page.pageNumber, page.pageSize, query)
                 .toResult()
                 .map { list -> list.map { profile -> mapper.map(profile) } }
         }

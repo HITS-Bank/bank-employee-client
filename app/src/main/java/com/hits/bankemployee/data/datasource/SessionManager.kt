@@ -9,8 +9,11 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeParseException
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class SessionManager(context: Context) {
+@Singleton
+class SessionManager @Inject constructor(context: Context) {
 
     private companion object {
         const val TOKEN_PREFERENCES_KEY = "token_preferences"

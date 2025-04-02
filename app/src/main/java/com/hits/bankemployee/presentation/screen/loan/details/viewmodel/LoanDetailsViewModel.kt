@@ -2,24 +2,29 @@ package com.hits.bankemployee.presentation.screen.loan.details.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hits.bankemployee.domain.common.State
 import com.hits.bankemployee.domain.interactor.LoanInteractor
-import com.hits.bankemployee.presentation.common.BankUiState
 import com.hits.bankemployee.presentation.navigation.BankAccountDetails
-import com.hits.bankemployee.presentation.navigation.base.NavigationManager
-import com.hits.bankemployee.presentation.navigation.base.back
-import com.hits.bankemployee.presentation.navigation.base.forwardWithCallbackResult
 import com.hits.bankemployee.presentation.screen.loan.details.event.LoanDetailsEvent
 import com.hits.bankemployee.presentation.screen.loan.details.mapper.LoanDetailsMapper
 import com.hits.bankemployee.presentation.screen.loan.details.model.LoanDetailsState
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import ru.hitsbank.bank_common.domain.State
+import ru.hitsbank.bank_common.presentation.common.BankUiState
+import ru.hitsbank.clientbankapplication.core.navigation.base.NavigationManager
+import ru.hitsbank.clientbankapplication.core.navigation.base.back
+import ru.hitsbank.clientbankapplication.core.navigation.base.forwardWithCallbackResult
 
-class LoanDetailsViewModel(
-    private val loanNumber: String,
+@HiltViewModel(assistedFactory = LoanDetailsViewModel.Factory::class)
+class LoanDetailsViewModel @AssistedInject constructor(
+    @Assisted private val loanId: String,
     private val loanInteractor: LoanInteractor,
     private val mapper: LoanDetailsMapper,
     private val navigationManager: NavigationManager,
@@ -37,10 +42,10 @@ class LoanDetailsViewModel(
             is LoanDetailsEvent.OpenBankAccount -> {
                 navigationManager.forwardWithCallbackResult(
                     BankAccountDetails.withArgs(
-                        bankAccountNumber = event.accountNumber,
+                        bankAccountId = event.accountId,
                     )
                 ) {
-                    forceReloadLoanDetails(loanNumber)
+                    forceReloadLoanDetails(loanId)
                 }
             }
 
@@ -51,11 +56,11 @@ class LoanDetailsViewModel(
     }
 
     private fun loadLoanDetails() {
-        forceReloadLoanDetails(loanNumber)
+        forceReloadLoanDetails(loanId)
     }
 
-    private fun forceReloadLoanDetails(loanNumber: String) {
-        val loanEntityRequest = loanInteractor.getLoanByNumber(loanNumber)
+    private fun forceReloadLoanDetails(loanId: String) {
+        val loanEntityRequest = loanInteractor.getLoanById(loanId)
         viewModelScope.launch {
             loanEntityRequest.collectLatest { state ->
                 _state.update {
@@ -69,5 +74,10 @@ class LoanDetailsViewModel(
                 }
             }
         }
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(loanId: String): LoanDetailsViewModel
     }
 }

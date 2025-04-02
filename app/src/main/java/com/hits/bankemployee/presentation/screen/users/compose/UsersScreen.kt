@@ -15,13 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hits.bankemployee.R
-import com.hits.bankemployee.presentation.common.LocalSnackbarController
-import com.hits.bankemployee.presentation.common.component.LoadingContentOverlay
-import com.hits.bankemployee.presentation.common.component.SearchTextField
-import com.hits.bankemployee.presentation.common.observeWithLifecycle
-import com.hits.bankemployee.presentation.common.rememberCallback
 import com.hits.bankemployee.presentation.screen.users.compose.component.CreateUserDialog
 import com.hits.bankemployee.presentation.screen.users.compose.component.UsersScreenPager
 import com.hits.bankemployee.presentation.screen.users.event.UserListEvent
@@ -31,16 +27,27 @@ import com.hits.bankemployee.presentation.screen.users.model.CreateUserDialogSta
 import com.hits.bankemployee.presentation.screen.users.model.UserRole
 import com.hits.bankemployee.presentation.screen.users.viewmodel.UserListViewModel
 import com.hits.bankemployee.presentation.screen.users.viewmodel.UsersScreenViewModel
-import org.koin.androidx.compose.koinViewModel
-import org.koin.core.qualifier.named
+import ru.hitsbank.bank_common.presentation.common.LocalSnackbarController
+import ru.hitsbank.bank_common.presentation.common.component.LoadingContentOverlay
+import ru.hitsbank.bank_common.presentation.common.component.SearchTextField
+import ru.hitsbank.bank_common.presentation.common.observeWithLifecycle
+import ru.hitsbank.bank_common.presentation.common.rememberCallback
 
 @Composable
-fun UsersScreen(viewModel: UsersScreenViewModel = koinViewModel()) {
+fun UsersScreen(viewModel: UsersScreenViewModel = hiltViewModel()) {
     val snackbarController = LocalSnackbarController.current
     val state by viewModel.state.collectAsStateWithLifecycle()
     val onEvent = rememberCallback(viewModel::onEvent)
-    val clientViewModel: UserListViewModel = koinViewModel(named(UserRole.CLIENT.name))
-    val employeeViewModel: UserListViewModel = koinViewModel(named(UserRole.EMPLOYEE.name))
+    val clientViewModel: UserListViewModel = hiltViewModel<UserListViewModel, UserListViewModel.Factory>(
+        creationCallback = { factory ->
+            factory.create(UserRole.CLIENT)
+        }
+    )
+    val employeeViewModel: UserListViewModel = hiltViewModel<UserListViewModel, UserListViewModel.Factory>(
+        creationCallback = { factory ->
+            factory.create(UserRole.EMPLOYEE)
+        }
+    )
 
     when (val dialogState = state.createUserDialogState) {
         CreateUserDialogState.Hidden -> Unit

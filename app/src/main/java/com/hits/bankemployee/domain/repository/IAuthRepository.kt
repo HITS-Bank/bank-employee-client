@@ -1,8 +1,8 @@
 package com.hits.bankemployee.domain.repository
 
-import com.hits.bankemployee.domain.common.Result
-import com.hits.bankemployee.domain.common.Completable
+import ru.hitsbank.bank_common.domain.Result
 import com.hits.bankemployee.domain.entity.LoginRequestEntity
+import ru.hitsbank.bank_common.domain.Completable
 
 interface IAuthRepository {
 

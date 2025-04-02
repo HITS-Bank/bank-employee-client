@@ -21,4 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Bank Employee"
 include(":app")
- 
+
+include(":bank-common")
+project(":bank-common").projectDir = file("bank-common")

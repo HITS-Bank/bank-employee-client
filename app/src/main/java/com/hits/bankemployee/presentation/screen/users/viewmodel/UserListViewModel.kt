@@ -1,18 +1,9 @@
 package com.hits.bankemployee.presentation.screen.users.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.hits.bankemployee.domain.common.State
-import com.hits.bankemployee.domain.common.map
 import com.hits.bankemployee.domain.entity.PageInfo
 import com.hits.bankemployee.domain.interactor.ProfileInteractor
-import com.hits.bankemployee.presentation.common.BankUiState
-import com.hits.bankemployee.presentation.common.getIfSuccess
-import com.hits.bankemployee.presentation.common.updateIfSuccess
 import com.hits.bankemployee.presentation.navigation.UserDetails
-import com.hits.bankemployee.presentation.navigation.base.NavigationManager
-import com.hits.bankemployee.presentation.navigation.base.forwardWithCallbackResult
-import com.hits.bankemployee.presentation.pagination.PaginationEvent
-import com.hits.bankemployee.presentation.pagination.PaginationViewModel
 import com.hits.bankemployee.presentation.screen.users.event.UserListEffect
 import com.hits.bankemployee.presentation.screen.users.event.UserListEvent
 import com.hits.bankemployee.presentation.screen.users.mapper.UsersScreenModelMapper
@@ -20,15 +11,29 @@ import com.hits.bankemployee.presentation.screen.users.model.UserRole
 import com.hits.bankemployee.presentation.screen.users.model.toRoleType
 import com.hits.bankemployee.presentation.screen.users.model.userlist.UserListPaginationState
 import com.hits.bankemployee.presentation.screen.users.model.userlist.UserModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import ru.hitsbank.bank_common.domain.State
+import ru.hitsbank.bank_common.domain.map
+import ru.hitsbank.bank_common.presentation.common.BankUiState
+import ru.hitsbank.bank_common.presentation.common.getIfSuccess
+import ru.hitsbank.bank_common.presentation.common.updateIfSuccess
+import ru.hitsbank.bank_common.presentation.pagination.PaginationEvent
+import ru.hitsbank.bank_common.presentation.pagination.PaginationViewModel
+import ru.hitsbank.clientbankapplication.core.navigation.base.NavigationManager
+import ru.hitsbank.clientbankapplication.core.navigation.base.forwardWithCallbackResult
 
-class UserListViewModel(
-    private val role: UserRole = UserRole.CLIENT,
+@HiltViewModel(assistedFactory = UserListViewModel.Factory::class)
+class UserListViewModel @AssistedInject constructor(
+    @Assisted private val role: UserRole = UserRole.CLIENT,
     private val navigationManager: NavigationManager,
     private val profileInteractor: ProfileInteractor,
     private val mapper: UsersScreenModelMapper,
@@ -56,7 +61,6 @@ class UserListViewModel(
             }
 
             is UserListEvent.OpenClientDetails -> {
-                if (role != UserRole.CLIENT) return
                 navigationManager.forwardWithCallbackResult(
                     UserDetails.withArgs(
                         event.userId,
@@ -170,5 +174,10 @@ class UserListViewModel(
 
     companion object {
         const val PAGE_SIZE = 10
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(role: UserRole): UserListViewModel
     }
 }

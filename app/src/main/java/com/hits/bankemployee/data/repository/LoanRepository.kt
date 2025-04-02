@@ -1,13 +1,7 @@
 package com.hits.bankemployee.data.repository
 
 import com.hits.bankemployee.data.api.LoanApi
-import com.hits.bankemployee.data.common.apiCall
-import com.hits.bankemployee.data.common.toCompletableResult
-import com.hits.bankemployee.data.common.toResult
 import com.hits.bankemployee.data.mapper.LoanMapper
-import com.hits.bankemployee.data.model.loan.LoanTariffDeleteRequest
-import com.hits.bankemployee.domain.common.Completable
-import com.hits.bankemployee.domain.common.Result
 import com.hits.bankemployee.domain.entity.PageInfo
 import com.hits.bankemployee.domain.entity.loan.LoanEntity
 import com.hits.bankemployee.domain.entity.loan.LoanTariffCreateRequestEntity
@@ -16,8 +10,16 @@ import com.hits.bankemployee.domain.entity.loan.LoanTariffSortingOrder
 import com.hits.bankemployee.domain.entity.loan.LoanTariffSortingProperty
 import com.hits.bankemployee.domain.repository.ILoanRepository
 import kotlinx.coroutines.Dispatchers
+import ru.hitsbank.bank_common.data.apiCall
+import ru.hitsbank.bank_common.data.toCompletableResult
+import ru.hitsbank.bank_common.data.toResult
+import ru.hitsbank.bank_common.domain.Completable
+import javax.inject.Inject
+import javax.inject.Singleton
+import ru.hitsbank.bank_common.domain.Result
 
-class LoanRepository(
+@Singleton
+class LoanRepository @Inject constructor(
     private val loanApi: LoanApi,
     private val mapper: LoanMapper,
 ) : ILoanRepository {
@@ -30,16 +32,16 @@ class LoanRepository(
                 pageNumber = pageInfo.pageNumber,
             )
                 .toResult { page ->
-                    page.loans.map { loan ->
+                    page.map { loan ->
                         mapper.map(loan)
                     }
                 }
         }
     }
 
-    override suspend fun getLoanByNumber(loanNumber: String): Result<LoanEntity> {
+    override suspend fun getLoanById(loanId: String): Result<LoanEntity> {
         return apiCall(Dispatchers.IO) {
-            loanApi.getLoanByNumber(loanNumber).toResult { loan ->
+            loanApi.getLoanById(loanId).toResult { loan ->
                 mapper.map(loan)
             }
         }
@@ -49,7 +51,7 @@ class LoanRepository(
         pageInfo: PageInfo,
         sortingProperty: LoanTariffSortingProperty,
         sortingOrder: LoanTariffSortingOrder,
-        query: String?
+        query: String?,
     ): Result<List<LoanTariffEntity>> {
         return apiCall(Dispatchers.IO) {
             loanApi.getLoanTariffs(
@@ -59,7 +61,7 @@ class LoanRepository(
                 pageSize = pageInfo.pageSize,
                 nameQuery = query,
             ).toResult { page ->
-                page.loanTariffs.map { tariff ->
+                page.map { tariff ->
                     mapper.map(tariff)
                 }
             }
@@ -67,7 +69,7 @@ class LoanRepository(
     }
 
     override suspend fun createLoanTariff(
-        loanTariffCreateRequestEntity: LoanTariffCreateRequestEntity
+        loanTariffCreateRequestEntity: LoanTariffCreateRequestEntity,
     ): Result<Completable> {
         return apiCall(Dispatchers.IO) {
             loanApi.createLoanTariff(mapper.map(loanTariffCreateRequestEntity))
@@ -77,7 +79,7 @@ class LoanRepository(
 
     override suspend fun deleteLoanTariff(loanTariffId: String): Result<Completable> {
         return apiCall(Dispatchers.IO) {
-            loanApi.deleteLoanTariff(LoanTariffDeleteRequest(loanTariffId))
+            loanApi.deleteLoanTariff(loanTariffId)
                 .toCompletableResult()
         }
     }

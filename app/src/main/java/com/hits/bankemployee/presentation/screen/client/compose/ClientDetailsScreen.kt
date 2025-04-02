@@ -28,27 +28,27 @@ import com.hits.bankemployee.presentation.screen.client.event.ClientDetailsScree
 import com.hits.bankemployee.presentation.screen.client.event.ClientDetailsScreenEvent
 import com.hits.bankemployee.presentation.screen.client.model.ClientDetailsListItem
 import com.hits.bankemployee.presentation.screen.client.viewmodel.ClientDetailsScreenViewModel
-import com.hits.bankemployee.presentation.common.LocalSnackbarController
-import com.hits.bankemployee.presentation.common.component.ErrorContent
-import com.hits.bankemployee.presentation.common.component.ListItem
-import com.hits.bankemployee.presentation.common.component.ListItemEnd
-import com.hits.bankemployee.presentation.common.component.ListItemIcon
-import com.hits.bankemployee.presentation.common.component.LoadingContent
-import com.hits.bankemployee.presentation.common.component.LoadingContentOverlay
-import com.hits.bankemployee.presentation.common.component.PaginationErrorContent
-import com.hits.bankemployee.presentation.common.component.PaginationLoadingContent
-import com.hits.bankemployee.presentation.common.getIfSuccess
-import com.hits.bankemployee.presentation.common.noRippleClickable
-import com.hits.bankemployee.presentation.common.observeWithLifecycle
-import com.hits.bankemployee.presentation.common.rememberCallback
-import com.hits.bankemployee.presentation.pagination.PaginationEvent
-import com.hits.bankemployee.presentation.pagination.PaginationReloadState
-import com.hits.bankemployee.presentation.pagination.PaginationState
-import com.hits.bankemployee.presentation.pagination.reloadState
-import com.hits.bankemployee.presentation.pagination.rememberPaginationListState
-import com.hits.bankemployee.presentation.theme.S14_W400
-import com.hits.bankemployee.presentation.theme.S22_W400
-import com.hits.bankemployee.presentation.theme.S24_W600
+import ru.hitsbank.bank_common.presentation.common.LocalSnackbarController
+import ru.hitsbank.bank_common.presentation.common.component.ErrorContent
+import ru.hitsbank.bank_common.presentation.common.component.ListItem
+import ru.hitsbank.bank_common.presentation.common.component.ListItemEnd
+import ru.hitsbank.bank_common.presentation.common.component.ListItemIcon
+import ru.hitsbank.bank_common.presentation.common.component.LoadingContent
+import ru.hitsbank.bank_common.presentation.common.component.LoadingContentOverlay
+import ru.hitsbank.bank_common.presentation.common.component.PaginationErrorContent
+import ru.hitsbank.bank_common.presentation.common.component.PaginationLoadingContent
+import ru.hitsbank.bank_common.presentation.common.getIfSuccess
+import ru.hitsbank.bank_common.presentation.common.noRippleClickable
+import ru.hitsbank.bank_common.presentation.common.observeWithLifecycle
+import ru.hitsbank.bank_common.presentation.common.rememberCallback
+import ru.hitsbank.bank_common.presentation.pagination.PaginationEvent
+import ru.hitsbank.bank_common.presentation.pagination.PaginationReloadState
+import ru.hitsbank.bank_common.presentation.pagination.PaginationState
+import ru.hitsbank.bank_common.presentation.pagination.reloadState
+import ru.hitsbank.bank_common.presentation.pagination.rememberPaginationListState
+import ru.hitsbank.bank_common.presentation.theme.S14_W400
+import ru.hitsbank.bank_common.presentation.theme.S22_W400
+import ru.hitsbank.bank_common.presentation.theme.S24_W600
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -146,8 +146,10 @@ fun ClientDetailsScreen(viewModel: ClientDetailsScreenViewModel) {
                                         modifier = Modifier.clickable {
                                             onEvent(
                                                 ClientDetailsScreenEvent.BankAccountClicked(
+                                                    id = item.id,
                                                     number = item.number,
                                                     balance = item.balance,
+                                                    currencyCode = item.currencyCode,
                                                     status = item.status,
                                                 )
                                             )
@@ -162,7 +164,7 @@ fun ClientDetailsScreen(viewModel: ClientDetailsScreenViewModel) {
                                     is ClientDetailsListItem.LoanModel -> ListItem(
                                         modifier = Modifier.clickable {
                                             onEvent(
-                                                ClientDetailsScreenEvent.LoanClicked(item.number)
+                                                ClientDetailsScreenEvent.LoanClicked(item.id)
                                             )
                                         },
                                         icon = ListItemIcon.Vector(iconResId = R.drawable.ic_loan),

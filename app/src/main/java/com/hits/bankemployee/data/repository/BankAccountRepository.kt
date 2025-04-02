@@ -1,19 +1,21 @@
 package com.hits.bankemployee.data.repository
 
 import com.hits.bankemployee.data.api.BankAccountApi
-import com.hits.bankemployee.data.common.apiCall
-import com.hits.bankemployee.data.common.toResult
 import com.hits.bankemployee.data.mapper.BankAccountMapper
-import com.hits.bankemployee.data.model.account.AccountNumberRequest
-import com.hits.bankemployee.domain.common.Result
-import com.hits.bankemployee.domain.common.map
 import com.hits.bankemployee.domain.entity.PageInfo
 import com.hits.bankemployee.domain.entity.bankaccount.BankAccountEntity
 import com.hits.bankemployee.domain.entity.bankaccount.OperationHistoryEntity
 import com.hits.bankemployee.domain.repository.IBankAccountRepository
 import kotlinx.coroutines.Dispatchers
+import ru.hitsbank.bank_common.data.apiCall
+import ru.hitsbank.bank_common.data.toResult
+import javax.inject.Inject
+import javax.inject.Singleton
+import ru.hitsbank.bank_common.domain.Result
+import ru.hitsbank.bank_common.domain.map
 
-class BankAccountRepository(
+@Singleton
+class BankAccountRepository @Inject constructor(
     private val bankAccountApi: BankAccountApi,
     private val mapper: BankAccountMapper,
 ) : IBankAccountRepository {
@@ -25,19 +27,23 @@ class BankAccountRepository(
         if (pageInfo.pageNumber > 1)
             return Result.Success(emptyList())
         return apiCall(Dispatchers.IO) {
-            bankAccountApi.getAccountsList(userId)
+            bankAccountApi.getAccountsList(
+                clientId = userId,
+                pageNumber = pageInfo.pageNumber,
+                pageSize = pageInfo.pageSize,
+            )
                 .toResult()
                 .map { accounts ->
-                    accounts.accounts.map { account ->
+                    accounts.map { account ->
                         mapper.map(account)
                     }
                 }
         }
     }
 
-    override suspend fun getAccountDetails(accountNumber: String): Result<BankAccountEntity> {
+    override suspend fun getAccountDetails(accountId: String): Result<BankAccountEntity> {
         return apiCall(Dispatchers.IO) {
-            bankAccountApi.getAccountByNumber(AccountNumberRequest(accountNumber = accountNumber))
+            bankAccountApi.getAccountById(accountId)
                 .toResult()
                 .map { account ->
                     mapper.map(account)
@@ -46,12 +52,12 @@ class BankAccountRepository(
     }
 
     override suspend fun getAccountOperationHistory(
-        accountNumber: String,
+        accountId: String,
         pageInfo: PageInfo
     ): Result<List<OperationHistoryEntity>> {
         return apiCall(Dispatchers.IO) {
             bankAccountApi.getAccountOperationHistory(
-                accountNumberRequest = AccountNumberRequest(accountNumber),
+                accountId = accountId,
                 pageNumber = pageInfo.pageNumber,
                 pageSize = pageInfo.pageSize,
             ).toResult().map { list ->

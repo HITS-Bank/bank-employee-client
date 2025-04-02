@@ -1,8 +1,5 @@
 package com.hits.bankemployee.domain.interactor
 
-import com.hits.bankemployee.domain.common.Completable
-import com.hits.bankemployee.domain.common.State
-import com.hits.bankemployee.domain.common.toState
 import com.hits.bankemployee.domain.entity.PageInfo
 import com.hits.bankemployee.domain.entity.loan.LoanEntity
 import com.hits.bankemployee.domain.entity.loan.LoanTariffCreateRequestEntity
@@ -12,8 +9,12 @@ import com.hits.bankemployee.domain.entity.loan.LoanTariffSortingProperty
 import com.hits.bankemployee.domain.repository.ILoanRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import ru.hitsbank.bank_common.domain.Completable
+import ru.hitsbank.bank_common.domain.State
+import ru.hitsbank.bank_common.domain.toState
+import javax.inject.Inject
 
-class LoanInteractor(private val loanRepository: ILoanRepository) {
+class LoanInteractor @Inject constructor(private val loanRepository: ILoanRepository) {
 
     fun getLoanTariffs(
         pageInfo: PageInfo,
@@ -32,9 +33,9 @@ class LoanInteractor(private val loanRepository: ILoanRepository) {
         emit(loanRepository.getLoans(userId, pageInfo).toState())
     }
 
-    fun getLoanByNumber(loanNumber: String): Flow<State<LoanEntity>> = flow {
+    fun getLoanById(loanId: String): Flow<State<LoanEntity>> = flow {
         emit(State.Loading)
-        emit(loanRepository.getLoanByNumber(loanNumber).toState())
+        emit(loanRepository.getLoanById(loanId).toState())
     }
 
     fun createLoanTariff(

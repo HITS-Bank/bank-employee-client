@@ -1,20 +1,23 @@
 package com.hits.bankemployee.data.repository
 
 import com.hits.bankemployee.data.api.AuthApi
-import com.hits.bankemployee.data.common.apiCall
-import com.hits.bankemployee.data.common.toResult
 import com.hits.bankemployee.data.datasource.SessionManager
 import com.hits.bankemployee.data.mapper.AuthMapper
 import com.hits.bankemployee.data.model.RefreshRequest
 import com.hits.bankemployee.data.model.TokenType
-import com.hits.bankemployee.domain.common.Completable
-import com.hits.bankemployee.domain.common.toCompletableResult
 import com.hits.bankemployee.domain.entity.LoginRequestEntity
 import com.hits.bankemployee.domain.repository.IAuthRepository
-import com.hits.bankemployee.domain.common.Result
 import kotlinx.coroutines.Dispatchers
+import ru.hitsbank.bank_common.data.apiCall
+import ru.hitsbank.bank_common.data.toResult
+import ru.hitsbank.bank_common.domain.Completable
+import javax.inject.Inject
+import javax.inject.Singleton
+import ru.hitsbank.bank_common.domain.Result
+import ru.hitsbank.bank_common.domain.toCompletableResult
 
-class AuthRepository(
+@Singleton
+class AuthRepository @Inject constructor(
     private val authApi: AuthApi,
     private val mapper: AuthMapper,
     private val sessionManager: SessionManager,

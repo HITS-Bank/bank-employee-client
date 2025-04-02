@@ -17,7 +17,7 @@ interface ProfileApi {
 
     @GET("users/employee/profile/list")
     suspend fun getProfilesPage(
-        @Query("role") role: String,
+        @Query("role") role: String? = null,
         @Query("pageNumber") pageNumber: Int,
         @Query("pageSize") pageSize: Int,
         @Query("nameQuery") nameQuery: String? = null,

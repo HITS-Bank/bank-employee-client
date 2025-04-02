@@ -21,21 +21,21 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hits.bankemployee.R
-import com.hits.bankemployee.presentation.common.BankUiState
-import com.hits.bankemployee.presentation.common.component.Divider
-import com.hits.bankemployee.presentation.common.component.ErrorContent
-import com.hits.bankemployee.presentation.common.component.ListItem
-import com.hits.bankemployee.presentation.common.component.ListItemEnd
-import com.hits.bankemployee.presentation.common.component.ListItemIcon
-import com.hits.bankemployee.presentation.common.component.LoadingContent
-import com.hits.bankemployee.presentation.common.noRippleClickable
-import com.hits.bankemployee.presentation.common.rememberCallback
 import com.hits.bankemployee.presentation.screen.loan.details.event.LoanDetailsEvent
 import com.hits.bankemployee.presentation.screen.loan.details.model.LoanDetailsListItem
 import com.hits.bankemployee.presentation.screen.loan.details.model.LoanDetailsState
 import com.hits.bankemployee.presentation.screen.loan.details.viewmodel.LoanDetailsViewModel
-import com.hits.bankemployee.presentation.theme.S22_W400
-import com.hits.bankemployee.presentation.theme.S24_W600
+import ru.hitsbank.bank_common.presentation.common.BankUiState
+import ru.hitsbank.bank_common.presentation.common.component.Divider
+import ru.hitsbank.bank_common.presentation.common.component.ErrorContent
+import ru.hitsbank.bank_common.presentation.common.component.ListItem
+import ru.hitsbank.bank_common.presentation.common.component.ListItemEnd
+import ru.hitsbank.bank_common.presentation.common.component.ListItemIcon
+import ru.hitsbank.bank_common.presentation.common.component.LoadingContent
+import ru.hitsbank.bank_common.presentation.common.noRippleClickable
+import ru.hitsbank.bank_common.presentation.common.rememberCallback
+import ru.hitsbank.bank_common.presentation.theme.S22_W400
+import ru.hitsbank.bank_common.presentation.theme.S24_W600
 
 @Composable
 fun LoanDetailsScreen(viewModel: LoanDetailsViewModel) {
@@ -116,7 +116,7 @@ private fun LoanDetailsScreenContent(
                     )
 
                     is LoanDetailsListItem.LoanBankAccount -> ListItem(
-                        modifier = Modifier.clickable { onEvent(LoanDetailsEvent.OpenBankAccount(item.accountNumber)) },
+                        modifier = Modifier.clickable { onEvent(LoanDetailsEvent.OpenBankAccount(item.accountId)) },
                         icon = ListItemIcon.None,
                         divider = Divider.None,
                         padding = PaddingValues(top = 12.dp, bottom = 12.dp, end = 16.dp),

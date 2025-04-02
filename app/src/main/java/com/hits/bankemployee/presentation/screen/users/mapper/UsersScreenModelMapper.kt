@@ -9,8 +9,9 @@ import com.hits.bankemployee.presentation.screen.users.model.UserRole
 import com.hits.bankemployee.presentation.screen.users.model.toRoleType
 import com.hits.bankemployee.presentation.screen.users.model.toUserRole
 import com.hits.bankemployee.presentation.screen.users.model.userlist.UserModel
+import javax.inject.Inject
 
-class UsersScreenModelMapper {
+class UsersScreenModelMapper @Inject constructor() {
 
     fun map(usersPage: List<ProfileEntity>): List<UserModel> {
         return usersPage.map { profile ->
@@ -20,7 +21,7 @@ class UsersScreenModelMapper {
                 fullName = "${profile.firstName} ${profile.lastName}",
                 status = when (profile.isBanned) {
                     true -> "Заблокирован"
-                    false -> profile.role.toUserRole().title
+                    false -> profile.roles.joinToString { it.toUserRole().title }
                 },
                 actionIconResId = when (profile.isBanned) {
                     true -> R.drawable.ic_unblock

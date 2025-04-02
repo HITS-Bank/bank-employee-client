@@ -5,6 +5,5 @@ data class ProfileEntity(
     val firstName: String,
     val lastName: String,
     val isBanned: Boolean,
-    val email: String,
-    val role: RoleType,
+    val roles: List<RoleType>,
 )

@@ -1,22 +1,12 @@
 package com.hits.bankemployee.presentation.screen.client.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.hits.bankemployee.domain.common.State
-import com.hits.bankemployee.domain.common.map
 import com.hits.bankemployee.domain.entity.PageInfo
 import com.hits.bankemployee.domain.interactor.BankAccountInteractor
 import com.hits.bankemployee.domain.interactor.LoanInteractor
 import com.hits.bankemployee.domain.interactor.ProfileInteractor
-import com.hits.bankemployee.presentation.common.BankUiState
-import com.hits.bankemployee.presentation.common.getIfSuccess
-import com.hits.bankemployee.presentation.common.updateIfSuccess
 import com.hits.bankemployee.presentation.navigation.BankAccountDetails
 import com.hits.bankemployee.presentation.navigation.LoanDetails
-import com.hits.bankemployee.presentation.navigation.base.NavigationManager
-import com.hits.bankemployee.presentation.navigation.base.back
-import com.hits.bankemployee.presentation.navigation.base.forwardWithCallbackResult
-import com.hits.bankemployee.presentation.pagination.PaginationEvent
-import com.hits.bankemployee.presentation.pagination.PaginationViewModel
 import com.hits.bankemployee.presentation.screen.client.event.ClientDetailsScreenEffect
 import com.hits.bankemployee.presentation.screen.client.event.ClientDetailsScreenEvent
 import com.hits.bankemployee.presentation.screen.client.mapper.ClientDetailsScreenModelMapper
@@ -24,6 +14,10 @@ import com.hits.bankemployee.presentation.screen.client.model.ClientDetailsListI
 import com.hits.bankemployee.presentation.screen.client.model.ClientDetailsPaginationState
 import com.hits.bankemployee.presentation.screen.client.model.ClientModel
 import com.hits.bankemployee.presentation.screen.client.model.toEntity
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -32,9 +26,20 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
+import ru.hitsbank.bank_common.domain.State
+import ru.hitsbank.bank_common.domain.map
+import ru.hitsbank.bank_common.presentation.common.BankUiState
+import ru.hitsbank.bank_common.presentation.common.getIfSuccess
+import ru.hitsbank.bank_common.presentation.common.updateIfSuccess
+import ru.hitsbank.bank_common.presentation.pagination.PaginationEvent
+import ru.hitsbank.bank_common.presentation.pagination.PaginationViewModel
+import ru.hitsbank.clientbankapplication.core.navigation.base.NavigationManager
+import ru.hitsbank.clientbankapplication.core.navigation.base.back
+import ru.hitsbank.clientbankapplication.core.navigation.base.forwardWithCallbackResult
 
-class ClientDetailsScreenViewModel(
-    private val client: ClientModel,
+@HiltViewModel(assistedFactory = ClientDetailsScreenViewModel.Factory::class)
+class ClientDetailsScreenViewModel @AssistedInject constructor(
+    @Assisted private val client: ClientModel,
     private val profileInteractor: ProfileInteractor,
     private val bankAccountInteractor: BankAccountInteractor,
     private val loanInteractor: LoanInteractor,
@@ -123,7 +128,7 @@ class ClientDetailsScreenViewModel(
 
             is ClientDetailsScreenEvent.LoanClicked -> {
                 navigationManager.forwardWithCallbackResult(
-                    LoanDetails.destinationWithArgs(event.number)
+                    LoanDetails.destinationWithArgs(event.id)
                 ) {
                     onPaginationEvent(PaginationEvent.Reload)
                 }
@@ -131,7 +136,13 @@ class ClientDetailsScreenViewModel(
 
             is ClientDetailsScreenEvent.BankAccountClicked -> {
                 navigationManager.forwardWithCallbackResult(
-                    BankAccountDetails.withArgs(event.number, event.balance, event.status.toEntity().name)
+                    BankAccountDetails.withArgs(
+                        bankAccountId = event.id,
+                        bankAccountNumber = event.number,
+                        bankAccountBalance = event.balance,
+                        currencyCode = event.currencyCode.name,
+                        bankAccountStatus = event.status.toEntity().name,
+                    )
                 ) {
                     onPaginationEvent(PaginationEvent.Reload)
                 }
@@ -152,7 +163,7 @@ class ClientDetailsScreenViewModel(
             } else {
                 val loans = loanInteractor.getLoans(
                     client.id,
-                    pageInfo = PageInfo(pageSize = PAGE_SIZE, pageNumber - bankAccountPageNumber),
+                    pageInfo = PageInfo(pageSize = PAGE_SIZE, pageNumber - bankAccountPageNumber + 1),
                 )
                 emit(loans.last().map { list -> list.map { mapper.map(it) } })
             }
@@ -190,7 +201,7 @@ class ClientDetailsScreenViewModel(
         bankAccountListLastPageNumber = pageNumber
         val loans = loanInteractor.getLoans(
             client.id,
-            pageInfo = PageInfo(pageSize = PAGE_SIZE, 0),
+            pageInfo = PageInfo(pageSize = PAGE_SIZE, 1),
         )
         val loanPageResult = loans.last().map { list -> list.map { mapper.map(it) } }
         if (loanPageResult is State.Success) {
@@ -205,5 +216,10 @@ class ClientDetailsScreenViewModel(
 
     companion object {
         const val PAGE_SIZE = 5
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(client: ClientModel): ClientDetailsScreenViewModel
     }
 }

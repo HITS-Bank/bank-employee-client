@@ -1,11 +1,13 @@
 package com.hits.bankemployee.presentation.screen.loan.details.mapper
 
+import com.hits.bankemployee.domain.entity.bankaccount.toCommonModel
 import com.hits.bankemployee.domain.entity.loan.LoanEntity
-import com.hits.bankemployee.presentation.common.formatToSum
 import com.hits.bankemployee.presentation.screen.loan.details.model.LoanDetailsListItem
+import ru.hitsbank.bank_common.presentation.common.formatToSum
 import java.time.format.DateTimeFormatter
+import javax.inject.Inject
 
-class LoanDetailsMapper {
+class LoanDetailsMapper @Inject constructor() {
 
     private val dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
 
@@ -29,15 +31,15 @@ class LoanDetailsMapper {
                 name = "Срок кредита (мес.)",
             ),
             LoanDetailsListItem.LoanDetailsProperty(
-                value = loan.amount.formatToSum(),
+                value = loan.amount.formatToSum(loan.currencyCode.toCommonModel()),
                 name = "Сумма кредита",
             ),
             LoanDetailsListItem.LoanDetailsProperty(
-                value = loan.paymentSum.formatToSum(),
+                value = loan.paymentSum.formatToSum(loan.currencyCode.toCommonModel()),
                 name = "Сумма выплат"
             ),
             LoanDetailsListItem.LoanDetailsProperty(
-                value = loan.paymentAmount.formatToSum(),
+                value = loan.paymentAmount.formatToSum(loan.currencyCode.toCommonModel()),
                 name = "Сумма платежа"
             ),
             LoanDetailsListItem.LoanDetailsProperty(
@@ -45,13 +47,13 @@ class LoanDetailsMapper {
                 name = "Время следующего платежа",
             ),
             LoanDetailsListItem.LoanDetailsProperty(
-                value = loan.currentDebt.formatToSum(),
+                value = loan.currentDebt.formatToSum(loan.currencyCode.toCommonModel()),
                 name = "Текущий долг",
             ),
             LoanDetailsListItem.LoanBankAccount(
                 value = loan.bankAccountNumber,
                 name = "Счет кредита",
-                accountNumber = loan.bankAccountNumber,
+                accountId = loan.bankAccountId,
             ),
         )
     }

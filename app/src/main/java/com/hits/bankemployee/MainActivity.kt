@@ -15,16 +15,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.hits.bankemployee.presentation.common.LocalSnackbarController
-import com.hits.bankemployee.presentation.common.SnackbarController
 import com.hits.bankemployee.presentation.navigation.RootNavHost
-import com.hits.bankemployee.presentation.navigation.base.NavigationManager
-import com.hits.bankemployee.presentation.theme.BankEmployeeTheme
-import org.koin.android.ext.android.inject
+import dagger.hilt.android.AndroidEntryPoint
+import ru.hitsbank.bank_common.presentation.common.LocalSnackbarController
+import ru.hitsbank.bank_common.presentation.common.SnackbarController
+import ru.hitsbank.bank_common.presentation.theme.AppTheme
+import ru.hitsbank.clientbankapplication.core.navigation.base.NavigationManager
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val navigationManager by inject<NavigationManager>()
+    @Inject
+    lateinit var navigationManager: NavigationManager
 
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +41,7 @@ class MainActivity : ComponentActivity() {
                     command.execute(navController, this@MainActivity)
                 }
             }
-            BankEmployeeTheme {
+            AppTheme {
                 CompositionLocalProvider(
                     LocalSnackbarController provides SnackbarController(
                         snackbarHostState = snackbarHostState,

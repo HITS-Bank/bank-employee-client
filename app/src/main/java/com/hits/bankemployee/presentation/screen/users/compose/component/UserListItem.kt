@@ -3,11 +3,11 @@ package com.hits.bankemployee.presentation.screen.users.compose.component
 import androidx.compose.foundation.clickable
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.hits.bankemployee.presentation.common.component.ListItemIcon
-import com.hits.bankemployee.presentation.common.component.SwipeableInfo
-import com.hits.bankemployee.presentation.common.component.SwipeableListItem
 import com.hits.bankemployee.presentation.screen.users.event.UserListEvent
 import com.hits.bankemployee.presentation.screen.users.model.userlist.UserModel
+import ru.hitsbank.bank_common.presentation.common.component.ListItemIcon
+import ru.hitsbank.bank_common.presentation.common.component.SwipeableInfo
+import ru.hitsbank.bank_common.presentation.common.component.SwipeableListItem
 
 @Composable
 fun UserListItem(item: UserModel, onEvent: (UserListEvent) -> Unit) {
