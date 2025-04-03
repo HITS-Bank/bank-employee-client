@@ -6,10 +6,7 @@ import ru.hitsbank.bank_common.domain.Completable
 
 interface IAuthRepository {
 
-    suspend fun login(
-        channel: String,
-        request: LoginRequestEntity,
-    ): Result<Completable>
+    suspend fun exchangeAuthCodeForToken(code: String): Result<Completable>
 
     suspend fun refresh(): Result<Completable>
 

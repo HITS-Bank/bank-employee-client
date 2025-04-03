@@ -5,7 +5,22 @@ import com.hits.bankemployee.domain.entity.RoleType
 import ru.hitsbank.bank_common.presentation.navigation.BottomBarDestination
 import ru.hitsbank.bank_common.presentation.navigation.Destination
 
-object Auth : Destination()
+object Auth : Destination() {
+    const val OPTIONAL_AUTH_CODE_ARG = "authCode"
+
+    fun withArgs(authCode: String?): String {
+        return destinationWithArgs(
+            args = emptyList(),
+            optionalArgs = mapOf(
+                OPTIONAL_AUTH_CODE_ARG to authCode,
+            )
+        )
+    }
+
+    override var optionalArguments = listOf(
+        OPTIONAL_AUTH_CODE_ARG,
+    )
+}
 
 object BottomBarRoot : Destination()
 

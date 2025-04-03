@@ -16,6 +16,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import ru.hitsbank.bank_common.Constants.KEYCLOAK_BASE_URL
 import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
 import javax.inject.Singleton
@@ -113,7 +114,7 @@ class NetworkModule {
         @NoAuthOkHttp okHttpClient: OkHttpClient,
         gson: Gson,
     ): Retrofit {
-        return retrofit(okHttpClient, BASE_URL, gson)
+        return retrofit(okHttpClient, KEYCLOAK_BASE_URL, gson)
     }
 
     @Singleton

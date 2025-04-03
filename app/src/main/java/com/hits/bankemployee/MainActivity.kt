@@ -15,11 +15,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.hits.bankemployee.presentation.navigation.Auth
 import com.hits.bankemployee.presentation.navigation.RootNavHost
 import dagger.hilt.android.AndroidEntryPoint
+import ru.hitsbank.bank_common.Constants.DEEPLINK_APP_SCHEME
+import ru.hitsbank.bank_common.Constants.DEEPLINK_AUTH_HOST
+import ru.hitsbank.bank_common.Constants.DEEPLINK_EMPLOYEE_PART
+import ru.hitsbank.bank_common.Constants.DEEPLINK_PART_SEPARATOR
 import ru.hitsbank.bank_common.presentation.common.LocalSnackbarController
 import ru.hitsbank.bank_common.presentation.common.SnackbarController
 import ru.hitsbank.bank_common.presentation.navigation.NavigationManager
+import ru.hitsbank.bank_common.presentation.navigation.replace
 import ru.hitsbank.bank_common.presentation.theme.AppTheme
 import javax.inject.Inject
 
@@ -55,8 +61,24 @@ class MainActivity : ComponentActivity() {
                             navHostController = navController,
                             modifier = Modifier.fillMaxSize(),
                         )
+
+                        LaunchedEffect(Unit) {
+                            handleDeeplink()
+                        }
                     }
                 }
+            }
+        }
+    }
+
+    private fun handleDeeplink() {
+        intent?.data?.let { uri ->
+            if (
+                uri.scheme == DEEPLINK_APP_SCHEME &&
+                uri.host == "employee_authorized"
+            ) {
+                val code = uri.getQueryParameter("code")
+                navigationManager.replace(Auth.withArgs(code))
             }
         }
     }
