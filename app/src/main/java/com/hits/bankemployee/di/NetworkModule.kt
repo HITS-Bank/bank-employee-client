@@ -2,11 +2,9 @@ package com.hits.bankemployee.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.hits.bankemployee.data.api.AuthApi
 import com.hits.bankemployee.data.api.BankAccountApi
 import com.hits.bankemployee.data.api.LoanApi
-import com.hits.bankemployee.data.api.ProfileApi
-import com.hits.bankemployee.data.interceptor.AuthInterceptor
+import com.hits.bankemployee.data.api.UserApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,6 +15,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.hitsbank.bank_common.Constants.KEYCLOAK_BASE_URL
+import ru.hitsbank.bank_common.data.api.AuthApi
+import ru.hitsbank.bank_common.data.api.ProfileApi
+import ru.hitsbank.bank_common.data.interceptor.AuthInterceptor
 import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
 import javax.inject.Singleton
@@ -127,9 +128,15 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideProfileApi(
+    fun provideUserApi(
         @AuthRetrofit retrofit: Retrofit,
-    ): ProfileApi {
+    ): UserApi {
+        return retrofit.create(UserApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideProfileApi(@AuthRetrofit retrofit: Retrofit): ProfileApi {
         return retrofit.create(ProfileApi::class.java)
     }
 

@@ -5,7 +5,6 @@ import com.hits.bankemployee.presentation.screen.client.model.BankAccountStatus
 import com.hits.bankemployee.presentation.screen.client.model.ClientDetailsListItem
 import com.hits.bankemployee.presentation.screen.client.model.toStatus
 import com.hits.bankemployee.domain.entity.bankaccount.BankAccountEntity
-import com.hits.bankemployee.domain.entity.bankaccount.toCommonModel
 import com.hits.bankemployee.domain.entity.loan.LoanEntity
 import ru.hitsbank.bank_common.presentation.common.formatToSum
 import javax.inject.Inject
@@ -19,7 +18,7 @@ class ClientDetailsScreenModelMapper @Inject constructor() {
             balance = bankAccountEntity.balance,
             currencyCode = bankAccountEntity.currencyCode,
             description = when (bankAccountEntity.status.toStatus()) {
-                BankAccountStatus.OPEN -> "Баланс: ${bankAccountEntity.balance.formatToSum(bankAccountEntity.currencyCode.toCommonModel())}"
+                BankAccountStatus.OPEN -> "Баланс: ${bankAccountEntity.balance.formatToSum(bankAccountEntity.currencyCode)}"
                 BankAccountStatus.CLOSED -> "Закрыт"
                 BankAccountStatus.BLOCKED -> "Заблокирован"
             },
@@ -38,7 +37,7 @@ class ClientDetailsScreenModelMapper @Inject constructor() {
         return ClientDetailsListItem.LoanModel(
             id = loanEntity.id,
             number = loanEntity.number,
-            description = "Долг: ${loanEntity.currentDebt.formatToSum(loanEntity.currencyCode.toCommonModel())}",
+            description = "Долг: ${loanEntity.currentDebt.formatToSum(loanEntity.currencyCode)}",
             descriptionColorProvider = {
                 MaterialTheme.colorScheme.onSurfaceVariant
             },

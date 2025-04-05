@@ -2,7 +2,7 @@ package com.hits.bankemployee.presentation.screen.client.model
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.hits.bankemployee.domain.entity.bankaccount.CurrencyCode
+import ru.hitsbank.bank_common.domain.entity.CurrencyCode
 
 sealed interface ClientDetailsListItem {
 

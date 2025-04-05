@@ -2,7 +2,7 @@ package com.hits.bankemployee.presentation.screen.users.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hits.bankemployee.domain.interactor.ProfileInteractor
+import com.hits.bankemployee.domain.interactor.UserInteractor
 import com.hits.bankemployee.domain.interactor.ValidationInteractor
 import com.hits.bankemployee.presentation.screen.users.event.UsersScreenEffect
 import com.hits.bankemployee.presentation.screen.users.event.UsersScreenEvent
@@ -30,7 +30,7 @@ import javax.inject.Inject
 @HiltViewModel
 class UsersScreenViewModel @Inject constructor(
     private val validationInteractor: ValidationInteractor,
-    private val profileInteractor: ProfileInteractor,
+    private val userInteractor: UserInteractor,
     private val mapper: UsersScreenModelMapper,
 ) : ViewModel() {
 
@@ -52,9 +52,6 @@ class UsersScreenViewModel @Inject constructor(
                 _state.update { state -> state.copy(query = event.query) }
                 queryFlow.value = event.query
             }
-            is UsersScreenEvent.TabSelected -> {
-                _state.update { state -> state.copy(selectedTab = event.tab) }
-            }
             UsersScreenEvent.CreateUser -> {
                 if (state.value.isCreatingUser) return
 
@@ -64,8 +61,8 @@ class UsersScreenViewModel @Inject constructor(
                         _effects.emit(UsersScreenEffect.ShowUserCreationError)
                         return@launch
                     }
-                    val request = mapper.map(userModel, state.value.selectedTab.role)
-                    profileInteractor.registerUser(request).collectLatest { state ->
+                    val request = mapper.map(userModel)
+                    userInteractor.registerUser(request).collectLatest { state ->
                         when (state) {
                             State.Loading -> {
                                 _state.update { oldState ->
@@ -109,16 +106,6 @@ class UsersScreenViewModel @Inject constructor(
                     )
                 }
             }
-            is UsersScreenEvent.CreateUserEmailChanged -> _state.update { state ->
-                state.copy(
-                    createUserDialogState = state.createUserDialogState.updateIfShown { model ->
-                        model.copy(
-                            email = event.email,
-                            isEmailValid = validationInteractor.isEmailValid(event.email),
-                        )
-                    },
-                )
-            }
             is UsersScreenEvent.CreateUserFirstNameChanged -> _state.update { state ->
                 state.copy(
                     createUserDialogState = state.createUserDialogState.updateIfShown { model ->
@@ -145,6 +132,24 @@ class UsersScreenViewModel @Inject constructor(
                         model.copy(
                             password = event.password,
                             isPasswordValid = validationInteractor.isPasswordValid(event.password),
+                        )
+                    },
+                )
+            }
+            is UsersScreenEvent.CreateUserRolesChanged -> _state.update { state ->
+                state.copy(
+                    createUserDialogState = state.createUserDialogState.updateIfShown { model ->
+                        model.copy(
+                            roles = event.roles,
+                        )
+                    },
+                )
+            }
+            is UsersScreenEvent.CreateUserRolesDropdownExpanded -> _state.update { state ->
+                state.copy(
+                    createUserDialogState = state.createUserDialogState.updateIfShown { model ->
+                        model.copy(
+                            isRolesDropdownExpanded = event.isExpanded,
                         )
                     },
                 )

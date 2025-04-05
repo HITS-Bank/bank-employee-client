@@ -52,7 +52,6 @@ fun UsersScreen(viewModel: UsersScreenViewModel = hiltViewModel()) {
     when (val dialogState = state.createUserDialogState) {
         CreateUserDialogState.Hidden -> Unit
         is CreateUserDialogState.Shown -> CreateUserDialog(
-            selectedTab = state.selectedTab,
             state = dialogState,
             onEvent = viewModel::onEvent,
         )

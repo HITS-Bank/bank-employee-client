@@ -16,9 +16,7 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextOverflow
@@ -38,11 +36,6 @@ fun ColumnScope.UsersScreenPager(
     val pagerState = rememberPagerState(pageCount = {
         UsersTab.entries.size
     })
-    LaunchedEffect(pagerState) {
-        snapshotFlow { pagerState.currentPage }.collect { index ->
-            onEvent(UsersScreenEvent.TabSelected(UsersTab.entries[index]))
-        }
-    }
     TabRow(
         modifier = Modifier.fillMaxWidth(),
         selectedTabIndex = pagerState.currentPage,

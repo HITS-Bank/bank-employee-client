@@ -1,6 +1,6 @@
 package com.hits.bankemployee.presentation.screen.client.model
 
-import com.hits.bankemployee.domain.entity.RoleType
+import ru.hitsbank.bank_common.domain.entity.RoleType
 
 data class ClientModel(
     val id: String,

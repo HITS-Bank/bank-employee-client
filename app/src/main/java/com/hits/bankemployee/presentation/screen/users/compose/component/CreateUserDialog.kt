@@ -17,7 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.hits.bankemployee.presentation.screen.users.event.UsersScreenEvent
 import com.hits.bankemployee.presentation.screen.users.model.CreateUserDialogState
-import com.hits.bankemployee.presentation.screen.users.model.UsersTab
+import com.hits.bankemployee.presentation.screen.users.model.RoleTypeCombination
+import ru.hitsbank.bank_common.presentation.common.component.dropdown.DropdownField
 import ru.hitsbank.bank_common.presentation.common.horizontalSpacer
 import ru.hitsbank.bank_common.presentation.common.verticalSpacer
 import ru.hitsbank.bank_common.presentation.theme.S16_W400
@@ -26,7 +27,6 @@ import ru.hitsbank.bank_common.presentation.theme.S16_W500
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateUserDialog(
-    selectedTab: UsersTab,
     state: CreateUserDialogState.Shown,
     onEvent: (UsersScreenEvent) -> Unit,
 ) {
@@ -36,7 +36,7 @@ fun CreateUserDialog(
         Card(shape = RoundedCornerShape(16.dp)) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "Создание ${selectedTab.creationTitle}",
+                    text = "Создание пользователя",
                     style = S16_W500,
                 )
                 16.dp.verticalSpacer()
@@ -64,17 +64,6 @@ fun CreateUserDialog(
                 16.dp.verticalSpacer()
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    value = state.model.email,
-                    onValueChange = { onEvent(UsersScreenEvent.CreateUserEmailChanged(it)) },
-                    label = {
-                        Text(text = "Почта")
-                    },
-                    singleLine = true,
-                    isError = !state.model.isEmailValid,
-                )
-                16.dp.verticalSpacer()
-                OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(),
                     value = state.model.password,
                     onValueChange = { onEvent(UsersScreenEvent.CreateUserPasswordChanged(it)) },
                     label = {
@@ -82,6 +71,17 @@ fun CreateUserDialog(
                     },
                     singleLine = true,
                     isError = !state.model.isPasswordValid,
+                )
+                16.dp.verticalSpacer()
+                DropdownField(
+                    modifier = Modifier.fillMaxWidth(),
+                    items = RoleTypeCombination.entries,
+                    selectedItem = state.model.roles,
+                    onItemSelected = { onEvent(UsersScreenEvent.CreateUserRolesChanged(it)) },
+                    isDropdownOpen = state.model.isRolesDropdownExpanded,
+                    onOpenDropdown = { onEvent(UsersScreenEvent.CreateUserRolesDropdownExpanded(true)) },
+                    onCloseDropdown = { onEvent(UsersScreenEvent.CreateUserRolesDropdownExpanded(false)) },
+                    label = "Роли",
                 )
                 16.dp.verticalSpacer()
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {

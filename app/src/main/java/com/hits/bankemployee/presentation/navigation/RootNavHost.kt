@@ -9,9 +9,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.hits.bankemployee.domain.entity.RoleType
 import com.hits.bankemployee.domain.entity.bankaccount.BankAccountStatusEntity
-import com.hits.bankemployee.domain.entity.bankaccount.CurrencyCode
 import com.hits.bankemployee.presentation.screen.account.compose.AccountDetailsScreen
 import com.hits.bankemployee.presentation.screen.account.viewmodel.AccountDetailsScreenViewModel
 import com.hits.bankemployee.presentation.screen.client.compose.ClientDetailsScreen
@@ -23,6 +21,8 @@ import com.hits.bankemployee.presentation.screen.loan.payments.compose.LoanPayme
 import com.hits.bankemployee.presentation.screen.loan.payments.viewmodel.LoanPaymentsViewModel
 import com.hits.bankemployee.presentation.screen.login.compose.LoginScreenWrapper
 import com.hits.bankemployee.presentation.screen.login.viewmodel.LoginViewModel
+import ru.hitsbank.bank_common.domain.entity.CurrencyCode
+import ru.hitsbank.bank_common.domain.entity.RoleType
 
 @Composable
 fun RootNavHost(

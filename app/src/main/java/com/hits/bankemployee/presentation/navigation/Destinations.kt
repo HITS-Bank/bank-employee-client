@@ -1,7 +1,7 @@
 package com.hits.bankemployee.presentation.navigation
 
 import com.hits.bankemployee.R
-import com.hits.bankemployee.domain.entity.RoleType
+import ru.hitsbank.bank_common.domain.entity.RoleType
 import ru.hitsbank.bank_common.presentation.navigation.BottomBarDestination
 import ru.hitsbank.bank_common.presentation.navigation.Destination
 

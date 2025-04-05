@@ -1,6 +1,6 @@
 package com.hits.bankemployee.data.api
 
-import com.hits.bankemployee.data.model.ProfileResponse
+import com.hits.bankemployee.data.model.UserResponse
 import com.hits.bankemployee.data.model.RegisterRequest
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -10,25 +10,22 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface ProfileApi {
+interface UserApi {
 
-    @GET("users/profile")
-    suspend fun getSelfProfile(): Response<ProfileResponse>
-
-    @GET("users/employee/profile/list")
+    @GET("users/employee/users/list")
     suspend fun getProfilesPage(
-        @Query("role") role: String? = null,
+        @Query("role") role: String,
         @Query("pageNumber") pageNumber: Int,
         @Query("pageSize") pageSize: Int,
         @Query("nameQuery") nameQuery: String? = null,
-    ): Response<List<ProfileResponse>>
+    ): Response<List<UserResponse>>
 
-    @POST("users/employee/profile/{userId}/ban")
+    @POST("users/employee/users/{userId}/ban")
     suspend fun banUser(@Path("userId") userId: String): Response<ResponseBody>
 
-    @POST("users/employee/profile/{userId}/unban")
+    @POST("users/employee/users/{userId}/unban")
     suspend fun unbanUser(@Path("userId") userId: String): Response<ResponseBody>
 
-    @POST("users/employee/auth/register")
+    @POST("users/employee/users/register")
     suspend fun registerUser(@Body registerRequest: RegisterRequest): Response<ResponseBody>
 }

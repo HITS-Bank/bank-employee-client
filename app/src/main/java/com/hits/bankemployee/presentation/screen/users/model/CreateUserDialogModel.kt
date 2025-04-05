@@ -1,5 +1,8 @@
 package com.hits.bankemployee.presentation.screen.users.model
 
+import ru.hitsbank.bank_common.domain.entity.RoleType
+import ru.hitsbank.bank_common.presentation.common.component.dropdown.DropdownItem
+
 sealed interface CreateUserDialogState {
 
     data object Hidden : CreateUserDialogState
@@ -23,13 +26,13 @@ data class CreateUserDialogModel(
     val isFirstNameValid: Boolean,
     val lastName: String,
     val isLastNameValid: Boolean,
-    val email: String,
-    val isEmailValid: Boolean,
     val password: String,
     val isPasswordValid: Boolean,
+    val roles: RoleTypeCombination,
+    val isRolesDropdownExpanded: Boolean,
 ) {
     val createButtonEnabled: Boolean
-        get() = isFirstNameValid && isLastNameValid && isEmailValid && isPasswordValid && firstName.isNotBlank() && lastName.isNotBlank() && email.isNotBlank() && password.isNotBlank()
+        get() = isFirstNameValid && isLastNameValid && isPasswordValid && firstName.isNotBlank() && lastName.isNotBlank() && password.isNotBlank()
 
     companion object {
         val EMPTY = CreateUserDialogModel(
@@ -37,10 +40,24 @@ data class CreateUserDialogModel(
             isFirstNameValid = true,
             lastName = "",
             isLastNameValid = true,
-            email = "",
-            isEmailValid = true,
             password = "",
             isPasswordValid = true,
+            roles = RoleTypeCombination.CLIENT,
+            isRolesDropdownExpanded = false,
         )
+    }
+}
+
+enum class RoleTypeCombination(override val title: String): DropdownItem {
+    CLIENT("Клиент"),
+    EMPLOYEE("Сотрудник"),
+    CLIENT_EMPLOYEE("Клиент и сотрудник"),
+}
+
+fun RoleTypeCombination.toRoleTypes(): List<RoleType> {
+    return when (this) {
+        RoleTypeCombination.CLIENT -> listOf(RoleType.CLIENT)
+        RoleTypeCombination.EMPLOYEE -> listOf(RoleType.EMPLOYEE)
+        RoleTypeCombination.CLIENT_EMPLOYEE -> listOf(RoleType.CLIENT, RoleType.EMPLOYEE)
     }
 }

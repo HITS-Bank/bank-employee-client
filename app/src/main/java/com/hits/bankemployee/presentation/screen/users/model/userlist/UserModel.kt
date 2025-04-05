@@ -2,7 +2,7 @@ package com.hits.bankemployee.presentation.screen.users.model.userlist
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.hits.bankemployee.domain.entity.RoleType
+import ru.hitsbank.bank_common.domain.entity.RoleType
 
 data class UserModel(
     val id: String,

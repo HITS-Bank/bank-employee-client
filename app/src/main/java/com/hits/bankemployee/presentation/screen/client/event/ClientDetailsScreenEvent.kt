@@ -1,7 +1,7 @@
 package com.hits.bankemployee.presentation.screen.client.event
 
-import com.hits.bankemployee.domain.entity.bankaccount.CurrencyCode
 import com.hits.bankemployee.presentation.screen.client.model.BankAccountStatus
+import ru.hitsbank.bank_common.domain.entity.CurrencyCode
 
 sealed interface ClientDetailsScreenEvent {
 

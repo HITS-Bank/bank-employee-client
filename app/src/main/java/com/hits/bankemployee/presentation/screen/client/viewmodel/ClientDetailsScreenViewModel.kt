@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.hits.bankemployee.domain.entity.PageInfo
 import com.hits.bankemployee.domain.interactor.BankAccountInteractor
 import com.hits.bankemployee.domain.interactor.LoanInteractor
-import com.hits.bankemployee.domain.interactor.ProfileInteractor
+import com.hits.bankemployee.domain.interactor.UserInteractor
 import com.hits.bankemployee.presentation.navigation.BankAccountDetails
 import com.hits.bankemployee.presentation.navigation.LoanPayments
 import com.hits.bankemployee.presentation.screen.client.event.ClientDetailsScreenEffect
@@ -28,6 +28,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 import ru.hitsbank.bank_common.domain.State
+import ru.hitsbank.bank_common.domain.entity.RoleType
 import ru.hitsbank.bank_common.domain.map
 import ru.hitsbank.bank_common.presentation.common.BankUiState
 import ru.hitsbank.bank_common.presentation.common.getIfSuccess
@@ -41,7 +42,7 @@ import ru.hitsbank.bank_common.presentation.pagination.PaginationViewModel
 @HiltViewModel(assistedFactory = ClientDetailsScreenViewModel.Factory::class)
 class ClientDetailsScreenViewModel @AssistedInject constructor(
     @Assisted private val client: ClientModel,
-    private val profileInteractor: ProfileInteractor,
+    private val userInteractor: UserInteractor,
     private val bankAccountInteractor: BankAccountInteractor,
     private val loanInteractor: LoanInteractor,
     private val navigationManager: NavigationManager,
@@ -67,9 +68,9 @@ class ClientDetailsScreenViewModel @AssistedInject constructor(
                 val clientId = _state.value.getIfSuccess()?.client?.id ?: return
                 val isBlocked = _state.value.getIfSuccess()?.client?.isBlocked ?: return
                 val flow = if (isBlocked) {
-                    profileInteractor.unbanUser(clientId)
+                    userInteractor.unbanUser(clientId)
                 } else {
-                    profileInteractor.banUser(clientId)
+                    userInteractor.banUser(clientId)
                 }
                 viewModelScope.launch {
                     flow.collectLatest { state ->
@@ -180,8 +181,9 @@ class ClientDetailsScreenViewModel @AssistedInject constructor(
         val pageResult = accounts.last().map { list -> list.map { mapper.map(it) } }
         if (pageResult is State.Success) {
             val accountList = mutableListOf<ClientDetailsListItem>()
+            val roles = _state.getIfSuccess()?.client?.roles
+            val roleList = roles?.map { it.toUserRole().title }
             if (pageNumber == 1) {
-                val roleList = _state.getIfSuccess()?.client?.roles?.map { it.toUserRole().title }
                 if (roleList != null) {
                     accountList.add(ClientDetailsListItem.RolesModel(roleList))
                 }
@@ -196,6 +198,9 @@ class ClientDetailsScreenViewModel @AssistedInject constructor(
                     accountList.add(0, ClientDetailsListItem.UserInfoHeader)
                 }
                 accountList.add(ClientDetailsListItem.AccountsHeader)
+            }
+            if (roles == null || !roles.contains(RoleType.CLIENT)) {
+                return
             }
             accountList.addAll(pageResult.data)
             if (pageResult.data.size < PAGE_SIZE) {

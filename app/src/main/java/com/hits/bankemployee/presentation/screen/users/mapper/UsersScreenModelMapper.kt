@@ -2,18 +2,17 @@ package com.hits.bankemployee.presentation.screen.users.mapper
 
 import androidx.compose.material3.MaterialTheme
 import com.hits.bankemployee.R
-import com.hits.bankemployee.domain.entity.ProfileEntity
 import com.hits.bankemployee.domain.entity.RegisterRequestEntity
+import com.hits.bankemployee.domain.entity.UserEntity
 import com.hits.bankemployee.presentation.screen.users.model.CreateUserDialogModel
-import com.hits.bankemployee.presentation.screen.users.model.UserRole
-import com.hits.bankemployee.presentation.screen.users.model.toRoleType
+import com.hits.bankemployee.presentation.screen.users.model.toRoleTypes
 import com.hits.bankemployee.presentation.screen.users.model.toUserRole
 import com.hits.bankemployee.presentation.screen.users.model.userlist.UserModel
 import javax.inject.Inject
 
 class UsersScreenModelMapper @Inject constructor() {
 
-    fun map(usersPage: List<ProfileEntity>): List<UserModel> {
+    fun map(usersPage: List<UserEntity>): List<UserModel> {
         return usersPage.map { profile ->
             UserModel(
                 id = profile.id,
@@ -44,13 +43,12 @@ class UsersScreenModelMapper @Inject constructor() {
         }
     }
 
-    fun map(dialog: CreateUserDialogModel, role: UserRole): RegisterRequestEntity {
+    fun map(dialog: CreateUserDialogModel): RegisterRequestEntity {
         return RegisterRequestEntity(
             firstName = dialog.firstName,
             lastName = dialog.lastName,
-            email = dialog.email,
             password = dialog.password,
-            role = role.toRoleType(),
+            roles = dialog.roles.toRoleTypes(),
         )
     }
 }

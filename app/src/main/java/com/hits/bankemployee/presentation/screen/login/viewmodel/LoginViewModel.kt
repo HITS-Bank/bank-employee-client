@@ -3,12 +3,9 @@ package com.hits.bankemployee.presentation.screen.login.viewmodel
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hits.bankemployee.common.Constants.EMPLOYEE_APP_CHANNEL
-import com.hits.bankemployee.domain.interactor.AuthInteractor
 import com.hits.bankemployee.presentation.navigation.BottomBarRoot
 import com.hits.bankemployee.presentation.screen.login.event.LoginEffect
 import com.hits.bankemployee.presentation.screen.login.event.LoginEvent
-import com.hits.bankemployee.presentation.screen.login.mapper.LoginScreenModelMapper
 import com.hits.bankemployee.presentation.screen.login.model.LoginScreenModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -22,24 +19,18 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import ru.hitsbank.bank_common.Constants
 import ru.hitsbank.bank_common.Constants.AUTH_CLIENT_ID
-import ru.hitsbank.bank_common.Constants.DEEPLINK_APP_SCHEME
-import ru.hitsbank.bank_common.Constants.DEEPLINK_AUTH_HOST
-import ru.hitsbank.bank_common.Constants.DEEPLINK_EMPLOYEE_PART
-import ru.hitsbank.bank_common.Constants.DEEPLINK_PART_SEPARATOR
-import ru.hitsbank.bank_common.Constants.DEEPLINK_SCHEME_SEPARATOR
 import ru.hitsbank.bank_common.domain.State
+import ru.hitsbank.bank_common.domain.entity.RoleType
+import ru.hitsbank.bank_common.domain.interactor.AuthInteractor
 import ru.hitsbank.bank_common.presentation.common.BankUiState
-import ru.hitsbank.bank_common.presentation.common.getIfSuccess
 import ru.hitsbank.bank_common.presentation.common.updateIfSuccess
 import ru.hitsbank.bank_common.presentation.navigation.NavigationManager
 import ru.hitsbank.bank_common.presentation.navigation.replace
-import javax.inject.Inject
 
 @HiltViewModel(assistedFactory = LoginViewModel.Factory::class)
 class LoginViewModel @AssistedInject constructor(
     @Assisted private val authCode: String?,
     private val authInteractor: AuthInteractor,
-    private val mapper: LoginScreenModelMapper,
     private val navigationManager: NavigationManager,
 ) : ViewModel() {
 
@@ -67,7 +58,7 @@ class LoginViewModel @AssistedInject constructor(
     private fun exchangeAuthCodeForToken(authCode: String) {
         _state.updateIfSuccess { it.copy(isLoading = true) }
         viewModelScope.launch {
-            authInteractor.exchangeAuthCodeForToken(authCode).collectLatest { state ->
+            authInteractor.exchangeAuthCodeForToken(authCode, RoleType.EMPLOYEE).collectLatest { state ->
                 when (state) {
                     is State.Error -> {
                         _state.updateIfSuccess { it.copy(isLoading = false) }
@@ -119,7 +110,7 @@ class LoginViewModel @AssistedInject constructor(
                     .buildUpon()
                     .appendQueryParameter("client_id", AUTH_CLIENT_ID)
                     .appendQueryParameter("response_type", "code")
-                    .appendQueryParameter("redirect_uri", "hitsbankapp://employee_authorized")
+                    .appendQueryParameter("redirect_uri", Constants.AUTH_REDIRECT_URI_EMPLOYEE)
                     .build()
                     .toString()
             )

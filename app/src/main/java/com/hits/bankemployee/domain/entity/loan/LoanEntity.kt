@@ -1,6 +1,6 @@
 package com.hits.bankemployee.domain.entity.loan
 
-import com.hits.bankemployee.domain.entity.bankaccount.CurrencyCode
+import ru.hitsbank.bank_common.domain.entity.CurrencyCode
 
 data class LoanEntity(
     val id: String,
