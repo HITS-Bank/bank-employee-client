@@ -34,6 +34,11 @@ object Tariffs : BottomBarDestination() {
     override val title = "Кредиты"
 }
 
+object Personalization : BottomBarDestination() {
+    override val icon = R.drawable.ic_personalization
+    override val title = "Персонализация"
+}
+
 object UserDetails : Destination() {
     const val ARG_USER_ID = "userId"
     const val ARG_USER_FULLNAME = "userFullname"

@@ -11,12 +11,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.hits.bankemployee.presentation.screen.loan.tariff.compose.TariffsScreen
 import com.hits.bankemployee.presentation.screen.users.compose.UsersScreen
+import ru.hitsbank.bank_common.domain.entity.RoleType
+import ru.hitsbank.bank_common.presentation.theme.settings.compose.ThemeSettingsScreen
+import ru.hitsbank.bank_common.presentation.theme.settings.viewmodel.ThemeSettingsViewModel
 
 @Composable
 fun BottomBarNavHost() {
@@ -61,6 +65,14 @@ fun BottomBarNavHost() {
             }
             composable(route = Tariffs.route) {
                 TariffsScreen()
+            }
+            composable(route = Personalization.route) {
+                val viewModel = hiltViewModel<ThemeSettingsViewModel, ThemeSettingsViewModel.Factory>(
+                    creationCallback = { factory ->
+                        factory.create(RoleType.EMPLOYEE)
+                    }
+                )
+                ThemeSettingsScreen(viewModel)
             }
         }
     }
