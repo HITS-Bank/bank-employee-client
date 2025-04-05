@@ -22,6 +22,7 @@ import com.hits.bankemployee.presentation.screen.loan.details.viewmodel.LoanDeta
 import com.hits.bankemployee.presentation.screen.loan.payments.compose.LoanPaymentsScreen
 import com.hits.bankemployee.presentation.screen.loan.payments.viewmodel.LoanPaymentsViewModel
 import com.hits.bankemployee.presentation.screen.login.compose.LoginScreenWrapper
+import com.hits.bankemployee.presentation.screen.login.viewmodel.LoginViewModel
 
 @Composable
 fun RootNavHost(
@@ -33,8 +34,26 @@ fun RootNavHost(
         startDestination = Auth.destination,
         modifier = modifier,
     ) {
-        composable(route = Auth.route) {
-            LoginScreenWrapper()
+        composable(
+            route = Auth.route,
+            arguments = listOf(
+                navArgument(Auth.OPTIONAL_AUTH_CODE_ARG) {
+                    type = NavType.StringType
+                    nullable = true
+                    defaultValue = null
+                },
+            )
+        ) { backStackEntry ->
+            val authCode = backStackEntry.arguments?.getString(
+                Auth.OPTIONAL_AUTH_CODE_ARG
+            )
+            val viewModel: LoginViewModel = hiltViewModel<LoginViewModel, LoginViewModel.Factory>(
+                creationCallback = { factory ->
+                    factory.create(authCode = authCode)
+                }
+            )
+
+            LoginScreenWrapper(viewModel)
         }
         composable(route = BottomBarRoot.route) {
             BottomBarNavHost()

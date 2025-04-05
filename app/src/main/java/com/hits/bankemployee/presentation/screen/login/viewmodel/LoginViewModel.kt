@@ -1,5 +1,6 @@
 package com.hits.bankemployee.presentation.screen.login.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hits.bankemployee.common.Constants.EMPLOYEE_APP_CHANNEL
@@ -9,6 +10,9 @@ import com.hits.bankemployee.presentation.screen.login.event.LoginEffect
 import com.hits.bankemployee.presentation.screen.login.event.LoginEvent
 import com.hits.bankemployee.presentation.screen.login.mapper.LoginScreenModelMapper
 import com.hits.bankemployee.presentation.screen.login.model.LoginScreenModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,6 +20,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import ru.hitsbank.bank_common.Constants
+import ru.hitsbank.bank_common.Constants.AUTH_CLIENT_ID
+import ru.hitsbank.bank_common.Constants.DEEPLINK_APP_SCHEME
+import ru.hitsbank.bank_common.Constants.DEEPLINK_AUTH_HOST
+import ru.hitsbank.bank_common.Constants.DEEPLINK_EMPLOYEE_PART
+import ru.hitsbank.bank_common.Constants.DEEPLINK_PART_SEPARATOR
+import ru.hitsbank.bank_common.Constants.DEEPLINK_SCHEME_SEPARATOR
 import ru.hitsbank.bank_common.domain.State
 import ru.hitsbank.bank_common.presentation.common.BankUiState
 import ru.hitsbank.bank_common.presentation.common.getIfSuccess
@@ -24,8 +35,9 @@ import ru.hitsbank.bank_common.presentation.navigation.NavigationManager
 import ru.hitsbank.bank_common.presentation.navigation.replace
 import javax.inject.Inject
 
-@HiltViewModel
-class LoginViewModel @Inject constructor(
+@HiltViewModel(assistedFactory = LoginViewModel.Factory::class)
+class LoginViewModel @AssistedInject constructor(
+    @Assisted private val authCode: String?,
     private val authInteractor: AuthInteractor,
     private val mapper: LoginScreenModelMapper,
     private val navigationManager: NavigationManager,
@@ -46,6 +58,51 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    init {
+        if (authCode != null) {
+            exchangeAuthCodeForToken(authCode)
+        }
+    }
+
+    private fun exchangeAuthCodeForToken(authCode: String) {
+        _state.updateIfSuccess { it.copy(isLoading = true) }
+        viewModelScope.launch {
+            authInteractor.exchangeAuthCodeForToken(authCode).collectLatest { state ->
+                when (state) {
+                    is State.Error -> {
+                        _state.updateIfSuccess { it.copy(isLoading = false) }
+                        sendEffect(LoginEffect.OnError)
+                    }
+
+                    State.Loading -> {
+                        _state.updateIfSuccess { it.copy(isLoading = true) }
+                    }
+
+                    is State.Success -> {
+                        authInteractor.getIsUserBlocked().collectLatest { blockedState ->
+                            when (blockedState) {
+                                is State.Error -> {
+                                    sendEffect(LoginEffect.OnError)
+                                    _state.updateIfSuccess { it.copy(isLoading = false) }
+                                }
+
+                                State.Loading -> Unit
+                                is State.Success -> {
+                                    if (blockedState.data) {
+                                        sendEffect(LoginEffect.OnBlocked)
+                                    } else {
+                                        navigationManager.replace(BottomBarRoot.destination)
+                                    }
+                                    _state.updateIfSuccess { it.copy(isLoading = false) }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private fun onEmailChanged(email: String) {
         _state.updateIfSuccess { it.copy(email = email) }
     }
@@ -55,48 +112,28 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun logIn() {
-        val request = _state.getIfSuccess() ?: return
-        viewModelScope.launch {
-            authInteractor
-                .login(
-                    channel = EMPLOYEE_APP_CHANNEL,
-                    request = mapper.map(request),
-                ).collectLatest { state ->
-                    when (state) {
-                        State.Loading -> {
-                            _state.updateIfSuccess { it.copy(isLoading = true) }
-                        }
-
-                        is State.Error -> {
-                            sendEffect(LoginEffect.OnError)
-                            _state.updateIfSuccess { it.copy(isLoading = false) }
-                        }
-
-                        is State.Success -> {
-                            authInteractor.getIsUserBlocked().collectLatest { blockedState ->
-                                when (blockedState) {
-                                    is State.Error -> {
-                                        sendEffect(LoginEffect.OnError)
-                                        _state.updateIfSuccess { it.copy(isLoading = false) }
-                                    }
-                                    State.Loading -> Unit
-                                    is State.Success -> {
-                                        if (blockedState.data) {
-                                            sendEffect(LoginEffect.OnBlocked)
-                                        } else {
-                                            navigationManager.replace(BottomBarRoot.destination)
-                                        }
-                                        _state.updateIfSuccess { it.copy(isLoading = false) }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-        }
+        _state.updateIfSuccess { it.copy(isLoading = true) }
+        sendEffect(
+            LoginEffect.OpenAuthPage(
+                uri = Uri.parse("${Constants.KEYCLOAK_BASE_URL}${Constants.AUTH_PAGE_PATH}")
+                    .buildUpon()
+                    .appendQueryParameter("client_id", AUTH_CLIENT_ID)
+                    .appendQueryParameter("response_type", "code")
+                    .appendQueryParameter("redirect_uri", "hitsbankapp://employee_authorized")
+                    .build()
+                    .toString()
+            )
+        )
     }
 
     private fun sendEffect(effect: LoginEffect) {
         _effects.trySend(effect)
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(
+            authCode: String?,
+        ): LoginViewModel
     }
 }
