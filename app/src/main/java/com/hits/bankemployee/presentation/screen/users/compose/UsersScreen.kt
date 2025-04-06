@@ -39,11 +39,13 @@ fun UsersScreen(viewModel: UsersScreenViewModel = hiltViewModel()) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val onEvent = rememberCallback(viewModel::onEvent)
     val clientViewModel: UserListViewModel = hiltViewModel<UserListViewModel, UserListViewModel.Factory>(
+        key = UserRole.CLIENT.name,
         creationCallback = { factory ->
             factory.create(UserRole.CLIENT)
         }
     )
     val employeeViewModel: UserListViewModel = hiltViewModel<UserListViewModel, UserListViewModel.Factory>(
+        key = UserRole.EMPLOYEE.name,
         creationCallback = { factory ->
             factory.create(UserRole.EMPLOYEE)
         }

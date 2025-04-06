@@ -52,6 +52,17 @@ fun BottomBarNavHost() {
                     selected = selectedItem?.destination?.route == Tariffs.route,
                     onClick = { navController.navigate(Tariffs.destination) }
                 )
+                NavigationBarItem(
+                    icon = {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = Personalization.icon),
+                            contentDescription = null,
+                        )
+                    },
+                    label = { Text(Personalization.title) },
+                    selected = selectedItem?.destination?.route == Personalization.route,
+                    onClick = { navController.navigate(Personalization.destination) }
+                )
             }
         },
     ) { paddingValues ->

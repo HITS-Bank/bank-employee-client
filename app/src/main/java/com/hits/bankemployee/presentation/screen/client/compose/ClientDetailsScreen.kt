@@ -2,6 +2,7 @@ package com.hits.bankemployee.presentation.screen.client.compose
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -137,8 +138,9 @@ fun ClientDetailsScreen(viewModel: ClientDetailsScreenViewModel) {
                                         icon = ListItemIcon.None,
                                         title = item.rolesText,
                                         subtitle = "Роли",
-                                        end = ListItemEnd.Chevron,
+                                        end = ListItemEnd.None,
                                         divider = Divider.None,
+                                        padding = PaddingValues(vertical = 12.dp),
                                     )
                                     ClientDetailsListItem.IsBlockedModel -> ListItem(
                                         icon = ListItemIcon.None,
@@ -146,6 +148,7 @@ fun ClientDetailsScreen(viewModel: ClientDetailsScreenViewModel) {
                                         subtitle = "Статус",
                                         end = ListItemEnd.None,
                                         divider = Divider.None,
+                                        padding = PaddingValues(vertical = 12.dp),
                                     )
                                     is ClientDetailsListItem.LoanRatingModel -> ListItem(
                                         icon = ListItemIcon.None,
@@ -153,6 +156,7 @@ fun ClientDetailsScreen(viewModel: ClientDetailsScreenViewModel) {
                                         subtitle = "Кредитный рейтинг",
                                         end = ListItemEnd.None,
                                         divider = Divider.None,
+                                        padding = PaddingValues(vertical = 12.dp),
                                     )
 
                                     ClientDetailsListItem.AccountsHeader -> Text(

@@ -70,19 +70,33 @@ fun RootNavHost(
                 navArgument(UserDetails.ARG_IS_USER_BLOCKED) {
                     type = NavType.BoolType
                 },
-                navArgument(UserDetails.ARG_USER_ROLES) {
-                    type = NavType.StringListType
-                }
+                navArgument(UserDetails.ARG_IS_CLIENT) {
+                    type = NavType.BoolType
+                },
+                navArgument(UserDetails.ARG_IS_EMPLOYEE) {
+                    type = NavType.BoolType
+                },
             ),
         ) { backStackEntry ->
             val userId = backStackEntry.arguments?.getString(UserDetails.ARG_USER_ID)
             val userFullname = backStackEntry.arguments?.getString(UserDetails.ARG_USER_FULLNAME)
             val isUserBlocked =
                 backStackEntry.arguments?.getBoolean(UserDetails.ARG_IS_USER_BLOCKED)
-            val userRoles =
-                backStackEntry.arguments?.getStringArrayList(UserDetails.ARG_USER_ROLES)?.map { RoleType.valueOf(it) }
+            val isClient =
+                backStackEntry.arguments?.getBoolean(UserDetails.ARG_IS_CLIENT) ?: false
+            val isEmployee =
+                backStackEntry.arguments?.getBoolean(UserDetails.ARG_IS_EMPLOYEE) ?: false
 
-            if (userId != null && userFullname != null && isUserBlocked != null && userRoles != null) {
+            val userRoles = buildList {
+                if (isClient) {
+                    add(RoleType.CLIENT)
+                }
+                if (isEmployee) {
+                    add(RoleType.EMPLOYEE)
+                }
+            }
+
+            if (userId != null && userFullname != null && isUserBlocked != null) {
                 val clientInfo = ClientModel(
                     userId,
                     userFullname,

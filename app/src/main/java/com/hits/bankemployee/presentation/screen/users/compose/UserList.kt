@@ -36,6 +36,7 @@ import ru.hitsbank.bank_common.presentation.pagination.rememberPaginationListSta
 fun UserList(
     tab: UsersTab,
     viewModel: UserListViewModel = hiltViewModel<UserListViewModel, UserListViewModel.Factory>(
+        key = tab.role.name,
         creationCallback = { factory ->
             factory.create(tab.role)
         }

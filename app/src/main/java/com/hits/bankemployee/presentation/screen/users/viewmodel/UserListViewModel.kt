@@ -33,7 +33,7 @@ import ru.hitsbank.bank_common.presentation.pagination.PaginationViewModel
 
 @HiltViewModel(assistedFactory = UserListViewModel.Factory::class)
 class UserListViewModel @AssistedInject constructor(
-    @Assisted private val role: UserRole = UserRole.CLIENT,
+    @Assisted private val role: UserRole,
     private val navigationManager: NavigationManager,
     private val userInteractor: UserInteractor,
     private val mapper: UsersScreenModelMapper,

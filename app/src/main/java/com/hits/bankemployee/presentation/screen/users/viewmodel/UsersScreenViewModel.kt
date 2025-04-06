@@ -141,6 +141,7 @@ class UsersScreenViewModel @Inject constructor(
                     createUserDialogState = state.createUserDialogState.updateIfShown { model ->
                         model.copy(
                             roles = event.roles,
+                            isRolesDropdownExpanded = false,
                         )
                     },
                 )

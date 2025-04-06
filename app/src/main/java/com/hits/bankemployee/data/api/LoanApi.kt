@@ -45,12 +45,12 @@ interface LoanApi {
     @GET("credit/loan/{loanId}")
     suspend fun getLoanById(@Path("loanid") loanId: String): Response<LoanResponse>
 
-    @GET("core/loan/{loanId}/payments")
+    @GET("core/bank_account/loan/{loanId}/payments")
     suspend fun getLoanPayments(
         @Path("loanId") loanId: String,
     ): Response<List<LoanPaymentResponse>>
 
-    @GET("core/loan/{userId}/rating")
+    @GET("core/bank_account/{userId}/rating")
     suspend fun getLoanUserRating(
         @Path("userId") userId: String,
     ): Response<LoanUserRatingResponse>

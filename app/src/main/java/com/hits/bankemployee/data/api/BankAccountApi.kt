@@ -10,7 +10,7 @@ import retrofit2.http.Query
 
 interface BankAccountApi {
 
-    @GET("/core/bank_account/{userId}/list")
+    @GET("/core/employee/bank_account/{userId}/list")
     suspend fun getAccountsList(
         @Path("userId") clientId: String,
         @Query("pageNumber") pageNumber: Int,

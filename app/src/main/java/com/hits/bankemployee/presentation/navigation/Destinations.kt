@@ -43,16 +43,17 @@ object UserDetails : Destination() {
     const val ARG_USER_ID = "userId"
     const val ARG_USER_FULLNAME = "userFullname"
     const val ARG_IS_USER_BLOCKED = "isUserBlocked"
-    const val ARG_USER_ROLES = "userRoles"
+    const val ARG_IS_CLIENT = "isClient"
+    const val ARG_IS_EMPLOYEE = "isEmployee"
 
-    override var arguments = listOf(ARG_USER_ID, ARG_USER_FULLNAME, ARG_IS_USER_BLOCKED, ARG_USER_ROLES)
+    override var arguments = listOf(ARG_USER_ID, ARG_USER_FULLNAME, ARG_IS_USER_BLOCKED, ARG_IS_CLIENT, ARG_IS_EMPLOYEE)
 
     fun withArgs(
         userId: String,
         userFullname: String,
         isUserBlocked: Boolean,
         userRoles: List<RoleType>,
-    ): String = destinationWithArgs(userId, userFullname, isUserBlocked, userRoles.map { it.name })
+    ): String = destinationWithArgs(userId, userFullname, isUserBlocked, userRoles.contains(RoleType.CLIENT), userRoles.contains(RoleType.EMPLOYEE))
 }
 
 object BankAccountDetails : Destination() {
