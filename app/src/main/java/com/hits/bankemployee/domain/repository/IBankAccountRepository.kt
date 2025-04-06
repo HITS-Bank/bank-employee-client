@@ -4,6 +4,7 @@ import ru.hitsbank.bank_common.domain.Result
 import com.hits.bankemployee.domain.entity.PageInfo
 import com.hits.bankemployee.domain.entity.bankaccount.BankAccountEntity
 import com.hits.bankemployee.domain.entity.bankaccount.OperationHistoryEntity
+import kotlinx.coroutines.flow.Flow
 
 interface IBankAccountRepository {
 
@@ -20,4 +21,8 @@ interface IBankAccountRepository {
         accountId: String,
         pageInfo: PageInfo,
     ): Result<List<OperationHistoryEntity>>
+
+    fun getOperationHistoryUpdates(
+        accountId: String,
+    ): Result<Flow<OperationHistoryEntity>>
 }
