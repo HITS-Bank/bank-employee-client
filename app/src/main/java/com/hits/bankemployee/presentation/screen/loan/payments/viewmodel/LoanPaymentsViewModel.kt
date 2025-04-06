@@ -32,6 +32,10 @@ class LoanPaymentsViewModel @AssistedInject constructor(
     private val _state = MutableStateFlow<BankUiState<LoanPaymentsState>>(BankUiState.Loading)
     val state = _state.asStateFlow()
 
+    init {
+        refreshPayments()
+    }
+
     fun onEvent(event: LoanPaymentsEvent) {
         when (event) {
             LoanPaymentsEvent.Back -> navigationManager.back()
