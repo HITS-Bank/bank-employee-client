@@ -6,8 +6,6 @@ import com.hits.bankemployee.presentation.screen.loan.payments.model.LoanPayment
 import ru.hitsbank.bank_common.presentation.common.formatToSum
 import ru.hitsbank.bank_common.presentation.common.toSymbol
 import ru.hitsbank.bank_common.presentation.common.utcDateTimeToReadableFormat
-import ru.hitsbank.bank_common.presentation.theme.grayBackground
-import ru.hitsbank.bank_common.presentation.theme.grayForeground
 import ru.hitsbank.bank_common.presentation.theme.topUpBackground
 import ru.hitsbank.bank_common.presentation.theme.topUpForeground
 import ru.hitsbank.bank_common.presentation.theme.withdrawBackground
@@ -22,20 +20,20 @@ class LoanPaymentsMapper @Inject constructor() {
             title = loanPaymentEntity.dateTime.utcDateTimeToReadableFormat(),
             description = loanPaymentEntity.amount.formatToSum(loanPaymentEntity.currencyCode, true),
             status = when (loanPaymentEntity.status) {
-                LoanPaymentStatus.PLANNED -> "Запланирован"
+                LoanPaymentStatus.PLANNED -> "Оплачен"
                 LoanPaymentStatus.OVERDUE -> "Просрочен"
-                LoanPaymentStatus.EXECUTED -> "Оплачен"
+                LoanPaymentStatus.MANUAL -> "Оплачен (вручную)"
             },
             currencyChar = loanPaymentEntity.currencyCode.toSymbol(),
             foregroundColor = when (loanPaymentEntity.status) {
-                LoanPaymentStatus.PLANNED -> grayForeground
+                LoanPaymentStatus.PLANNED -> topUpForeground
                 LoanPaymentStatus.OVERDUE -> withdrawForeground
-                LoanPaymentStatus.EXECUTED -> topUpForeground
+                LoanPaymentStatus.MANUAL -> topUpForeground
             },
             backgroundColor = when (loanPaymentEntity.status) {
-                LoanPaymentStatus.PLANNED -> grayBackground
+                LoanPaymentStatus.PLANNED -> topUpBackground
                 LoanPaymentStatus.OVERDUE -> withdrawBackground
-                LoanPaymentStatus.EXECUTED -> topUpBackground
+                LoanPaymentStatus.MANUAL -> topUpBackground
             },
         )
     }
