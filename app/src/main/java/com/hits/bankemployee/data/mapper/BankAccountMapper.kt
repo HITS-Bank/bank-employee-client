@@ -7,6 +7,8 @@ import com.hits.bankemployee.domain.entity.bankaccount.BankAccountEntity
 import com.hits.bankemployee.domain.entity.bankaccount.BankAccountStatusEntity
 import com.hits.bankemployee.domain.entity.bankaccount.OperationHistoryEntity
 import com.hits.bankemployee.domain.entity.bankaccount.OperationTypeEntity
+import ru.hitsbank.bank_common.data.model.OperationResponse
+import ru.hitsbank.bank_common.data.model.OperationTypeResponse
 import javax.inject.Inject
 
 class BankAccountMapper @Inject constructor() {
@@ -34,6 +36,22 @@ class BankAccountMapper @Inject constructor() {
                 OperationType.TRANSFER_INCOMING -> OperationTypeEntity.TRANSFER_INCOMING
                 OperationType.TRANSFER_OUTGOING -> OperationTypeEntity.TRANSFER_OUTGOING
             },
+        )
+    }
+
+    fun map(response: OperationResponse): OperationHistoryEntity {
+        return OperationHistoryEntity(
+            id = response.id,
+            date = response.executedAt,
+            type = when (response.type) {
+                OperationTypeResponse.WITHDRAW -> OperationTypeEntity.WITHDRAW
+                OperationTypeResponse.TOP_UP -> OperationTypeEntity.TOP_UP
+                OperationTypeResponse.LOAN_PAYMENT -> OperationTypeEntity.LOAN_PAYMENT
+                OperationTypeResponse.TRANSFER_INCOMING -> OperationTypeEntity.TRANSFER_INCOMING
+                OperationTypeResponse.TRANSFER_OUTGOING -> OperationTypeEntity.TRANSFER_OUTGOING
+            },
+            amount = response.amount,
+            currencyCode = response.currencyCode,
         )
     }
 }

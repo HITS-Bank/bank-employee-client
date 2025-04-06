@@ -1,5 +1,6 @@
 package com.hits.bankemployee.presentation.screen.account.viewmodel
 
+import androidx.lifecycle.viewModelScope
 import com.hits.bankemployee.presentation.screen.account.event.AccountDetailsScreenEvent
 import com.hits.bankemployee.presentation.screen.account.mapper.AccountDetailsScreenModelMapper
 import com.hits.bankemployee.presentation.screen.account.model.AccountDetailsListItem
@@ -15,14 +16,17 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import ru.hitsbank.bank_common.domain.State
 import ru.hitsbank.bank_common.domain.entity.CurrencyCode
 import ru.hitsbank.bank_common.domain.map
 import ru.hitsbank.bank_common.domain.mergeWith
 import ru.hitsbank.bank_common.presentation.common.BankUiState
+import ru.hitsbank.bank_common.presentation.common.updateIfSuccess
 import ru.hitsbank.bank_common.presentation.navigation.NavigationManager
 import ru.hitsbank.bank_common.presentation.navigation.back
 import ru.hitsbank.bank_common.presentation.pagination.PaginationEvent
@@ -50,6 +54,7 @@ class AccountDetailsScreenViewModel @AssistedInject constructor(
 
     init {
         onPaginationEvent(PaginationEvent.Reload)
+        subscribeToAccountHistoryUpdates(accountId)
     }
 
     fun onEvent(event: AccountDetailsScreenEvent) {
@@ -136,6 +141,24 @@ class AccountDetailsScreenViewModel @AssistedInject constructor(
             state.map { list ->
                 prependData + list.map { operation ->
                     mapper.map(operation)
+                }
+            }
+        }
+    }
+
+    private fun subscribeToAccountHistoryUpdates(accountId: String) {
+        viewModelScope.launch {
+            bankAccountInteractor.getOperationHistoryUpdates(accountId).collectLatest { state ->
+                when (state) {
+                    State.Loading -> Unit
+                    is State.Error -> Unit
+                    is State.Success -> _state.updateIfSuccess { oldState ->
+                        val modifiedList = oldState.data.toMutableList()
+                        modifiedList.add(0, mapper.map(state.data))
+                        oldState.copy(
+                            data = modifiedList,
+                        )
+                    }
                 }
             }
         }
