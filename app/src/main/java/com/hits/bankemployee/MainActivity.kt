@@ -2,6 +2,8 @@ package com.hits.bankemployee
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -87,7 +89,15 @@ class MainActivity : ComponentActivity() {
                 uri.host == "employee_authorized"
             ) {
                 val code = uri.getQueryParameter("code")
-                navigationManager.replace(Auth.withArgs(code))
+
+                Handler(
+                    Looper.getMainLooper()
+                ).postDelayed(
+                    {
+                        navigationManager.replace(Auth.withArgs(code))
+                    },
+                    700
+                )
             }
         }
     }
