@@ -4,15 +4,16 @@ import com.hits.bankemployee.data.api.LoanApi
 import com.hits.bankemployee.data.mapper.LoanMapper
 import com.hits.bankemployee.domain.entity.PageInfo
 import com.hits.bankemployee.domain.entity.loan.LoanEntity
+import com.hits.bankemployee.domain.entity.loan.LoanPaymentEntity
 import com.hits.bankemployee.domain.entity.loan.LoanTariffCreateRequestEntity
 import com.hits.bankemployee.domain.entity.loan.LoanTariffEntity
 import com.hits.bankemployee.domain.entity.loan.LoanTariffSortingOrder
 import com.hits.bankemployee.domain.entity.loan.LoanTariffSortingProperty
 import com.hits.bankemployee.domain.repository.ILoanRepository
 import kotlinx.coroutines.Dispatchers
-import ru.hitsbank.bank_common.data.apiCall
-import ru.hitsbank.bank_common.data.toCompletableResult
-import ru.hitsbank.bank_common.data.toResult
+import ru.hitsbank.bank_common.data.utils.apiCall
+import ru.hitsbank.bank_common.data.utils.toCompletableResult
+import ru.hitsbank.bank_common.data.utils.toResult
 import ru.hitsbank.bank_common.domain.Completable
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -81,6 +82,24 @@ class LoanRepository @Inject constructor(
         return apiCall(Dispatchers.IO) {
             loanApi.deleteLoanTariff(loanTariffId)
                 .toCompletableResult()
+        }
+    }
+
+    override suspend fun getLoanRating(userId: String): Result<Int> {
+        return apiCall(Dispatchers.IO) {
+            loanApi.getLoanUserRating(userId).toResult { rating ->
+                rating.rating
+            }
+        }
+    }
+
+    override suspend fun getLoanPayments(loanId: String): Result<List<LoanPaymentEntity>> {
+        return apiCall(Dispatchers.IO) {
+            loanApi.getLoanPayments(loanId).toResult { page ->
+                page.map { payment ->
+                    mapper.map(payment)
+                }
+            }
         }
     }
 }

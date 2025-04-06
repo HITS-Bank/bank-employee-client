@@ -1,15 +1,12 @@
 package com.hits.bankemployee.presentation.screen.loan.details.mapper
 
-import com.hits.bankemployee.domain.entity.bankaccount.toCommonModel
 import com.hits.bankemployee.domain.entity.loan.LoanEntity
 import com.hits.bankemployee.presentation.screen.loan.details.model.LoanDetailsListItem
 import ru.hitsbank.bank_common.presentation.common.formatToSum
-import java.time.format.DateTimeFormatter
+import ru.hitsbank.bank_common.presentation.common.utcDateTimeToReadableFormat
 import javax.inject.Inject
 
 class LoanDetailsMapper @Inject constructor() {
-
-    private val dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
 
     fun map(loan: LoanEntity): List<LoanDetailsListItem> {
         return listOf(
@@ -31,23 +28,23 @@ class LoanDetailsMapper @Inject constructor() {
                 name = "Срок кредита (мес.)",
             ),
             LoanDetailsListItem.LoanDetailsProperty(
-                value = loan.amount.formatToSum(loan.currencyCode.toCommonModel()),
+                value = loan.amount.formatToSum(loan.currencyCode),
                 name = "Сумма кредита",
             ),
             LoanDetailsListItem.LoanDetailsProperty(
-                value = loan.paymentSum.formatToSum(loan.currencyCode.toCommonModel()),
+                value = loan.paymentSum.formatToSum(loan.currencyCode),
                 name = "Сумма выплат"
             ),
             LoanDetailsListItem.LoanDetailsProperty(
-                value = loan.paymentAmount.formatToSum(loan.currencyCode.toCommonModel()),
+                value = loan.paymentAmount.formatToSum(loan.currencyCode),
                 name = "Сумма платежа"
             ),
             LoanDetailsListItem.LoanDetailsProperty(
-                value = dateTimeFormatter.format(loan.nextPaymentDateTime),
+                value = loan.nextPaymentDateTime.utcDateTimeToReadableFormat(),
                 name = "Время следующего платежа",
             ),
             LoanDetailsListItem.LoanDetailsProperty(
-                value = loan.currentDebt.formatToSum(loan.currencyCode.toCommonModel()),
+                value = loan.currentDebt.formatToSum(loan.currencyCode),
                 name = "Текущий долг",
             ),
             LoanDetailsListItem.LoanBankAccount(

@@ -7,7 +7,6 @@ import com.hits.bankemployee.presentation.screen.account.model.AccountDetailsPag
 import com.hits.bankemployee.domain.entity.PageInfo
 import com.hits.bankemployee.domain.entity.bankaccount.BankAccountEntity
 import com.hits.bankemployee.domain.entity.bankaccount.BankAccountStatusEntity
-import com.hits.bankemployee.domain.entity.bankaccount.CurrencyCode
 import com.hits.bankemployee.domain.interactor.BankAccountInteractor
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -20,13 +19,14 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
 import ru.hitsbank.bank_common.domain.State
+import ru.hitsbank.bank_common.domain.entity.CurrencyCode
 import ru.hitsbank.bank_common.domain.map
 import ru.hitsbank.bank_common.domain.mergeWith
 import ru.hitsbank.bank_common.presentation.common.BankUiState
+import ru.hitsbank.bank_common.presentation.navigation.NavigationManager
+import ru.hitsbank.bank_common.presentation.navigation.back
 import ru.hitsbank.bank_common.presentation.pagination.PaginationEvent
 import ru.hitsbank.bank_common.presentation.pagination.PaginationViewModel
-import ru.hitsbank.clientbankapplication.core.navigation.base.NavigationManager
-import ru.hitsbank.clientbankapplication.core.navigation.base.back
 
 private const val ACCOUNT_ID = "accountId"
 private const val ACCOUNT_NUMBER = "accountNumber"

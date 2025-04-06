@@ -49,6 +49,7 @@ sealed interface AccountDetailsListItem {
         val id: String,
         val date: String,
         val amount: String,
+        val currencyChar: Char,
         val operationTitle: String,
         val amountColor: Color,
         val iconColor: Color,

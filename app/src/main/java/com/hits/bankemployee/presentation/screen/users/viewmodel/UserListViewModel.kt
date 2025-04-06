@@ -2,7 +2,7 @@ package com.hits.bankemployee.presentation.screen.users.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.hits.bankemployee.domain.entity.PageInfo
-import com.hits.bankemployee.domain.interactor.ProfileInteractor
+import com.hits.bankemployee.domain.interactor.UserInteractor
 import com.hits.bankemployee.presentation.navigation.UserDetails
 import com.hits.bankemployee.presentation.screen.users.event.UserListEffect
 import com.hits.bankemployee.presentation.screen.users.event.UserListEvent
@@ -26,16 +26,16 @@ import ru.hitsbank.bank_common.domain.map
 import ru.hitsbank.bank_common.presentation.common.BankUiState
 import ru.hitsbank.bank_common.presentation.common.getIfSuccess
 import ru.hitsbank.bank_common.presentation.common.updateIfSuccess
+import ru.hitsbank.bank_common.presentation.navigation.NavigationManager
+import ru.hitsbank.bank_common.presentation.navigation.forwardWithCallbackResult
 import ru.hitsbank.bank_common.presentation.pagination.PaginationEvent
 import ru.hitsbank.bank_common.presentation.pagination.PaginationViewModel
-import ru.hitsbank.clientbankapplication.core.navigation.base.NavigationManager
-import ru.hitsbank.clientbankapplication.core.navigation.base.forwardWithCallbackResult
 
 @HiltViewModel(assistedFactory = UserListViewModel.Factory::class)
 class UserListViewModel @AssistedInject constructor(
-    @Assisted private val role: UserRole = UserRole.CLIENT,
+    @Assisted private val role: UserRole,
     private val navigationManager: NavigationManager,
-    private val profileInteractor: ProfileInteractor,
+    private val userInteractor: UserInteractor,
     private val mapper: UsersScreenModelMapper,
 ) : PaginationViewModel<UserModel, UserListPaginationState>(
     BankUiState.Ready(
@@ -66,6 +66,7 @@ class UserListViewModel @AssistedInject constructor(
                         event.userId,
                         event.fullName,
                         event.isBlocked,
+                        event.roles,
                     )
                 ) {
                     onPaginationEvent(PaginationEvent.Reload)
@@ -95,7 +96,7 @@ class UserListViewModel @AssistedInject constructor(
                         _effects.emit(UserListEffect.ShowBlockError)
                         return@launch
                     }
-                    profileInteractor.banUser(userId).collectLatest { state ->
+                    userInteractor.banUser(userId).collectLatest { state ->
                         when (state) {
                             State.Loading -> {
                                 _state.updateIfSuccess { oldState ->
@@ -132,7 +133,7 @@ class UserListViewModel @AssistedInject constructor(
                         _effects.emit(UserListEffect.ShowUnblockError)
                         return@launch
                     }
-                    profileInteractor.unbanUser(userId).collectLatest { state ->
+                    userInteractor.unbanUser(userId).collectLatest { state ->
                         when (state) {
                             State.Loading -> {
                                 _state.updateIfSuccess { oldState ->
@@ -165,7 +166,7 @@ class UserListViewModel @AssistedInject constructor(
             pageNumber = pageNumber,
             pageSize = state.value.getIfSuccess()?.pageSize ?: PAGE_SIZE,
         )
-        return profileInteractor.getProfilesPage(
+        return userInteractor.getProfilesPage(
             roleType = role.toRoleType(),
             page = pageInfo,
             query = state.value.getIfSuccess()?.query?.takeIf { it.isNotBlank() },

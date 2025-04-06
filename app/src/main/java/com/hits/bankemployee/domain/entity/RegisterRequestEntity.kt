@@ -1,9 +1,10 @@
 package com.hits.bankemployee.domain.entity
 
+import ru.hitsbank.bank_common.domain.entity.RoleType
+
 data class RegisterRequestEntity(
     val firstName: String,
     val lastName: String,
-    val email: String,
     val password: String,
-    val role: RoleType,
+    val roles: List<RoleType>,
 )

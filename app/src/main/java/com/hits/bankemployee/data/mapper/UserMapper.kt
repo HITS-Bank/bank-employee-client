@@ -1,16 +1,16 @@
 package com.hits.bankemployee.data.mapper
 
-import com.hits.bankemployee.data.model.ProfileResponse
+import com.hits.bankemployee.data.model.UserResponse
 import com.hits.bankemployee.data.model.RegisterRequest
-import com.hits.bankemployee.domain.entity.ProfileEntity
+import com.hits.bankemployee.domain.entity.UserEntity
 import com.hits.bankemployee.domain.entity.RegisterRequestEntity
 import javax.inject.Inject
 
-class ProfileMapper @Inject constructor() {
+class UserMapper @Inject constructor() {
 
-    fun map(response: ProfileResponse): ProfileEntity {
+    fun map(response: UserResponse): UserEntity {
         with (response) {
-            return ProfileEntity(
+            return UserEntity(
                 id = id,
                 firstName = firstName,
                 lastName = lastName,
@@ -25,9 +25,8 @@ class ProfileMapper @Inject constructor() {
             return RegisterRequest(
                 firstName = firstName,
                 lastName = lastName,
-                email = email,
                 password = password,
-                role = role,
+                roles = roles,
             )
         }
     }

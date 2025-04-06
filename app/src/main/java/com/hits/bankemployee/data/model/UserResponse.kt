@@ -1,8 +1,8 @@
 package com.hits.bankemployee.data.model
 
-import com.hits.bankemployee.domain.entity.RoleType
+import ru.hitsbank.bank_common.domain.entity.RoleType
 
-data class ProfileResponse(
+data class UserResponse(
     val id: String,
     val firstName: String,
     val lastName: String,

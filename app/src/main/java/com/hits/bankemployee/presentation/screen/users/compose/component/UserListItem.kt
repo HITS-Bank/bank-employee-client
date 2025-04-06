@@ -18,6 +18,7 @@ fun UserListItem(item: UserModel, onEvent: (UserListEvent) -> Unit) {
                     item.id,
                     item.fullName,
                     item.isBlocked,
+                    item.roles,
                 )
             )
         },

@@ -1,10 +1,10 @@
 package com.hits.bankemployee.domain.entity.bankaccount
 
-import java.time.LocalDateTime
+import ru.hitsbank.bank_common.domain.entity.CurrencyCode
 
 data class OperationHistoryEntity(
     val id: String,
-    val date: LocalDateTime,
+    val date: String,
     val amount: String,
     val currencyCode: CurrencyCode,
     val type: OperationTypeEntity,

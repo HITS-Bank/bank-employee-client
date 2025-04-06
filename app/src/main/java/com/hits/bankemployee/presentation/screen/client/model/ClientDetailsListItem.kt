@@ -2,7 +2,7 @@ package com.hits.bankemployee.presentation.screen.client.model
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.hits.bankemployee.domain.entity.bankaccount.CurrencyCode
+import ru.hitsbank.bank_common.domain.entity.CurrencyCode
 
 sealed interface ClientDetailsListItem {
 
@@ -27,6 +27,22 @@ sealed interface ClientDetailsListItem {
     ) : ClientDetailsListItem {
         val descriptionColor: Color
             @Composable get() = descriptionColorProvider()
+    }
+
+    data object UserInfoHeader : ClientDetailsListItem
+
+    data class LoanRatingModel(
+        val rating: String,
+    ) : ClientDetailsListItem
+
+    data object IsBlockedModel : ClientDetailsListItem
+
+    data class RolesModel(
+        val roles: List<String>,
+    ) : ClientDetailsListItem {
+
+        val rolesText: String
+            get() = roles.joinToString(separator = ", ")
     }
 
     data object AccountsHeader : ClientDetailsListItem

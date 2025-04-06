@@ -1,13 +1,13 @@
 package com.hits.bankemployee.data.mapper
 
+import com.hits.bankemployee.data.model.loan.LoanPaymentResponse
 import com.hits.bankemployee.data.model.loan.LoanResponse
 import com.hits.bankemployee.data.model.loan.LoanTariffCreateRequest
 import com.hits.bankemployee.data.model.loan.LoanTariffResponse
 import com.hits.bankemployee.domain.entity.loan.LoanEntity
+import com.hits.bankemployee.domain.entity.loan.LoanPaymentEntity
 import com.hits.bankemployee.domain.entity.loan.LoanTariffCreateRequestEntity
 import com.hits.bankemployee.domain.entity.loan.LoanTariffEntity
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 import javax.inject.Inject
 
 class LoanMapper @Inject constructor() {
@@ -39,9 +39,18 @@ class LoanMapper @Inject constructor() {
             paymentAmount = loanResponse.paymentAmount,
             paymentSum = loanResponse.paymentSum,
             currencyCode = loanResponse.currencyCode,
-            nextPaymentDateTime = LocalDateTime.parse(loanResponse.nextPaymentDateTime).atZone(
-                ZoneOffset.UTC).toLocalDateTime(),
+            nextPaymentDateTime = loanResponse.nextPaymentDateTime,
             currentDebt = loanResponse.currentDebt,
+        )
+    }
+
+    fun map(loanPaymentResponse: LoanPaymentResponse): LoanPaymentEntity {
+        return LoanPaymentEntity(
+            id = loanPaymentResponse.id,
+            status = loanPaymentResponse.status,
+            dateTime = loanPaymentResponse.dateTime,
+            amount = loanPaymentResponse.amount,
+            currencyCode = loanPaymentResponse.currencyCode,
         )
     }
 }

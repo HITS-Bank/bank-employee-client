@@ -4,9 +4,9 @@ import androidx.lifecycle.viewModelScope
 import com.hits.bankemployee.domain.entity.PageInfo
 import com.hits.bankemployee.domain.interactor.BankAccountInteractor
 import com.hits.bankemployee.domain.interactor.LoanInteractor
-import com.hits.bankemployee.domain.interactor.ProfileInteractor
+import com.hits.bankemployee.domain.interactor.UserInteractor
 import com.hits.bankemployee.presentation.navigation.BankAccountDetails
-import com.hits.bankemployee.presentation.navigation.LoanDetails
+import com.hits.bankemployee.presentation.navigation.LoanPayments
 import com.hits.bankemployee.presentation.screen.client.event.ClientDetailsScreenEffect
 import com.hits.bankemployee.presentation.screen.client.event.ClientDetailsScreenEvent
 import com.hits.bankemployee.presentation.screen.client.mapper.ClientDetailsScreenModelMapper
@@ -14,6 +14,7 @@ import com.hits.bankemployee.presentation.screen.client.model.ClientDetailsListI
 import com.hits.bankemployee.presentation.screen.client.model.ClientDetailsPaginationState
 import com.hits.bankemployee.presentation.screen.client.model.ClientModel
 import com.hits.bankemployee.presentation.screen.client.model.toEntity
+import com.hits.bankemployee.presentation.screen.users.model.toUserRole
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -27,20 +28,21 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 import ru.hitsbank.bank_common.domain.State
+import ru.hitsbank.bank_common.domain.entity.RoleType
 import ru.hitsbank.bank_common.domain.map
 import ru.hitsbank.bank_common.presentation.common.BankUiState
 import ru.hitsbank.bank_common.presentation.common.getIfSuccess
 import ru.hitsbank.bank_common.presentation.common.updateIfSuccess
+import ru.hitsbank.bank_common.presentation.navigation.NavigationManager
+import ru.hitsbank.bank_common.presentation.navigation.back
+import ru.hitsbank.bank_common.presentation.navigation.forwardWithCallbackResult
 import ru.hitsbank.bank_common.presentation.pagination.PaginationEvent
 import ru.hitsbank.bank_common.presentation.pagination.PaginationViewModel
-import ru.hitsbank.clientbankapplication.core.navigation.base.NavigationManager
-import ru.hitsbank.clientbankapplication.core.navigation.base.back
-import ru.hitsbank.clientbankapplication.core.navigation.base.forwardWithCallbackResult
 
 @HiltViewModel(assistedFactory = ClientDetailsScreenViewModel.Factory::class)
 class ClientDetailsScreenViewModel @AssistedInject constructor(
     @Assisted private val client: ClientModel,
-    private val profileInteractor: ProfileInteractor,
+    private val userInteractor: UserInteractor,
     private val bankAccountInteractor: BankAccountInteractor,
     private val loanInteractor: LoanInteractor,
     private val navigationManager: NavigationManager,
@@ -66,9 +68,9 @@ class ClientDetailsScreenViewModel @AssistedInject constructor(
                 val clientId = _state.value.getIfSuccess()?.client?.id ?: return
                 val isBlocked = _state.value.getIfSuccess()?.client?.isBlocked ?: return
                 val flow = if (isBlocked) {
-                    profileInteractor.unbanUser(clientId)
+                    userInteractor.unbanUser(clientId)
                 } else {
-                    profileInteractor.banUser(clientId)
+                    userInteractor.banUser(clientId)
                 }
                 viewModelScope.launch {
                     flow.collectLatest { state ->
@@ -128,7 +130,7 @@ class ClientDetailsScreenViewModel @AssistedInject constructor(
 
             is ClientDetailsScreenEvent.LoanClicked -> {
                 navigationManager.forwardWithCallbackResult(
-                    LoanDetails.destinationWithArgs(event.id)
+                    LoanPayments.destinationWithArgs(event.id)
                 ) {
                     onPaginationEvent(PaginationEvent.Reload)
                 }
@@ -179,8 +181,26 @@ class ClientDetailsScreenViewModel @AssistedInject constructor(
         val pageResult = accounts.last().map { list -> list.map { mapper.map(it) } }
         if (pageResult is State.Success) {
             val accountList = mutableListOf<ClientDetailsListItem>()
+            val roles = _state.getIfSuccess()?.client?.roles
+            val roleList = roles?.map { it.toUserRole().title }
             if (pageNumber == 1) {
+                if (roleList != null) {
+                    accountList.add(ClientDetailsListItem.RolesModel(roleList))
+                }
+                val loanRating = loanInteractor.getLoanRating(client.id).last()
+                if (loanRating is State.Success) {
+                    accountList.add(ClientDetailsListItem.LoanRatingModel(loanRating.data.toString()))
+                }
+                if (_state.getIfSuccess()?.client?.isBlocked == true) {
+                    accountList.add(ClientDetailsListItem.IsBlockedModel)
+                }
+                if (accountList.isNotEmpty()) {
+                    accountList.add(0, ClientDetailsListItem.UserInfoHeader)
+                }
                 accountList.add(ClientDetailsListItem.AccountsHeader)
+            }
+            if (roles == null || !roles.contains(RoleType.CLIENT)) {
+                return
             }
             accountList.addAll(pageResult.data)
             if (pageResult.data.size < PAGE_SIZE) {

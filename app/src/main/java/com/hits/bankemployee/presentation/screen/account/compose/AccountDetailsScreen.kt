@@ -99,7 +99,6 @@ fun AccountDetailsScreen(viewModel: AccountDetailsScreenViewModel) {
                                         maxLines = 1,
                                         overflow = TextOverflow.Ellipsis,
                                     )
-
                                     AccountDetailsListItem.OperationHistoryHeader -> Text(
                                         modifier = Modifier.padding(
                                             top = 32.dp,
@@ -113,7 +112,6 @@ fun AccountDetailsScreen(viewModel: AccountDetailsScreenViewModel) {
                                         maxLines = 1,
                                         overflow = TextOverflow.Ellipsis,
                                     )
-
                                     is AccountDetailsListItem.AccountDetailsProperty -> ListItem(
                                         icon = ListItemIcon.None,
                                         divider = Divider.None,
@@ -123,7 +121,7 @@ fun AccountDetailsScreen(viewModel: AccountDetailsScreenViewModel) {
                                     )
                                     is AccountDetailsListItem.OperationHistoryItem -> ListItem(
                                         icon = ListItemIcon.SingleChar(
-                                            char = '₽',
+                                            char = item.currencyChar,
                                             backgroundColor = item.iconBackground,
                                             charColor = item.iconColor,
                                         ),

@@ -1,13 +1,11 @@
 package com.hits.bankemployee.di
 
-import com.hits.bankemployee.data.repository.AuthRepository
 import com.hits.bankemployee.data.repository.BankAccountRepository
 import com.hits.bankemployee.data.repository.LoanRepository
-import com.hits.bankemployee.data.repository.ProfileRepository
-import com.hits.bankemployee.domain.repository.IAuthRepository
+import com.hits.bankemployee.data.repository.UserRepository
 import com.hits.bankemployee.domain.repository.IBankAccountRepository
 import com.hits.bankemployee.domain.repository.ILoanRepository
-import com.hits.bankemployee.domain.repository.IProfileRepository
+import com.hits.bankemployee.domain.repository.IUserRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -18,14 +16,9 @@ import dagger.hilt.components.SingletonComponent
 abstract class DataModule {
 
     @Binds
-    abstract fun bindAuthRepository(
-        authRepository: AuthRepository
-    ): IAuthRepository
-
-    @Binds
-    abstract fun bindProfileRepository(
-        profileRepository: ProfileRepository
-    ): IProfileRepository
+    abstract fun bindUserRepository(
+        profileRepository: UserRepository
+    ): IUserRepository
 
     @Binds
     abstract fun bindLoanRepository(
