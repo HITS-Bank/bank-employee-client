@@ -31,6 +31,7 @@ import ru.hitsbank.bank_common.presentation.navigation.NavigationManager
 import ru.hitsbank.bank_common.presentation.navigation.replace
 import ru.hitsbank.bank_common.presentation.theme.AppTheme
 import ru.hitsbank.bank_common.presentation.theme.ThemeViewModel
+import ru.hitsbank.bank_common.requestNotificationPermission
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -43,6 +44,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        requestNotificationPermission()
+
         setContent {
             val themeViewModel = hiltViewModel<ThemeViewModel, ThemeViewModel.Factory>(
                 creationCallback = { factory ->

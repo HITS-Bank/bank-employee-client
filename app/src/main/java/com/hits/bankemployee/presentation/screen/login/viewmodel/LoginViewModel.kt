@@ -22,6 +22,7 @@ import ru.hitsbank.bank_common.Constants.AUTH_CLIENT_ID
 import ru.hitsbank.bank_common.domain.State
 import ru.hitsbank.bank_common.domain.entity.RoleType
 import ru.hitsbank.bank_common.domain.interactor.AuthInteractor
+import ru.hitsbank.bank_common.domain.interactor.PushNotificationInteractor
 import ru.hitsbank.bank_common.presentation.common.BankUiState
 import ru.hitsbank.bank_common.presentation.common.updateIfSuccess
 import ru.hitsbank.bank_common.presentation.navigation.NavigationManager
@@ -31,6 +32,7 @@ import ru.hitsbank.bank_common.presentation.navigation.replace
 class LoginViewModel @AssistedInject constructor(
     @Assisted private val authCode: String?,
     private val authInteractor: AuthInteractor,
+    private val notificationInteractor: PushNotificationInteractor,
     private val navigationManager: NavigationManager,
 ) : ViewModel() {
 
@@ -82,6 +84,7 @@ class LoginViewModel @AssistedInject constructor(
                                     if (blockedState.data) {
                                         sendEffect(LoginEffect.OnBlocked)
                                     } else {
+                                        notificationInteractor.subscribeToOperationsTopic()
                                         navigationManager.replace(BottomBarRoot.destination)
                                     }
                                     _state.updateIfSuccess { it.copy(isLoading = false) }

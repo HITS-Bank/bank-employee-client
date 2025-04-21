@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "53163950682",
+    "project_id": "hitsbank-d350a",
+    "storage_bucket": "hitsbank-d350a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:53163950682:android:34a6a93218693f349cce63",
+        "android_client_info": {
+          "package_name": "com.hits.bankemployee"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBW5h3TshjKSpAxU2b_tyzdL7R9rnf9Iyk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:53163950682:android:7d602dfbdbd80fdf9cce63",
+        "android_client_info": {
+          "package_name": "ru.hitsbank.clientbankapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBW5h3TshjKSpAxU2b_tyzdL7R9rnf9Iyk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,5 @@
 [versions]
-agp = "8.8.2"
+agp = "8.7.0"
 datastorePreferences = "1.1.4"
 kotlin = "2.0.0"
 coreKtx = "1.15.0"
@@ -18,6 +18,9 @@ rxjavaVersion = "2.2.5"
 securityCrypto = "1.1.0-alpha06"
 ksp = "2.0.0-1.0.24"
 hilt = "2.51.1"
+google-services = "4.4.2"
+firebaseBom = "33.12.0"
+firebaseMessagingKtx = "24.1.1"
 hiltNavigationCompose = "1.2.0"
 stompprotocolandroid = "1.6.6"
 
@@ -51,6 +54,8 @@ hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.r
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 rxjava2-rxjava = { module = "io.reactivex.rxjava2:rxjava", version.ref = "rxjavaVersion" }
 stompprotocolandroid = { module = "com.github.NaikSoftware:StompProtocolAndroid", version.ref = "stompprotocolandroid" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-messaging-ktx = { group = "com.google.firebase", name = "firebase-messaging-ktx", version.ref = "firebaseMessagingKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -59,3 +64,4 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 android-library = { id = "com.android.library" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
