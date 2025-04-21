@@ -20,9 +20,13 @@ class UserMapper @Inject constructor() {
         }
     }
 
-    fun map(requestEntity: RegisterRequestEntity): RegisterRequest {
+    fun map(
+        requestId: String,
+        requestEntity: RegisterRequestEntity,
+    ): RegisterRequest {
         with (requestEntity) {
             return RegisterRequest(
+                requestId = requestId,
                 firstName = firstName,
                 lastName = lastName,
                 password = password,

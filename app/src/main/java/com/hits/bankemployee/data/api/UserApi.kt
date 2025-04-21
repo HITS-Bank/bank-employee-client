@@ -21,10 +21,16 @@ interface UserApi {
     ): Response<List<UserResponse>>
 
     @POST("users/employee/users/{userId}/ban")
-    suspend fun banUser(@Path("userId") userId: String): Response<ResponseBody>
+    suspend fun banUser(
+        @Path("userId") userId: String,
+        @Query("requestId") requestId: String,
+    ): Response<ResponseBody>
 
     @POST("users/employee/users/{userId}/unban")
-    suspend fun unbanUser(@Path("userId") userId: String): Response<ResponseBody>
+    suspend fun unbanUser(
+        @Path("userId") userId: String,
+        @Query("requestId") requestId: String,
+    ): Response<ResponseBody>
 
     @POST("users/employee/users/register")
     suspend fun registerUser(@Body registerRequest: RegisterRequest): Response<ResponseBody>

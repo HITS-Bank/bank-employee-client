@@ -11,6 +11,8 @@ import com.hits.bankemployee.domain.entity.loan.LoanTariffSortingOrder
 import com.hits.bankemployee.domain.entity.loan.LoanTariffSortingProperty
 import com.hits.bankemployee.domain.repository.ILoanRepository
 import kotlinx.coroutines.Dispatchers
+import ru.hitsbank.bank_common.data.model.RequestIdHolder
+import ru.hitsbank.bank_common.data.model.getNewRequestId
 import ru.hitsbank.bank_common.data.utils.apiCall
 import ru.hitsbank.bank_common.data.utils.toCompletableResult
 import ru.hitsbank.bank_common.data.utils.toResult
@@ -24,6 +26,9 @@ class LoanRepository @Inject constructor(
     private val loanApi: LoanApi,
     private val mapper: LoanMapper,
 ) : ILoanRepository {
+
+    private var createTariffIdHolder: RequestIdHolder? = null
+    private var deleteTariffIdHolder: RequestIdHolder? = null
 
     override suspend fun getLoans(userId: String, pageInfo: PageInfo): Result<List<LoanEntity>> {
         return apiCall(Dispatchers.IO) {
@@ -73,14 +78,28 @@ class LoanRepository @Inject constructor(
         loanTariffCreateRequestEntity: LoanTariffCreateRequestEntity,
     ): Result<Completable> {
         return apiCall(Dispatchers.IO) {
-            loanApi.createLoanTariff(mapper.map(loanTariffCreateRequestEntity))
+            val idHolder = createTariffIdHolder.getNewRequestId(loanTariffCreateRequestEntity.hashCode())
+            createTariffIdHolder = idHolder
+            loanApi.createLoanTariff(mapper.map(idHolder.requestId, loanTariffCreateRequestEntity))
+                .also { response ->
+                    if (response.isSuccessful) {
+                        createTariffIdHolder = null
+                    }
+                }
                 .toCompletableResult()
         }
     }
 
     override suspend fun deleteLoanTariff(loanTariffId: String): Result<Completable> {
         return apiCall(Dispatchers.IO) {
-            loanApi.deleteLoanTariff(loanTariffId)
+            val idHolder = deleteTariffIdHolder.getNewRequestId(loanTariffId.hashCode())
+            deleteTariffIdHolder = idHolder
+            loanApi.deleteLoanTariff(loanTariffId, idHolder.requestId)
+                .also { response ->
+                    if (response.isSuccessful) {
+                        deleteTariffIdHolder = null
+                    }
+                }
                 .toCompletableResult()
         }
     }

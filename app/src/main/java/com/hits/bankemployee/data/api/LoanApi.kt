@@ -28,6 +28,7 @@ interface LoanApi {
     @DELETE("credit/employee/loan/tariffs/{tariffId}/delete")
     suspend fun deleteLoanTariff(
         @Path("tariffId") tariffId: String,
+        @Query("requestId") requestId: String,
     ): Response<ResponseBody>
 
     @POST("credit/employee/loan/tariffs/create")

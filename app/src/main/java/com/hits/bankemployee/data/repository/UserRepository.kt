@@ -7,6 +7,8 @@ import com.hits.bankemployee.domain.entity.UserEntity
 import com.hits.bankemployee.domain.entity.RegisterRequestEntity
 import com.hits.bankemployee.domain.repository.IUserRepository
 import kotlinx.coroutines.Dispatchers
+import ru.hitsbank.bank_common.data.model.RequestIdHolder
+import ru.hitsbank.bank_common.data.model.getNewRequestId
 import ru.hitsbank.bank_common.data.utils.apiCall
 import ru.hitsbank.bank_common.data.utils.toCompletableResult
 import ru.hitsbank.bank_common.data.utils.toResult
@@ -23,6 +25,10 @@ class UserRepository @Inject constructor(
     private val mapper: UserMapper,
 ) : IUserRepository {
 
+    private var banUserIdHolder: RequestIdHolder? = null
+    private var unbanUserIdHolder: RequestIdHolder? = null
+    private var registerUserIdHolder: RequestIdHolder? = null
+
     override suspend fun getProfilesPage(
         roleType: RoleType,
         page: PageInfo,
@@ -37,21 +43,42 @@ class UserRepository @Inject constructor(
 
     override suspend fun banUser(userId: String): Result<Completable> {
         return apiCall(Dispatchers.IO) {
-            userApi.banUser(userId)
+            val idHolder = banUserIdHolder.getNewRequestId(userId.hashCode())
+            banUserIdHolder = idHolder
+            userApi.banUser(userId, idHolder.requestId)
+                .also { response ->
+                    if (response.isSuccessful) {
+                        banUserIdHolder = null
+                    }
+                }
                 .toCompletableResult()
         }
     }
 
     override suspend fun unbanUser(userId: String): Result<Completable> {
         return apiCall(Dispatchers.IO) {
-            userApi.unbanUser(userId)
+            val idHolder = unbanUserIdHolder.getNewRequestId(userId.hashCode())
+            unbanUserIdHolder = idHolder
+            userApi.unbanUser(userId, idHolder.requestId)
+                .also { response ->
+                    if (response.isSuccessful) {
+                        unbanUserIdHolder = null
+                    }
+                }
                 .toCompletableResult()
         }
     }
 
     override suspend fun registerUser(request: RegisterRequestEntity): Result<Completable> {
         return apiCall(Dispatchers.IO) {
-            userApi.registerUser(mapper.map(request))
+            val idHolder = registerUserIdHolder.getNewRequestId(request.hashCode())
+            registerUserIdHolder = idHolder
+            userApi.registerUser(mapper.map(idHolder.requestId, request))
+                .also { response ->
+                    if (response.isSuccessful) {
+                        registerUserIdHolder = null
+                    }
+                }
                 .toCompletableResult()
         }
     }
