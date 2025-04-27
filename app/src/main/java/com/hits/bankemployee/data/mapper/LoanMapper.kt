@@ -21,11 +21,9 @@ class LoanMapper @Inject constructor() {
     }
 
     fun map(
-        requestId: String,
         loanTariffCreateRequestEntity: LoanTariffCreateRequestEntity,
     ): LoanTariffCreateRequest {
         return LoanTariffCreateRequest(
-            requestId = requestId,
             name = loanTariffCreateRequestEntity.name,
             interestRate = loanTariffCreateRequestEntity.interestRate,
         )

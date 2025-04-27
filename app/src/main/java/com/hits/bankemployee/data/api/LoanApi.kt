@@ -33,7 +33,8 @@ interface LoanApi {
 
     @POST("credit/employee/loan/tariffs/create")
     suspend fun createLoanTariff(
-        @Body loanTariffCreateRequest: LoanTariffCreateRequest
+        @Query("requestId") requestId: String,
+        @Body loanTariffCreateRequest: LoanTariffCreateRequest,
     ): Response<ResponseBody>
 
     @GET("credit/employee/loan/{userId}/list")

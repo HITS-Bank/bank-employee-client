@@ -80,7 +80,7 @@ class LoanRepository @Inject constructor(
         return apiCall(Dispatchers.IO) {
             val idHolder = createTariffIdHolder.getNewRequestId(loanTariffCreateRequestEntity.hashCode())
             createTariffIdHolder = idHolder
-            loanApi.createLoanTariff(mapper.map(idHolder.requestId, loanTariffCreateRequestEntity))
+            loanApi.createLoanTariff(idHolder.requestId, mapper.map(loanTariffCreateRequestEntity))
                 .also { response ->
                     if (response.isSuccessful) {
                         createTariffIdHolder = null
